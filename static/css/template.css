@@ -1,0 +1,96 @@
+
+.right_sircle h1 {
+  font-size: 26px;;
+  margin:0;
+  padding-top: 30px;
+}
+.title-line{
+  margin-top: 22px;
+  width:100%;
+  height: 2px;;
+  background-color: #7d7d7d;
+}
+.title-text{
+  height:77px;
+  width:100%;
+}
+.title-text-left{
+  height: 50px;
+  margin-top: 27px;
+  display: inline-block;
+  line-height: 50px;
+}
+.title-text-left p{
+  vertical-align: top;
+  display: inline-block;
+  font-size: 24px;;
+}
+.mailinput{
+  margin-left: 15px;
+  display: inline-block;
+  border:1px solid red;
+  width: 495px;;
+  height: 50px;;
+}
+.title-text-button{
+  height: 50px;
+  margin-top: 27px;
+  display: inline-block;
+  float: right;
+}
+.title-text-button .btn-primary{
+  font-size: 24px;
+  height: 50px;;
+  border-radius: 0;
+  margin-left: 30px;
+}
+.title-text-button .btn-primary div{
+  width: 20px;
+  display: inline-block;
+}
+.text-search{
+  background-color: #62afff;
+  border:#62afff;
+}
+.text-add{
+  background-color: #009944;
+  border:#009944;
+}
+.text-delete{
+  background-color: #e60012;
+  border:#e60012;
+}
+.text-return{
+  background-color: #f19149;
+  border:#f19149;
+}
+.el-checkbox{
+  margin-bottom: 0;
+}
+.el-checkbox__inner{
+  border-radius: 0!important;
+}
+.el-table{
+  margin-top: 27px;
+}
+.text-paging{
+  margin-top: 50px;
+  width: 100%;
+  text-align: center;
+  font-family: "微软雅黑", "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.page-text{
+  display: inline-block;
+  line-height: 36px;
+  vertical-align: text-top;
+}
+thead>tr{
+  font-size: 24px;
+  height: 85px;
+}
+tbody{
+  font-size: 22px;
+}
+tbody tr{
+  height: 45px;
+}

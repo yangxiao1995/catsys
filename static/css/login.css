@@ -1,0 +1,93 @@
+body,html{
+  margin:0;
+  padding:0;
+    width:100%;
+    height: 100%;
+}
+p{
+  margin:0;
+}
+.loginBox{
+  width: 100%;
+  height:100%;
+  background-color: #62afff;
+}
+.login-wrapper{
+  width:100%;
+  height:100%;
+  margin:auto;
+}
+.login-wrapper img{
+  position: absolute;
+  top: 26%;
+  left: 7%;
+  width: 53%;
+}
+.loginTitle{
+  position: absolute;
+  right:7%;
+  width:50%;
+  height:100%;
+}
+.loginTitle>p{
+  text-align: center;
+  line-height: 45px;
+  margin-top: 175px;
+  font-size: 45px;
+  font-weight: bold;
+  color: #efefef;
+}
+.loginForm{
+  background-color: #efefef;
+  padding: 28px 38px;
+  width: 430px;;
+  height: 443px;;
+  margin: 75px auto 0 auto;
+}
+.loginForm>p{
+  font-family: "微软雅黑", "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-align: center;
+  line-height: 30px;
+  font-size: 30px;
+  color: #000000;
+}
+.login-role{
+  margin-top: 35px;
+}
+.login-another{
+  margin-top: 28px;
+}
+.login-check{
+  width: 16px !important;
+  height: 16px !important;
+  margin:0!important;
+}
+.loginForm-contain p{
+  font-size: 16px;
+}
+.loginForm-contain input{
+  width: 100%;
+  height: 47px;
+  vertical-align: top;
+  font-size: 16px;
+  margin-top: 10px;
+}
+.login-func p{
+  display: inline-block;
+  font-size: 14px;
+  line-height: 16px;
+  vertical-align: top;
+  color: rgb(117,117,117);
+}
+.login-returnpass{
+  float: right;
+}
+.btn-primary{
+  border-radius: 20px;
+  margin-top: 28px;
+  background-color: #62afff;
+  width:100%;
+  height: 47px;;
+  font-size: 24px;
+  border:0;
+}
