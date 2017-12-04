@@ -868,7 +868,12 @@ button.dim:active:before {
     padding-bottom: 5px;
   width:100%;;
 }
-
+.fa-caret-down{
+  width: 50px;;
+  text-align: center;
+  vertical-align: sub;
+  color: #ffffff;
+}
 .table{
     clear: both;
 }
