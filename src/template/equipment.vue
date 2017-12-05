@@ -6,7 +6,7 @@
       <div class="title-text">
         <div class="title-text-left">
           <p>设备名称</p><input class="equiinput" type="text">
-          <p class="text-data">入网时间</p><input class="equidata" type="text" id="datepicker"><div><img src="../../static/img/data.png" alt=""></div>
+          <p class="text-data">入网时间</p><input class="equidata" type="text" id="datepicker"><div class="dataimg"><img src="../../static/img/data.png" alt=""></div>
         </div>
         <div class="title-text-button">
           <button type="button" class="btn btn-primary text-search">

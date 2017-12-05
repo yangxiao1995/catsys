@@ -21,10 +21,10 @@
   line-height: 50px;
   position: relative;
 }
-.title-text-left>div img{
+.dataimg img{
   margin-bottom: 5px;
 }
-.title-text-left>div{
+.dataimg{
   display: inline-block;
   line-height: 50px;
   height: 48px;
