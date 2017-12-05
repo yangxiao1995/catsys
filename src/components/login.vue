@@ -18,7 +18,7 @@
                 <a href="javascript:;"><p>忘记密码</p></a>&nbsp;&nbsp;<a href="javascript:;"><p>申请新用户</p></a>
               </div>
             </div>
-            <div class="btn btn-primary">
+            <div class="btn btn-primary" @click="login">
               登&nbsp;&nbsp;&nbsp;&nbsp;录
             </div>
           </div>
@@ -28,3 +28,20 @@
   </div>
 </template>
 <style src="../../static/css/login.css" scoped></style>
+<script>
+  export default{
+    data(){
+      return{
+
+      }
+    },
+    created(){
+
+    },
+    methods:{
+      login(){
+        this.$router.push({path: 'homepage'})
+      }
+    }
+  }
+</script>
