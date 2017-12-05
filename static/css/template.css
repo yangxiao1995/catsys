@@ -19,6 +19,22 @@
   margin-top: 27px;
   display: inline-block;
   line-height: 50px;
+  position: relative;
+}
+.title-text-left>div img{
+  margin-bottom: 5px;
+}
+.title-text-left>div{
+  display: inline-block;
+  line-height: 50px;
+  height: 48px;
+  margin-top: 1px;
+  vertical-align: super;
+  position: absolute;
+  right: 1px;
+  background: rgb(224,224,224);
+  width: 50px;
+  text-align: center;
 }
 .title-text-left p{
   vertical-align: top;
@@ -84,13 +100,16 @@
   line-height: 36px;
   vertical-align: text-top;
 }
-thead>tr{
+.el-table__header thead>tr{
   font-size: 24px;
   height: 85px;
 }
-tbody{
+.el-table__body tbody{
   font-size: 22px;
 }
-tbody tr{
+.el-table__body tbody tr{
   height: 45px;
+}
+.ui-widget.ui-widget-content{
+  width:245px;
 }

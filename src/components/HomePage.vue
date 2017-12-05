@@ -7,7 +7,7 @@
         <p>用户：</p><p class="left-text-name">张某某</p>
       </div>
       <ul class="nav metismenu" id="side-menu">
-        <li><router-link to="/report" >报表管理<span class="fa fa-angle-down"></span></router-link></li>
+        <li><router-link to="/homepage" >报表管理<span class="fa fa-angle-down"></span></router-link></li>
         <li><router-link to="/equipment">设备管理<span class="fa fa-angle-down"></span></router-link></li>
         <li><router-link to="/mechanism">机构管理<span class="fa fa-angle-down"></span></router-link></li>
         <li><router-link to="/">用户管理<span class="fa fa-angle-down"></span></router-link></li>

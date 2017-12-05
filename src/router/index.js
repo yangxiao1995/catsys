@@ -24,7 +24,7 @@ export default new Router({
           component:mailmanagement
         },
         {
-          path: '/report',
+          path: '/',
           component:report
         },
         {
