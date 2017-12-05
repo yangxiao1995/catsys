@@ -8,7 +8,7 @@ export function fetch(options) {
   return new Promise((resolve, reject) => {
     const instance = axios.create({
       /*process.env.BASE_API*/
-      baseURL:'http://192.168.1.188:8181/yyx-house-expor-api' ,
+      baseURL:'http://192.168.1.188:9000/aiom' ,
       timeout: 2000 // 超时
     });
     instance(options)

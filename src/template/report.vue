@@ -26,7 +26,7 @@
         type="selection">
       </el-table-column>
       <el-table-column label="序号" width="100" align="center">
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{scope.$index+1}}</span>
         </template>
       </el-table-column>
@@ -65,7 +65,7 @@
         align="center"
         label="操作"
         show-overflow-tooltip>
-        <template scope="scope">
+        <template slot-scope="scope">
           <a style="color: #1fc355;">
             <img src="../../static/img/table/edit.png" alt="">&nbsp;修改
           </a>
@@ -97,6 +97,7 @@
   </div>
 </template>
 <script>
+  import {getreportpageinfo} from '../api/getlist'
   export default {
     data() {
       return {
@@ -104,24 +105,10 @@
         isEdit:true,
         currentPage1:1,
         listQuery: {
-          sectionNo: '',//标段
-
-          homeNo: '',//档案号
-          houseType: '',
-          sectionName: '',
-          homeStructure: '',
-          reviewStatus: '',//复核状态
-          fullName: '',//被征收人
-          buildingNo: '',//楼号
-          homeAddress: '',//房屋地址
-          isProblem: '',//是否问题
           pageNumber:1,
         },
         total:100,
         pageSize: 10,
-        //下拉框中的数据
-        section: [],
-        building: [],
         tableData: {
           rows: [{name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
             {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
@@ -151,7 +138,7 @@
       },
     },
     created() {
-
+      this.loadData();
     },
     computed:{
       getPageSize(){
@@ -175,8 +162,9 @@
       },
       loadData(){
         let self = this;
-        this.listLoading = true;
-        self.listQuery.idNumber=idNum;
+        getreportpageinfo().then(res => {
+         console.log(res)
+      })
       },
     }
   }

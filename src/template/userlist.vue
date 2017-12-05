@@ -32,7 +32,7 @@
             type="selection">
           </el-table-column>
           <el-table-column label="序号" align="center" width="100">
-            <template scope="scope">
+            <template slot-scope="scope">
               <span>{{scope.$index+1}}</span>
             </template>
           </el-table-column>
@@ -74,7 +74,7 @@
             label="状态"
             align="center"
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               {{scope.row.hasvalid |stateFilter}}
             </template>
           </el-table-column>
@@ -83,12 +83,12 @@
             align="center"
             width="150"
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               {{scope.row.errorPass |passFilter}}
             </template>
           </el-table-column>
           <el-table-column label="操作" align="center"   width="300">
-            <template scope="scope">
+            <template slot-scope="scope">
               <el-button
                 size="small"
                 type="default"

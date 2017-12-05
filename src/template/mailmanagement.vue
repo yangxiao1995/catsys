@@ -38,7 +38,7 @@
         type="selection">
       </el-table-column>
       <el-table-column label="序号" width="100" align="center">
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{scope.$index+1}}</span>
         </template>
       </el-table-column>
@@ -77,7 +77,7 @@
         align="center"
         label="操作"
         show-overflow-tooltip>
-        <template scope="scope">
+        <template slot-scope="scope">
           <a style="color: #1fc355;">
             <img src="../../static/img/table/edit.png" alt="">&nbsp;修改
           </a>
