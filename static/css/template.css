@@ -1,4 +1,7 @@
-
+.el-tooltip a{
+  text-decoration: none!important;
+  cursor: pointer;
+}
 .right_sircle h1 {
   font-size: 26px;;
   margin:0;

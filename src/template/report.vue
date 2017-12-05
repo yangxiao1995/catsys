@@ -66,7 +66,7 @@
         label="操作"
         show-overflow-tooltip>
         <template slot-scope="scope">
-          <a style="color: #1fc355;">
+          <a style="color: #1fc355;" @click="handleUpdate(scope.row)">
             <img src="../../static/img/table/edit.png" alt="">&nbsp;修改
           </a>
           &nbsp;&nbsp;&nbsp;&nbsp;
