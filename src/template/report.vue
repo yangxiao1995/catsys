@@ -25,7 +25,7 @@
         align="center"
         type="selection">
       </el-table-column>
-      <el-table-column label="序号" align="center">
+      <el-table-column label="序号" width="100" align="center">
         <template scope="scope">
           <span>{{scope.$index+1}}</span>
         </template>
@@ -57,6 +57,7 @@
         prop="zhuangt"
         align="center"
         label="状态"
+        width="110"
         show-overflow-tooltip>
       </el-table-column>
       <el-table-column
@@ -171,6 +172,11 @@
       },
       handleCurrentChange(val) {
         this.listQuery.pageNumber= val;
+      },
+      loadData(){
+        let self = this;
+        this.listLoading = true;
+        self.listQuery.idNumber=idNum;
       },
     }
   }

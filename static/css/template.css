@@ -41,6 +41,9 @@
   display: inline-block;
   font-size: 24px;;
 }
+.title-text-left input{
+  font-size: 20px;;
+}
 .mailinput{
   margin-left: 15px;
   display: inline-block;

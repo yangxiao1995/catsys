@@ -10,9 +10,9 @@
         <li><router-link to="/homepage" >报表管理<span class="fa fa-angle-down"></span></router-link></li>
         <li><router-link to="/equipment">设备管理<span class="fa fa-angle-down"></span></router-link></li>
         <li><router-link to="/mechanism">机构管理<span class="fa fa-angle-down"></span></router-link></li>
-        <li><router-link to="/">用户管理<span class="fa fa-angle-down"></span></router-link></li>
+        <li><router-link to="/userlist">用户管理<span class="fa fa-angle-down"></span></router-link></li>
         <li><router-link to="/mailmanagement">邮件管理<span class="fa fa-angle-down"></span></router-link></li>
-        <li><router-link to="/">系统管理<span class="fa fa-angle-down"></span></router-link></li>
+        <li><router-link to="/sys">系统管理<span class="fa fa-angle-down"></span></router-link></li>
       </ul>
 
       <!--<ul class="nav metismenu" id="side-menu" @click="acticive">
