@@ -5,9 +5,9 @@ import Qs from 'qs'
 import axios from 'axios'
 import router from '../router/index'
 import { Message } from 'element-ui';
+
 var  service=axios.create({
-  /*http://192.168.1.188:8181/yyx-house-expro-api 192.168.1.199/api_y',huhu*/
-  baseURL: 'http://192.168.1.188:80/aiom', // api的base_url yyx-house-expor-api
+  baseURL: 'http://192.168.1.188:8081/aiom', // api的base_url yyx-house-expor-api
   timeout: 5000,                  // 请求超时时间
   transformRequest: [function (data) {
     // 这里可以在发送请求之前对请求数据做处理，比如form-data格式化等，这里可以使用开头引入的Qs（这个模块在安装axios的时候就已经安装了，不需要另外安装）
@@ -23,7 +23,6 @@ var  service=axios.create({
   }],
 
   // `headers`是要发送的自定义标题
-/*  :*/
   // headers: {'Content-Type': 'application/json;charset=UTF-8'},
   // `params`是与请求一起发送的URL参数
   params: {},
