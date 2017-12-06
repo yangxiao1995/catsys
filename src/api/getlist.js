@@ -19,8 +19,7 @@ export function  getreportpageinfo(data) {
 }
 export  function  deleteonereport(data) {
   return fetch({
-    url:'/deleteonereport',
-    method:"delete",
-    params:data
+    url:'/deleteonereport/'+data,
+    method:"delete"
   })
 }
