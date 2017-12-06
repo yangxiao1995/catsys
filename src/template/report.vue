@@ -31,34 +31,37 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="name"
+        prop="t_operator"
         label="收件员工号"
         align="center">
       </el-table-column>
       <el-table-column
-        prop="zhongliang"
+        prop="t_post_user"
         label="收件人姓名"
         align="center">
       </el-table-column>
 
       <el-table-column
-        prop="section"
+        prop="t_collect_number"
         label="收件数量"
         align="center">
       </el-table-column>
 
       <el-table-column
-        prop="time"
+        prop="t_return_number"
         label="退件数量"
         align="center"
         show-overflow-tooltip>
       </el-table-column>
       <el-table-column
-        prop="zhuangt"
+        prop="t_state"
         align="center"
         label="状态"
         width="110"
         show-overflow-tooltip>
+        <template slot-scope="scope">
+          {{scope.row.t_state | stateFilter}}
+        </template>
       </el-table-column>
       <el-table-column
         prop="func"
@@ -66,13 +69,18 @@
         label="操作"
         show-overflow-tooltip>
         <template slot-scope="scope">
-          <a style="color: #1fc355;" @click="handleUpdate(scope.row)">
-            <img src="../../static/img/table/edit.png" alt="">&nbsp;修改
-          </a>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <a style="color: #fd4b4f">
-            <img src="../../static/img/table/delete.png" alt="">&nbsp;删除
-          </a>
+          <el-button
+          class="el-button-edit"
+          size="small"
+          type="danger"
+          @click="handleUpdate(scope.row)"><img src="../../static/img/table/edit.png" alt="">&nbsp;修改
+        </el-button>
+          <el-button
+            class="el-button-delete"
+            size="small"
+            type="danger"
+            @click="handleDelete(scope.row.t_id)"><img src="../../static/img/table/delete.png" alt="">&nbsp;删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -97,7 +105,7 @@
   </div>
 </template>
 <script>
-  import {getreportpageinfo} from '../api/getlist'
+  import {getreportpageinfo,deleteonereport} from '../api/getlist'
   export default {
     data() {
       return {
@@ -110,16 +118,7 @@
         total:100,
         pageSize: 10,
         tableData: {
-          rows: [{name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1}]
+          rows: []
         },
         multipleSelection: [],
         listLoading: false
@@ -127,12 +126,10 @@
 
     },
     filters: {
-      houseTypeFilter(status) {
+      stateFilter(status) {
         const statusMap = {
-          '1': '直管',
-          '2': '私房',
-          '3': '自管',
-          '4': '其他'
+          '1': '正常',
+          '0': '不',
         };
         return statusMap[status]
       },
@@ -163,9 +160,26 @@
       loadData(){
         let self = this;
         getreportpageinfo().then(res => {
-         console.log(res)
+         console.log(JSON.parse(res.data).data.rows)
+         self.tableData.rows=JSON.parse(res.data).data.rows
       })
       },
+      handleDelete(index){
+        var self = this;
+        this.$confirm('确认删除该记录吗?', '提示', {
+          type: 'warning'
+        }).then(() => {
+          deleteonereport(index).then(function (response) {
+          let rmsg=JSON.parse(response.data);
+          if(rmsg.code == 1){
+            self.loadData();
+          }else{
+            self.$message.error(rmsg.msg)
+          }
+        });
+      }).catch(() => {
+        });
+      }
     }
   }
 </script>

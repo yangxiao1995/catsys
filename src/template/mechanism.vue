@@ -69,13 +69,18 @@
         label="操作"
         show-overflow-tooltip>
         <template slot-scope="scope">
-          <a style="color: #1fc355;">
-            <img src="../../static/img/table/edit.png" alt="">&nbsp;修改
-          </a>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <a style="color: #fd4b4f">
-            <img src="../../static/img/table/delete.png" alt="">&nbsp;删除
-          </a>
+          <el-button
+            class="el-button-edit"
+            size="small"
+            type="danger"
+            @click="handleUpdate(scope.row)"><img src="../../static/img/table/edit.png" alt="">&nbsp;修改
+          </el-button>
+          <el-button
+            class="el-button-delete"
+            size="small"
+            type="danger"
+            @click="handleDelete(scope.row.t_id)"><img src="../../static/img/table/delete.png" alt="">&nbsp;删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>

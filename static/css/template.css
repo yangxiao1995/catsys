@@ -119,3 +119,18 @@
 .ui-widget.ui-widget-content{
   width:245px;
 }
+.el-button-edit{
+  background-color:#ffffff!important;;
+  color: rgb(31, 195, 85)!important;;
+  border: 0!important;;
+  font-size: 22px!important;;
+}
+.el-button-delete{
+  background-color: #ffffff!important;;
+  color: #fd4b4f!important;;
+  border: 0!important;;
+  font-size: 22px!important;;
+}
+button img{
+  vertical-align: bottom!important;
+}

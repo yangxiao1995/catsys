@@ -17,9 +17,10 @@ export function  getreportpageinfo(data) {
     params:data
   })
 }
-export  function  delRole(data) {
+export  function  deleteonereport(data) {
   return fetch({
-    url:'roleupd/'+data,
-    method:"delete"
+    url:'/deleteonereport',
+    method:"delete",
+    params:data
   })
 }
