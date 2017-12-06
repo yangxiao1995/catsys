@@ -13,7 +13,8 @@ module.exports = {
     proxyTable: {},
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
+    host: '0.0.0.0', // can be overwritten by process.env.HOST
+    env: require('./dev.env'),
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
@@ -50,6 +51,7 @@ module.exports = {
 
   build: {
     // Template for index.html
+    env: require('./prod.env'),
     index: path.resolve(__dirname, '../dist/index.html'),
 
     // Paths
