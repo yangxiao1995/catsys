@@ -6,7 +6,18 @@
       <div class="title-text">
         <div class="title-text-left">
           <p>设备名称</p><input v-model="listQuery.macName" class="equiinput" type="text">
-          <p class="text-data">入网时间</p><input v-model="listQuery.macWorkTime" class="equidata" type="text" id="datepicker"><div class="dataimg"><img src="../../static/img/data.png" alt=""></div>
+          <p class="text-data">入网时间</p>
+         <!-- <input v-model="listQuery.macWorkTime" class="equidata" type="text" id="datepicker">-->
+          <div class="block">
+            <el-date-picker
+              v-model="listQuery.macWorkTime"
+              class="equidata"
+              type="date"
+              format="yyyy-MM-dd"
+              @change="getData"
+              placeholder="选择日期">
+            </el-date-picker>
+          </div><div class="dataimg"><img src="../../static/img/data.png" alt=""></div>
         </div>
         <div class="title-text-button">
           <button type="button" class="btn btn-primary text-search" @click="loadData">
@@ -179,6 +190,7 @@
 <script src="../../static/js/jquery-ui.js"></script>
 <script>
   import {machine,machineadd,machinedelete,machineput} from "../api/getlist"
+  import  util from '../common/util'
   export default {
     data() {
       var uname = (rule, value, callback) => {
@@ -198,7 +210,7 @@
         currentPage1:1,
         listQuery: {
           macName:'',
-          macWorkTime:null,
+          macWorkTime:"",
           pageNumber:1,
         },
         total:100,
@@ -281,6 +293,12 @@
         this.resetTemp();
         this.dialogStatus = 'create';
         this.dialogFormVisible = true;
+      },
+      getData(){
+        if (this.listQuery.macWorkTime != '') {
+          this.listQuery.macWorkTime = util.formatDate.format(new Date(this.listQuery.macWorkTime), 'yyyy-MM-dd');
+        }
+
       },
       handleEdit(row){
         this.uid = row.id;
