@@ -12,7 +12,7 @@
           <button type="button" class="btn btn-primary text-search">
             <div></div>查询<div></div>
           </button>
-          <button type="button" class="btn btn-primary text-add">
+          <button type="button" class="btn btn-primary text-add"  @click="handleCreate">
             <div></div>+ 添加机构<div></div>
           </button>
           <button type="button" class="btn btn-primary text-delete">
@@ -30,7 +30,7 @@
       element-loading-text="拼命加载中"
       tooltip-effect="dark"
       style="width: 100%"
-      @selection-change="">
+      @selection-change="selsChange">
       <el-table-column
         align="center"
         type="selection">
@@ -41,49 +41,48 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="name"
+        prop="macName"
         label="设备名称"
         align="center">
       </el-table-column>
       <el-table-column
-        prop="zhongliang"
+        prop="macSeries"
         label="序列号"
         align="center">
       </el-table-column>
 
       <el-table-column
-        prop="section"
+        prop="macType"
         label="型号"
         align="center">
       </el-table-column>
 
       <el-table-column
-        prop="time"
+        prop="macManufacturer"
         label="厂商"
         align="center"
         show-overflow-tooltip>
       </el-table-column>
       <el-table-column
-        prop="zhuangt"
+        prop="macUser"
         align="center"
         label="设备管理人"
         show-overflow-tooltip>
       </el-table-column>
       <el-table-column
-        prop="zhuangt"
+        prop="macWorkTime"
         align="center"
         label="入网时间"
         show-overflow-tooltip>
       </el-table-column>
       <el-table-column
-        prop="zhuangt"
+        prop="macState"
         align="center"
         label="状态"
         width="110"
         show-overflow-tooltip>
       </el-table-column>
       <el-table-column
-        prop="func"
         align="center"
         label="操作"
         show-overflow-tooltip>
@@ -92,18 +91,55 @@
             class="el-button-edit"
             size="small"
             type="danger"
-            @click="handleUpdate(scope.row)"><img src="../../static/img/table/edit.png" alt="">&nbsp;修改
+            @click="handleEdit(scope.row)"><img src="../../static/img/table/edit.png" alt="">&nbsp;修改
           </el-button>
           <el-button
             class="el-button-delete"
             size="small"
             type="danger"
-            @click="handleDelete(scope.row.t_id)"><img src="../../static/img/table/delete.png" alt="">&nbsp;删除
+            @click="handleDelete(scope.row.id)"><img src="../../static/img/table/delete.png" alt="">&nbsp;删除
           </el-button>
         </template>
       </el-table-column>
     </el-table>
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
 
+      <el-form class="small-space" :model="temp" :rules="rules" ref="temp" label-position="left" label-width="95px"
+               style='width: 400px; margin-left:50px;'>
+        <input type="hidden" v-model="uid">
+        <el-form-item label="设备名称" prop="macName">
+          <el-input v-model="temp.macName"></el-input>
+        </el-form-item>
+
+        <el-form-item label="状态">
+          <input type="radio" v-model="temp.macState" value="0" name="state">停用
+          <input type="radio" v-model="temp.macState" value="1" name="state">正常
+        </el-form-item>
+        <el-form-item label="序列号" prop="macSeries">
+          <el-input v-model="temp.macSeries"></el-input>
+        </el-form-item>
+
+        <el-form-item label="型号" prop="macType">
+          <el-input style="margin-top:8px;" v-model="temp.macType"></el-input>
+        </el-form-item>
+
+        <el-form-item label="厂商" prop="macManufacturer">
+          <el-input style="margin-top:8px;" v-model="temp.macManufacturer"></el-input>
+        </el-form-item>
+
+        <el-form-item label="设备管理人" prop="macUser">
+          <el-input style="margin-top:8px;"  v-model="temp.macUser"></el-input>
+        </el-form-item>
+
+        <el-form-item  label="入网时间" prop="macWorkTime">
+          <el-input style="margin-top:8px;"   v-model="temp.macWorkTime"></el-input>
+        </el-form-item>
+
+        <el-button v-if="dialogStatus=='create'" class="btn-primary" type="primary" :disabled="boolAdd" @click="create(temp)">确 定</el-button>
+        <el-button v-else type="primary" @click="update">确 定</el-button>
+        <el-button @click="cancel(temp)" class="btn-white">取 消</el-button>
+      </el-form>
+    </el-dialog>
     <div class="text-paging">
       <div class="page-text">
         共{{this.total}}条记录，{{this.listQuery.pageNumber}}/{{getPageSize}}
@@ -142,41 +178,69 @@
 </style>
 <script src="../../static/js/jquery-ui.js"></script>
 <script>
+  import {machine,machineadd,machinedelete,machineput} from "../api/getlist"
   export default {
     data() {
+      var uname = (rule, value, callback) => {
+
+        setTimeout(() => {
+          if ((/[\u4e00-\u9fa5]+/).test(value)) {
+          callback(new Error('只能输入英文字母、数字和字符'));
+        } else {
+          callback();
+        }
+      }, 1000);
+      };
       return {
+        boolAdd:false,
         excelList:null,
         isEdit:true,
         currentPage1:1,
         listQuery: {
-          sectionNo: '',//标段
-          homeNo: '',//档案号
-          houseType: '',
-          sectionName: '',
-          homeStructure: '',
-          reviewStatus: '',//复核状态
-          fullName: '',//被征收人
-          buildingNo: '',//楼号
-          homeAddress: '',//房屋地址
-          isProblem: '',//是否问题
           pageNumber:1,
         },
         total:100,
         pageSize: 10,
-        //下拉框中的数据
-        section: [],
-        building: [],
         tableData: {
-          rows: [{name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1}]
+          rows: []
+        },
+        textMap: {
+          update: '修改',
+          create: '新增'
+        },
+        sels:[],
+        uid: '',
+        roleList: [],
+        dialogStatus: '',
+        dialogFormVisible: false,
+        temp: {
+          macName: '',
+          deptName:'',
+          macType: '',
+          macManufacturer: '',
+          macUser: '',
+          macWorkTime: '',
+          deptId:'',
+          macState: -1,
+        },
+        rules: {
+          macName: [
+            {required: true, message: '请输入设备名称', trigger: 'blur'},
+            { validator: uname, trigger: 'blur' }
+          ],
+          macManufacturer: [
+            {required: true, message: '请输入厂商', trigger: 'blur'},
+            { validator: uname, trigger: 'blur' }
+          ],
+
+          macUser: [
+            {required: true, message: '请输入设备管理人', trigger: 'blur'},
+            {validator:uname,trigger:'blur'}
+          ],
+          macWorkTime: [
+            {required: true, message: '请输入入网时间', trigger: 'blur'},
+            {validator:uname,trigger:'blur'}
+          ],
         },
         multipleSelection: [],
         listLoading: false
@@ -184,27 +248,24 @@
 
     },
     filters: {
-      houseTypeFilter(status) {
+      stateFilter(status) {
         const statusMap = {
-          '1': '直管',
-          '2': '私房',
-          '3': '自管',
-          '4': '其他'
+          '1': '正常',
+          '0': '',
         };
         return statusMap[status]
       },
     },
     created() {
-      this.$router.replace("/equipment")
+      this.loadData();
     },
     computed:{
       getPageSize(){
-        return 5;
-        /* if(Math.ceil( this.total/this.pageSize)==0){
+         if(Math.ceil( this.total/this.pageSize)==0){
          return 1;
          }else{
          return Math.ceil( this.total/this.pageSize)
-         }*/
+         }
       }
     },
     methods: {
@@ -217,6 +278,109 @@
       handleCurrentChange(val) {
         this.listQuery.pageNumber= val;
       },
+      handleCreate() {
+        this.resetTemp();
+        this.dialogStatus = 'create';
+        this.dialogFormVisible = true;
+      },
+      handleEdit(row){
+        this.uid = row.id;
+        this.temp = Object.assign({}, row);
+        this.dialogStatus = 'update';
+        this.dialogFormVisible = true;
+      },
+      selsChange(sels){
+        this.sels = sels;
+      },
+      resetTemp(){
+        this.temp = {
+          macName: '',
+          macType: '',
+          macManufacturer: '',
+          macUser: '',
+          macState: 1,
+        }
+      },
+      loadData(){
+        let self = this;
+        machine().then(res => {
+          console.log(JSON.parse(res.data).data.rows)
+        self.tableData.rows=JSON.parse(res.data).data.rows
+        self.total = JSON.parse(res.data).data.total;
+      })
+      },
+      cancel(formName){
+        this.$refs.temp.resetFields();
+        this.dialogFormVisible=false;
+
+      },
+      update(){
+        let data = {
+          params: JSON.stringify(this.temp)
+        }
+        let self = this;
+        machineput(data).then(res=>
+        {
+          self.$confirm('修改成功, 是否返回列表?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'success'
+        }).then(() =>{
+          this.dialogFormVisible = false;
+        self.loadData();
+      })
+
+      })
+
+      },
+      //添加
+      create(formName){
+        this.$refs.temp.validate(valid=>{
+          if (valid) {
+            if(this.temp.macName!=''){
+              let data = {
+                params: JSON.stringify(this.temp)
+              }
+              let self = this;
+              machineadd(data).then(res =>{
+                if(JSON.parse(res.data).code==1){
+                self.$confirm('添加成功, 是否返回列表?', '提示', {
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  type: 'success'
+                }).then(()=> {
+                  this.dialogFormVisible = false;
+                self.loadData();
+              })
+
+              }else{
+                this.$message.error(JSON.parse(res.data).msg);
+              }
+            })
+            }else{
+              this.$message.error("请填写设备名称");
+            }
+
+          }
+        }
+      )
+      },
+      handleDelete(index){
+        var self = this;
+        this.$confirm('确认删除该记录吗?', '提示', {
+          type: 'warning'
+        }).then(() => {
+          machinedelete(index).then(function (response) {
+          let rmsg=JSON.parse(response.data);
+          if(rmsg.code == 1){
+            self.loadData();
+          }else{
+            self.$message.error(rmsg.msg)
+          }
+        });
+      }).catch(() => {
+        });
+      }
     }
   }
 </script>

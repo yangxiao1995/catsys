@@ -5,7 +5,7 @@
       <div class="title-line"></div>
       <div class="title-text">
         <div class="title-text-button">
-          <button type="button" class="btn btn-primary text-delete">
+          <button type="button" class="btn btn-primary text-delete" @click="alldelete">
             <div></div>批量删除<div></div>
           </button>
         </div>
@@ -20,7 +20,7 @@
       element-loading-text="拼命加载中"
       tooltip-effect="dark"
       style="width: 100%"
-      @selection-change="">
+      @selection-change="selsChange">
       <el-table-column
         align="center"
         type="selection">
@@ -105,7 +105,7 @@
   </div>
 </template>
 <script>
-  import {getreportpageinfo,deleteonereport} from '../api/getlist'
+  import {getreportpageinfo,deleteonereport,reportalldelete} from '../api/getlist'
   export default {
     data() {
       return {
@@ -120,6 +120,7 @@
         tableData: {
           rows: []
         },
+        sels:[],
         multipleSelection: [],
         listLoading: false
       }
@@ -139,12 +140,11 @@
     },
     computed:{
       getPageSize(){
-        return 5;
-        /* if(Math.ceil( this.total/this.pageSize)==0){
+         if(Math.ceil( this.total/this.pageSize)==0){
          return 1;
          }else{
          return Math.ceil( this.total/this.pageSize)
-         }*/
+         }
       }
     },
     methods: {
@@ -157,11 +157,15 @@
       handleCurrentChange(val) {
         this.listQuery.pageNumber= val;
       },
+      selsChange(sels){
+        this.sels = sels;
+      },
       loadData(){
         let self = this;
         getreportpageinfo().then(res => {
          console.log(JSON.parse(res.data).data.rows)
          self.tableData.rows=JSON.parse(res.data).data.rows
+        self.total = JSON.parse(res.data).data.total;
       })
       },
       handleDelete(index){
@@ -170,6 +174,34 @@
           type: 'warning'
         }).then(() => {
           deleteonereport(index).then(function (response) {
+          let rmsg=JSON.parse(response.data);
+          if(rmsg.code == 1){
+            self.loadData();
+          }else{
+            self.$message.error(rmsg.msg)
+          }
+        });
+      }).catch(() => {
+        });
+      },
+      alldelete(){
+        var self = this;
+
+        var ids = this.sels.map(item =>item.t_id).toString();
+        var sub = ids.split(",");
+        ids = "";
+        for (var i = 0; i < sub.length;i++){
+          if (sub[i] != ""){
+            ids += sub[i] + ",";
+          }
+        }
+        ids = ids.substring(0,ids.length-1);
+        console.log(ids)
+
+        this.$confirm('确认删除这些记录吗?', '提示', {
+          type: 'warning'
+        }).then(() => {
+          reportalldelete(ids).then(function (response) {
           let rmsg=JSON.parse(response.data);
           if(rmsg.code == 1){
             self.loadData();

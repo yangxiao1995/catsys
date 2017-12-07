@@ -40,18 +40,21 @@
             prop="loginName"
             label="登录名"
             align="center"
+            width="120"
           >
           </el-table-column>
           <el-table-column
             prop="userName"
             label="用户名"
             align="center"
+            width="120"
           >
           </el-table-column>
           <el-table-column
             prop="email"
             label="邮箱"
             align="center"
+            width="120"
           ></el-table-column>
           <el-table-column
             prop="mobile"
@@ -69,10 +72,12 @@
             prop="roleName"
             label="角色"
             align="center"
+            width="120"
           ></el-table-column>
           <el-table-column
             label="状态"
             align="center"
+            width="120"
           >
             <template slot-scope="scope">
               {{scope.row.hasvalid |stateFilter}}
@@ -87,24 +92,25 @@
               {{scope.row.errorPass |passFilter}}
             </template>
           </el-table-column>
-          <el-table-column label="操作" align="center"   width="300">
+          <el-table-column label="操作" align="center"   width="400">
             <template slot-scope="scope">
               <el-button
+                class="el-button-delete"
                 size="small"
                 type="default"
-                class="btn-review"
                 @click="handleReset(scope.row.id,scope.row.userName)">重置密码
               </el-button>
               <el-button
-                size="small"
-                type="default"
-                class="bg-dj01"
-                @click="handleEdit(scope.row)"><img src="" alt=""> 修改
-              </el-button>
-              <el-button
+                class="el-button-edit"
                 size="small"
                 type="danger"
-                @click="handleDelete(scope.row.id)"><img src="" alt=""> 删除
+                @click="handleEdit(scope.row)"><img src="../../static/img/table/edit.png" alt="">&nbsp;修改
+              </el-button>
+              <el-button
+                class="el-button-delete"
+                size="small"
+                type="danger"
+                @click="handleDelete(scope.row.t_id)"><img src="../../static/img/table/delete.png" alt="">&nbsp;删除
               </el-button>
             </template>
           </el-table-column>
@@ -193,15 +199,13 @@
   }
 </style>
 <script>
+  import {user} from "../api/getlist"
   var socket;
   var sendFlag=0;
   var zpFormat;
   var idNum;
   export default {
-    name: 'hello',
-
     data () {
-
       var uname = (rule, value, callback) => {
 
         setTimeout(() => {
@@ -364,8 +368,6 @@
     created(){
       this.loadData();
       this.getRoleList();
-      /*this.openReader();*/
-      this.sections();
     },
 
     methods: {
@@ -379,7 +381,12 @@
         this.loadData();
       },
       loadData(){
-
+        let self = this;
+        user().then(res => {
+          console.log(JSON.parse(res.data).data.rows)
+        self.tableData.rows=JSON.parse(res.data).data
+        self.total = JSON.parse(res.data).data.total;
+      })
       },
       handleEdit(row){
         this.uid = row.id;
@@ -461,7 +468,6 @@
         }
       },
       //添加
-
       create(formName){
         this.$refs.temp.validate(valid=>{
           if (valid) {
@@ -520,19 +526,9 @@
       })
 
       },
-      sections(){
-        let self = this;
-        enIndexsections().then(function (response) {
-          if (JSON.parse(response.data).code == 1) {
-            self.section = JSON.parse(response.data).data;
-          }
-        });
-      },
       getRoleList(){
 
-        getRoleAll().then( res => {
-          this.roleList = JSON.parse(res.data).data;
-      })
+
       },
       resultMsg(msg) {
         this.$message.error("\r\n" + msg)

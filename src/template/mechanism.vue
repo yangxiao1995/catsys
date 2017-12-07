@@ -5,7 +5,7 @@
       <div class="title-line"></div>
       <div class="title-text">
         <div class="title-text-button">
-          <button type="button" class="btn btn-primary text-add">
+          <button type="button" class="btn btn-primary text-add" @click="handleCreate">
             <div></div>+ 添加机构<div></div>
           </button>
           <button type="button" class="btn btn-primary text-delete">
@@ -34,37 +34,39 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="name"
+        prop="t_org_name"
         label="机构名称"
         align="center">
       </el-table-column>
       <el-table-column
-        prop="zhongliang"
+        prop="t_org_addr"
         label="机构编号"
         align="center">
       </el-table-column>
 
       <el-table-column
-        prop="section"
+        prop="t_operator"
         label="机构负责收件员"
         align="center">
       </el-table-column>
 
       <el-table-column
-        prop="time"
+        prop="t_org_prov"
         label="设备编号"
         align="center"
         show-overflow-tooltip>
       </el-table-column>
       <el-table-column
-        prop="zhuangt"
+        prop="t_state"
         align="center"
         label="状态"
         width="110"
         show-overflow-tooltip>
+        <template slot-scope="scope">
+          {{scope.row.t_state | stateFilter}}
+        </template>
       </el-table-column>
       <el-table-column
-        prop="func"
         align="center"
         label="操作"
         show-overflow-tooltip>
@@ -73,7 +75,7 @@
             class="el-button-edit"
             size="small"
             type="danger"
-            @click="handleUpdate(scope.row)"><img src="../../static/img/table/edit.png" alt="">&nbsp;修改
+            @click="handleEdit(scope.row)"><img src="../../static/img/table/edit.png" alt="">&nbsp;修改
           </el-button>
           <el-button
             class="el-button-delete"
@@ -84,7 +86,36 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
 
+      <el-form class="small-space" :model="temp" :rules="rules" ref="temp" label-position="left" label-width="125px"
+               style='width: 400px; margin-left:50px;'>
+        <input type="hidden" v-model="uid">
+        <el-form-item label="机构名称" prop="orgName">
+          <el-input v-model="temp.orgName"></el-input>
+        </el-form-item>
+
+        <el-form-item label="状态">
+          <input type="radio" v-model="temp.state" value="0" name="state">停用
+          <input type="radio" v-model="temp.state" value="1" name="state">正常
+        </el-form-item>
+        <el-form-item label="机构编号" prop="orgAddr">
+          <el-input v-model="temp.orgAddr"></el-input>
+        </el-form-item>
+
+        <el-form-item label="机构负责收件员" prop="operator">
+          <el-input style="margin-top:8px;" v-model="temp.operator"></el-input>
+        </el-form-item>
+
+        <el-form-item label="设备编号" prop="orgNumber">
+          <el-input style="margin-top:8px;" v-model="temp.orgNumber"></el-input>
+        </el-form-item>
+
+        <el-button v-if="dialogStatus=='create'" class="btn-primary" type="primary" :disabled="boolAdd" @click="create(temp)">确 定</el-button>
+        <el-button v-else type="primary" @click="update">确 定</el-button>
+        <el-button @click="cancel(temp)" class="btn-white">取 消</el-button>
+      </el-form>
+    </el-dialog>
     <div class="text-paging">
       <div class="page-text">
         共{{this.total}}条记录，{{this.listQuery.pageNumber}}/{{getPageSize}}
@@ -105,70 +136,87 @@
   </div>
 </template>
 <script>
+  import {getorgpageinfo,deleteone} from "../api/getlist"
   export default {
     data() {
+      var uname = (rule, value, callback) => {
+
+        setTimeout(() => {
+          if ((/[\u4e00-\u9fa5]+/).test(value)) {
+          callback(new Error('只能输入英文字母、数字和字符'));
+        } else {
+          callback();
+        }
+      }, 1000);
+      };
       return {
+        boolAdd:false,
         excelList:null,
         isEdit:true,
         currentPage1:1,
         listQuery: {
-          sectionNo: '',//标段
-
-          homeNo: '',//档案号
-          houseType: '',
-          sectionName: '',
-          homeStructure: '',
-          reviewStatus: '',//复核状态
-          fullName: '',//被征收人
-          buildingNo: '',//楼号
-          homeAddress: '',//房屋地址
-          isProblem: '',//是否问题
           pageNumber:1,
         },
         total:100,
         pageSize: 10,
-        //下拉框中的数据
-        section: [],
-        building: [],
         tableData: {
-          rows: [{name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1},
-            {name:1,zhongliang:1,section:1,time:"2017-1-1",zhuangt:"yes",func:1}]
+          rows: []
         },
         multipleSelection: [],
-        listLoading: false
+        listLoading: false,
+        textMap: {
+          update: '修改',
+          create: '新增'
+        },
+        uid: '',
+        roleList: [],
+        dialogStatus: '',
+        dialogFormVisible: false,
+        temp: {
+          orgAddr: '',
+          orgName: '',
+          deptName:'',
+          operator: '',
+          orgNumber: '',
+          state: -1,
+          errorPass:-1
+        },
+        rules: {
+          orgAddr: [
+            {required: true, message: '请输入机构编号', trigger: 'blur'},
+            { validator: uname, trigger: 'blur' }
+          ],
+
+          operator: [
+            {required: true, message: '请输入机构负责收件员', trigger: 'blur'}
+          ],
+          orgNumber: [
+            {required: true, message: '请输入设备编号', trigger: 'blur'},
+            { validator: uname, trigger: 'blur' }
+          ],
+        },
       }
 
     },
     filters: {
-      houseTypeFilter(status) {
+      stateFilter(status) {
         const statusMap = {
-          '1': '直管',
-          '2': '私房',
-          '3': '自管',
-          '4': '其他'
+          '1': '正常',
+          '0': '',
         };
         return statusMap[status]
       },
     },
     created() {
-
+      this.loadData();
     },
     computed:{
       getPageSize(){
-        return 5;
-        /* if(Math.ceil( this.total/this.pageSize)==0){
+         if(Math.ceil( this.total/this.pageSize)==0){
          return 1;
          }else{
          return Math.ceil( this.total/this.pageSize)
-         }*/
+         }
       }
     },
     methods: {
@@ -180,6 +228,125 @@
       },
       handleCurrentChange(val) {
         this.listQuery.pageNumber= val;
+      },
+      loadData(){
+        let self = this;
+        getorgpageinfo().then(res => {
+          console.log(JSON.parse(res.data).data.rows)
+        self.tableData.rows=JSON.parse(res.data).data.rows
+        self.total = JSON.parse(res.data).data.total;
+      })
+      },
+      handleCreate() {
+        this.resetTemp();
+        this.dialogStatus = 'create';
+        this.dialogFormVisible = true;
+      },
+      handleEdit(row){
+        this.uid = row.id;
+        this.temp = Object.assign({}, row);
+        this.dialogStatus = 'update';
+        this.dialogFormVisible = true;
+        if (this.temp.errorPass != 5){
+          this.temp.errorPass = 0;
+        }
+        var releng=this.roleList.length
+
+        var depeng=this.section.length
+        for(var i=0;i<depeng;i++){
+          if (this.temp.deptName == '全部'){
+            this.temp.deptId = '';
+          }
+          if(this.temp.deptName == this.section[i].sectionName){
+            this.temp.deptId=this.section[i].id;
+          }
+        }
+      },
+      //添加
+      create(formName){
+        this.$refs.temp.validate(valid=>{
+          if (valid) {
+            if(this.temp.macName!=''){
+              let data = {
+                params: JSON.stringify(this.temp)
+              }
+              let self = this;
+              machineadd(data).then(res =>{
+                if(JSON.parse(res.data).code==1){
+                self.$confirm('添加成功, 是否返回列表?', '提示', {
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  type: 'success'
+                }).then(()=> {
+                  this.dialogFormVisible = false;
+                self.loadData();
+              })
+
+              }else{
+                this.$message.error(JSON.parse(res.data).msg);
+              }
+            })
+            }else{
+              this.$message.error("请填写机构名称");
+            }
+
+          }
+        }
+      )
+      },
+      handleDelete(index){
+        var self = this;
+        this.$confirm('确认删除该记录吗?', '提示', {
+          type: 'warning'
+        }).then(() => {
+          deleteone(index).then(function (response) {
+          let rmsg=JSON.parse(response.data);
+          if(rmsg.code == 1){
+            self.loadData();
+          }else{
+            self.$message.error(rmsg.msg)
+          }
+        });
+      }).catch(() => {
+        });
+      },
+      resetTemp(){
+        this.temp = {
+          orgAddr: '',
+          orgName: '',
+          operator: '',
+          orgNumber: '',
+          mobile: '',
+          password: '',
+          roleId: '',
+          state: 1,
+          errorPass:0
+        }
+      },
+      cancel(formName){
+        this.$refs.temp.resetFields();
+        this.dialogFormVisible=false;
+      },
+      update(){
+        let data = {
+
+          params: JSON.stringify(this.temp)
+        }
+        let self = this;
+        putUser(data).then(res=>
+        {
+
+          self.$confirm('修改成功, 是否返回列表?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'success'
+        }).then(() =>{
+          this.dialogFormVisible = false;
+        self.loadData();
+      })
+
+      })
+
       },
     }
   }
