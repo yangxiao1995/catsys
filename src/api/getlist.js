@@ -11,9 +11,22 @@ export function  login(data) {
   })
 }
 export function  machineadd(data) {
-  console.log(data)
   return fetch({
     url:'/machine',
+    method:'post',
+    data:data
+  })
+}
+export function  userpost(data) {
+  return fetch({
+    url:'/user',
+    method:'post',
+    data:data
+  })
+}
+export function  reportpost(data) {
+  return fetch({
+    url:'/report',
     method:'post',
     data:data
   })
@@ -35,6 +48,24 @@ export function  getreportpageinfo(data) {
 export  function  deleteonereport(data) {
   return fetch({
     url:'/deleteonereport/'+data,
+    method:"delete"
+  })
+}
+export  function  userdelete(data) {
+  return fetch({
+    url:'/user/'+data,
+    method:"delete"
+  })
+}
+export  function  postsdelete(data) {
+  return fetch({
+    url:'/posts/'+data,
+    method:"delete"
+  })
+}
+export  function  organizationalldelete(data) {
+  return fetch({
+    url:'/organization/'+data,
     method:"delete"
   })
 }
@@ -64,6 +95,13 @@ export function  machine(data) {
     params:data
   })
 }
+export function  reportgetone(data) {
+  return fetch({
+    url:'/report/getone',
+    method:'get',
+    params:data
+  })
+}
 export function  getorgpageinfo(data) {
   return fetch({
     url:'/getorgpageinfo',
@@ -85,9 +123,23 @@ export function  posts(data) {
     params:data
   })
 }
+export function  organization(data) {
+  return fetch({
+    url:'/organization',
+    method:'get',
+    params:data
+  })
+}
 export function  machineput(data) {
   return fetch({
     url:'/machine',
+    method:'put',
+    data:data
+  })
+}
+export function  organizationput(data) {
+  return fetch({
+    url:'/organization',
     method:'put',
     data:data
   })

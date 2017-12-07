@@ -212,7 +212,6 @@
 
     created(){
       this.loadData();
-      this.getRoleList();
     },
     methods: {
 

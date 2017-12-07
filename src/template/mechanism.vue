@@ -8,7 +8,7 @@
           <button type="button" class="btn btn-primary text-add" @click="handleCreate">
             <div></div>+ 添加机构<div></div>
           </button>
-          <button type="button" class="btn btn-primary text-delete">
+          <button type="button" class="btn btn-primary text-delete" @click="alldelete">
             <div></div>批量删除<div></div>
           </button>
         </div>
@@ -23,7 +23,7 @@
       element-loading-text="拼命加载中"
       tooltip-effect="dark"
       style="width: 100%"
-      @selection-change="">
+      @selection-change="selsChange">
       <el-table-column
         align="center"
         type="selection">
@@ -50,12 +50,12 @@
         align="center">
       </el-table-column>
 
-      <el-table-column
+     <!-- <el-table-column
         prop="t_org_prov"
         label="设备编号"
         align="center"
         show-overflow-tooltip>
-      </el-table-column>
+      </el-table-column>-->
       <el-table-column
         prop="t_state"
         align="center"
@@ -107,9 +107,9 @@
           <el-input style="margin-top:8px;" v-model="temp.operator"></el-input>
         </el-form-item>
 
-        <el-form-item label="设备编号" prop="orgNumber">
+       <!-- <el-form-item label="设备编号" prop="orgNumber">
           <el-input style="margin-top:8px;" v-model="temp.orgNumber"></el-input>
-        </el-form-item>
+        </el-form-item>-->
 
         <el-button v-if="dialogStatus=='create'" class="btn-primary" type="primary" :disabled="boolAdd" @click="create(temp)">确 定</el-button>
         <el-button v-else type="primary" @click="update">确 定</el-button>
@@ -136,7 +136,7 @@
   </div>
 </template>
 <script>
-  import {getorgpageinfo,deleteone,organizationadd} from "../api/getlist"
+  import {getorgpageinfo,deleteone,organizationadd,organization,organizationalldelete,organizationput} from "../api/getlist"
   export default {
     data() {
       var uname = (rule, value, callback) => {
@@ -172,12 +172,13 @@
         roleList: [],
         dialogStatus: '',
         dialogFormVisible: false,
+        sels:[],
         temp: {
           orgAddr: '',
           orgName: '',
           deptName:'',
           operator: '',
-          orgNumber: '',
+          /*orgNumber: '',*/
           state: -1,
         },
         rules: {
@@ -224,6 +225,10 @@
       },
       handleCurrentChange(val) {
         this.listQuery.pageNumber= val;
+        this.loadData();
+      },
+      selsChange(sels){
+        this.sels = sels;
       },
       loadData(){
         let self = this;
@@ -239,8 +244,14 @@
         this.dialogFormVisible = true;
       },
       handleEdit(row){
+        let par={
+          id:row.t_id
+        }
         this.uid = row.t_id;
-        this.temp = Object.assign({}, row);
+
+        organization(par).then(res =>{
+          this.temp=JSON.parse(res.data).data
+        })
         this.dialogStatus = 'update';
         this.dialogFormVisible = true;
       },
@@ -249,11 +260,8 @@
         this.$refs.temp.validate(valid=>{
           if (valid) {
             if(this.temp.orgName!=''){
-              let data = {
-                params: JSON.stringify(this.temp)
-              }
               let self = this;
-              organizationadd(data).then(res =>{
+              organizationadd(self.temp).then(res =>{
                 if(JSON.parse(res.data).code==1){
                 self.$confirm('添加成功, 是否返回列表?', '提示', {
                   confirmButtonText: '确定',
@@ -276,6 +284,34 @@
         }
       )
       },
+      alldelete(){
+        var self = this;
+
+        var ids = this.sels.map(item =>item.t_id).toString();
+        var sub = ids.split(",");
+        ids = "";
+        for (var i = 0; i < sub.length;i++){
+          if (sub[i] != ""){
+            ids += sub[i] + ",";
+          }
+        }
+        ids = ids.substring(0,ids.length-1);
+        console.log(ids)
+
+        this.$confirm('确认删除这些记录吗?', '提示', {
+          type: 'warning'
+        }).then(() => {
+          organizationalldelete(ids).then(function (response) {
+          let rmsg=JSON.parse(response.data);
+          if(rmsg.code == 1){
+            self.loadData();
+          }else{
+            self.$message.error(rmsg.msg)
+          }
+        });
+      }).catch(() => {
+        });
+      },
       handleDelete(index){
         var self = this;
         this.$confirm('确认删除该记录吗?', '提示', {
@@ -297,7 +333,7 @@
           orgAddr: '',
           orgName: '',
           operator: '',
-          orgNumber: '',
+          /*orgNumber: '',*/
           state: 1,
         }
       },
@@ -311,7 +347,7 @@
           params: JSON.stringify(this.temp)
         }
         let self = this;
-        putUser(data).then(res=>
+        organizationput(data).then(res=>
         {
 
           self.$confirm('修改成功, 是否返回列表?', '提示', {

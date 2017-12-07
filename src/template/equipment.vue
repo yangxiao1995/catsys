@@ -148,7 +148,7 @@
         <el-pagination layout=" pager,jumper"
                        background
                        @current-change="handleCurrentChange"
-                       :page-size="listQuery.limit"
+                       :page-size="pageSize"
                        :total="total"
                        :current-page.sync="currentPage1"
                        @size-change="handleSizeChange"
@@ -198,7 +198,7 @@
         currentPage1:1,
         listQuery: {
           macName:'',
-          /*macWorkTime:'',*/
+          /*macWorkTime:null,*/
           pageNumber:1,
         },
         total:100,
@@ -212,7 +212,6 @@
         },
         sels:[],
         uid: '',
-        roleList: [],
         dialogStatus: '',
         dialogFormVisible: false,
         temp: {
@@ -263,22 +262,20 @@
     },
     computed:{
       getPageSize(){
-         if(Math.ceil( this.total/this.pageSize)==0){
-         return 1;
-         }else{
-         return Math.ceil( this.total/this.pageSize)
-         }
+        if(Math.ceil( this.total/this.pageSize)==0){
+          return 1;
+        }else{
+          return Math.ceil( this.total/this.pageSize)
+        }
       }
     },
     methods: {
       handleSizeChange(){
 
       },
-      handleUpdate(row){
-        this.$router.push({path: 'info', query: {id: row.id,searchList:this.listQuery,paths:'article'}})
-      },
       handleCurrentChange(val) {
         this.listQuery.pageNumber= val;
+        this.loadData();
       },
       handleCreate() {
         this.resetTemp();
@@ -306,9 +303,10 @@
       loadData(){
         let self = this;
         machine(self.listQuery).then(res => {
-          console.log(JSON.parse(res.data).data.rows)
+          console.log(JSON.parse(res.data))
         self.tableData.rows=JSON.parse(res.data).data.rows
         self.total = JSON.parse(res.data).data.total;
+        self.pageSize = JSON.parse(res.data).data.pageSize;
       })
       },
       cancel(formName){
@@ -317,11 +315,8 @@
 
       },
       update(){
-        let data = {
-          params: JSON.stringify(this.temp)
-        }
         let self = this;
-        machineput(data).then(res=>
+        machineput(this.temp).then(res=>
         {
           self.$confirm('修改成功, 是否返回列表?', '提示', {
           confirmButtonText: '确定',
@@ -341,13 +336,7 @@
         this.$refs.temp.validate(valid=>{
           if (valid) {
             if(this.temp.macName!=''){
-              let data = {
-                data: JSON.stringify(this.temp)
-              }
               let self = this;
-
-              console.log(self.temp)
-              console.log( JSON.stringify(this.temp))
               machineadd(self.temp).then(res =>{
                 if(JSON.parse(res.data).code==1){
                 self.$confirm('添加成功, 是否返回列表?', '提示', {
