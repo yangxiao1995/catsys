@@ -198,7 +198,7 @@
         currentPage1:1,
         listQuery: {
           macName:'',
-          /*macWorkTime:null,*/
+          macWorkTime:null,
           pageNumber:1,
         },
         total:100,
