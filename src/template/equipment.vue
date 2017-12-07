@@ -5,17 +5,17 @@
       <div class="title-line"></div>
       <div class="title-text">
         <div class="title-text-left">
-          <p>设备名称</p><input class="equiinput" type="text">
-          <p class="text-data">入网时间</p><input class="equidata" type="text" id="datepicker"><div class="dataimg"><img src="../../static/img/data.png" alt=""></div>
+          <p>设备名称</p><input v-model="listQuery.macName" class="equiinput" type="text">
+          <p class="text-data">入网时间</p><input v-model="listQuery.macWorkTime" class="equidata" type="text" id="datepicker"><div class="dataimg"><img src="../../static/img/data.png" alt=""></div>
         </div>
         <div class="title-text-button">
-          <button type="button" class="btn btn-primary text-search">
+          <button type="button" class="btn btn-primary text-search" @click="loadData">
             <div></div>查询<div></div>
           </button>
           <button type="button" class="btn btn-primary text-add"  @click="handleCreate">
             <div></div>+ 添加机构<div></div>
           </button>
-          <button type="button" class="btn btn-primary text-delete">
+          <button type="button" class="btn btn-primary text-delete" @click="alldelete">
             <div></div>批量删除<div></div>
           </button>
         </div>
@@ -197,6 +197,8 @@
         isEdit:true,
         currentPage1:1,
         listQuery: {
+          macName:'',
+          /*macWorkTime:'',*/
           pageNumber:1,
         },
         total:100,
@@ -303,7 +305,7 @@
       },
       loadData(){
         let self = this;
-        machine().then(res => {
+        machine(self.listQuery).then(res => {
           console.log(JSON.parse(res.data).data.rows)
         self.tableData.rows=JSON.parse(res.data).data.rows
         self.total = JSON.parse(res.data).data.total;
@@ -335,14 +337,18 @@
       },
       //添加
       create(formName){
+        let self=this;
         this.$refs.temp.validate(valid=>{
           if (valid) {
             if(this.temp.macName!=''){
               let data = {
-                params: JSON.stringify(this.temp)
+                data: JSON.stringify(this.temp)
               }
               let self = this;
-              machineadd(data).then(res =>{
+              console.log("...")
+              console.log(self.temp)
+              console.log( JSON.stringify(this.temp))
+              machineadd(JSON.stringify(self.temp)).then(res =>{
                 if(JSON.parse(res.data).code==1){
                 self.$confirm('添加成功, 是否返回列表?', '提示', {
                   confirmButtonText: '确定',
@@ -364,6 +370,34 @@
           }
         }
       )
+      },
+      alldelete(){
+        var self = this;
+
+        var ids = this.sels.map(item =>item.id).toString();
+        var sub = ids.split(",");
+        ids = "";
+        for (var i = 0; i < sub.length;i++){
+          if (sub[i] != ""){
+            ids += sub[i] + ",";
+          }
+        }
+        ids = ids.substring(0,ids.length-1);
+        console.log(ids)
+
+        this.$confirm('确认删除这些记录吗?', '提示', {
+          type: 'warning'
+        }).then(() => {
+          machinedelete(ids).then(function (response) {
+          let rmsg=JSON.parse(response.data);
+          if(rmsg.code == 1){
+            self.loadData();
+          }else{
+            self.$message.error(rmsg.msg)
+          }
+        });
+      }).catch(() => {
+        });
       },
       handleDelete(index){
         var self = this;

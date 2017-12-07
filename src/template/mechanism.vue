@@ -136,7 +136,7 @@
   </div>
 </template>
 <script>
-  import {getorgpageinfo,deleteone} from "../api/getlist"
+  import {getorgpageinfo,deleteone,organizationadd} from "../api/getlist"
   export default {
     data() {
       var uname = (rule, value, callback) => {
@@ -179,7 +179,6 @@
           operator: '',
           orgNumber: '',
           state: -1,
-          errorPass:-1
         },
         rules: {
           orgAddr: [
@@ -223,9 +222,6 @@
       handleSizeChange(){
 
       },
-      handleUpdate(row){
-        this.$router.push({path: 'info', query: {id: row.id,searchList:this.listQuery,paths:'article'}})
-      },
       handleCurrentChange(val) {
         this.listQuery.pageNumber= val;
       },
@@ -243,35 +239,21 @@
         this.dialogFormVisible = true;
       },
       handleEdit(row){
-        this.uid = row.id;
+        this.uid = row.t_id;
         this.temp = Object.assign({}, row);
         this.dialogStatus = 'update';
         this.dialogFormVisible = true;
-        if (this.temp.errorPass != 5){
-          this.temp.errorPass = 0;
-        }
-        var releng=this.roleList.length
-
-        var depeng=this.section.length
-        for(var i=0;i<depeng;i++){
-          if (this.temp.deptName == '全部'){
-            this.temp.deptId = '';
-          }
-          if(this.temp.deptName == this.section[i].sectionName){
-            this.temp.deptId=this.section[i].id;
-          }
-        }
       },
       //添加
       create(formName){
         this.$refs.temp.validate(valid=>{
           if (valid) {
-            if(this.temp.macName!=''){
+            if(this.temp.orgName!=''){
               let data = {
                 params: JSON.stringify(this.temp)
               }
               let self = this;
-              machineadd(data).then(res =>{
+              organizationadd(data).then(res =>{
                 if(JSON.parse(res.data).code==1){
                 self.$confirm('添加成功, 是否返回列表?', '提示', {
                   confirmButtonText: '确定',
@@ -316,11 +298,7 @@
           orgName: '',
           operator: '',
           orgNumber: '',
-          mobile: '',
-          password: '',
-          roleId: '',
           state: 1,
-          errorPass:0
         }
       },
       cancel(formName){

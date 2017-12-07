@@ -7,14 +7,22 @@ export function  login(data) {
     url:'/login',
     method:'post',
     credentials: "include",
-    params:data
+    data:data
   })
 }
 export function  machineadd(data) {
+  console.log(data)
   return fetch({
     url:'/machine',
     method:'post',
-    params:data
+    data:data
+  })
+}
+export function  organizationadd(data) {
+  return fetch({
+    url:'/organization',
+    method:'post',
+    data:data
   })
 }
 export function  getreportpageinfo(data) {
@@ -81,6 +89,6 @@ export function  machineput(data) {
   return fetch({
     url:'/machine',
     method:'put',
-    params:data
+    data:data
   })
 }
