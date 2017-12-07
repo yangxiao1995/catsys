@@ -122,13 +122,13 @@
           </el-form-item>
 
 
-          <el-form-item label="用户代码" prop="userName">
+          <el-form-item label="用户代码" prop="userCode">
             <el-input style="margin-top:8px;" v-model="temp.userCode"></el-input>
           </el-form-item>
-          <el-form-item label="用户类型" prop="userName">
+          <el-form-item label="用户类型" prop="userType">
             <el-input style="margin-top:8px;" v-model="temp.userType"></el-input>
           </el-form-item>
-          <el-form-item label="用户组织机构" prop="userName">
+          <el-form-item label="用户组织机构" prop="userOrg">
             <el-input style="margin-top:8px;" v-model="temp.userOrg"></el-input>
           </el-form-item>
 
@@ -238,8 +238,6 @@
       return {
         boolAdd:false,
         listLoading: true,
-        roleList: [],
-        section: [],
         listQuery: {
           loginName: '',
           userCode: '',
@@ -248,7 +246,6 @@
         pageSize: 1,
         total: 0,
         uid: '',
-        searchKey: '',
         tableData: {
           rows: [],
         },
@@ -274,6 +271,15 @@
 
           userName: [
             {required: true, message: '请输入用户名', trigger: 'blur'}
+          ],
+          userCode: [
+            {required: true, message: '请输入用户代码', trigger: 'blur'}
+          ],
+          userType: [
+            {required: true, message: '请输入用户类型', trigger: 'blur'}
+          ],
+          userOrg: [
+            {required: true, message: '请输入用户组织机构', trigger: 'blur'}
           ],
           email: [
             {required: true, message: '请输入邮箱', trigger: 'blur'},

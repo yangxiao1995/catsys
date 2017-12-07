@@ -342,12 +342,8 @@
         this.dialogFormVisible=false;
       },
       update(){
-        let data = {
-
-          params: JSON.stringify(this.temp)
-        }
         let self = this;
-        organizationput(data).then(res=>
+        organizationput(this.temp).then(res=>
         {
 
           self.$confirm('修改成功, 是否返回列表?', '提示', {
