@@ -345,10 +345,10 @@
                 data: JSON.stringify(this.temp)
               }
               let self = this;
-              console.log("...")
+
               console.log(self.temp)
               console.log( JSON.stringify(this.temp))
-              machineadd(JSON.stringify(self.temp)).then(res =>{
+              machineadd(self.temp).then(res =>{
                 if(JSON.parse(res.data).code==1){
                 self.$confirm('添加成功, 是否返回列表?', '提示', {
                   confirmButtonText: '确定',
