@@ -137,7 +137,7 @@
   </div>
 </template>
 <script>
-  import {getreportpageinfo,deleteonereport,reportalldelete,reportgetone,reportpost} from '../api/getlist'
+  import {getreportpageinfo,deleteonereport,reportalldelete,reportgetone,reportpost,reportput} from '../api/getlist'
   export default {
     data() {
       var uname = (rule, value, callback) => {
@@ -350,11 +350,8 @@
       )
       },
       update(){
-        let data = {
-          params: JSON.stringify(this.temp)
-        }
         let self = this;
-        machineput(data).then(res=>
+        reportput(this.temp).then(res=>
         {
           self.$confirm('修改成功, 是否返回列表?', '提示', {
           confirmButtonText: '确定',

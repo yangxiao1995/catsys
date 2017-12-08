@@ -186,6 +186,10 @@
             {required: true, message: '请输入机构编号', trigger: 'blur'},
             { validator: uname, trigger: 'blur' }
           ],
+          orgName: [
+            {required: true, message: '请输入机构名称', trigger: 'blur'},
+            { validator: uname, trigger: 'blur' }
+          ],
 
           operator: [
             {required: true, message: '请输入机构负责收件员', trigger: 'blur'}
@@ -259,7 +263,6 @@
       create(formName){
         this.$refs.temp.validate(valid=>{
           if (valid) {
-            if(this.temp.orgName!=''){
               let self = this;
               organizationadd(self.temp).then(res =>{
                 if(JSON.parse(res.data).code==1){
@@ -276,10 +279,6 @@
                 this.$message.error(JSON.parse(res.data).msg);
               }
             })
-            }else{
-              this.$message.error("请填写机构名称");
-            }
-
           }
         }
       )

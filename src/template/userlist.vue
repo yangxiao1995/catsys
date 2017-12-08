@@ -147,8 +147,6 @@
             <el-input style="margin-top:8px;" type="password" v-model="temp.rePassword"></el-input>
           </el-form-item>
 
-
-
           <el-button v-if="dialogStatus=='create'" class="btn-primary" type="primary" :disabled="boolAdd" @click="create(temp)">确 定</el-button>
           <el-button v-else type="primary" @click="update">确 定</el-button>
           <el-button @click="cancel(temp)" class="btn-white">取 消</el-button>
@@ -169,7 +167,7 @@
   }
 </style>
 <script>
-  import {user,userpost} from "../api/getlist"
+  import {user,userpost,userput} from "../api/getlist"
   var socket;
   var sendFlag=0;
   var zpFormat;
@@ -349,27 +347,20 @@
       },
       handleEdit(row){
         this.uid = row.id;
-        this.temp = Object.assign({}, row);
+        this.temp = {
+          id:row.id,
+          loginName: row.loginName,
+          userName:row.userName,
+          email: row.email,
+          mobile: row.mobile,
+          password: row.password,
+          state:row.state,
+          userCode:row.userCode,
+          userType:row.userType,
+          userOrg:row.userOrg
+        }
         this.dialogStatus = 'update';
         this.dialogFormVisible = true;
-        if (this.temp.errorPass != 5){
-          this.temp.errorPass = 0;
-        }
-        var releng=this.roleList.length
-        for(var i=0;i<releng;i++){
-          if(this.temp.roleName == this.roleList[i].roleName){
-            this.temp.roleId=this.roleList[i].id;
-          }
-        }
-        var depeng=this.section.length
-        for(var i=0;i<depeng;i++){
-          if (this.temp.deptName == '全部'){
-            this.temp.deptId = '';
-          }
-          if(this.temp.deptName == this.section[i].sectionName){
-            this.temp.deptId=this.section[i].id;
-          }
-        }
       },
       handleDelete(val){
         let self=this;
@@ -437,7 +428,7 @@
 
       update(){
         let self = this;
-        userpost(self.temp).then(res=>
+        userput(self.temp).then(res=>
         {
           self.$confirm('修改成功, 是否返回列表?', '提示', {
           confirmButtonText: '确定',

@@ -137,9 +137,23 @@ export function  machineput(data) {
     data:data
   })
 }
+export function  reportput(data) {
+  return fetch({
+    url:'/report',
+    method:'put',
+    data:data
+  })
+}
 export function  organizationput(data) {
   return fetch({
     url:'/organization',
+    method:'put',
+    data:data
+  })
+}
+export function  userput(data) {
+  return fetch({
+    url:'/user',
     method:'put',
     data:data
   })

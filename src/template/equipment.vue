@@ -353,7 +353,6 @@
         let self=this;
         this.$refs.temp.validate(valid=>{
           if (valid) {
-            if(this.temp.macName!=''){
               let self = this;
               machineadd(self.temp).then(res =>{
                 if(JSON.parse(res.data).code==1){
@@ -370,10 +369,6 @@
                 this.$message.error(JSON.parse(res.data).msg);
               }
             })
-            }else{
-              this.$message.error("请填写设备名称");
-            }
-
           }
         }
       )
