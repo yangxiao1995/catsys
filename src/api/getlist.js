@@ -165,3 +165,10 @@ export function  userput(data) {
     data:data
   })
 }
+export function  postssendback(data) {
+  return fetch({
+    url:'/posts/sendback/'+data,
+    method:'put',
+    data:data
+  })
+}

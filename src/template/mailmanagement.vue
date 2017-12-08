@@ -17,7 +17,7 @@
           <button type="button" class="btn btn-primary text-delete" @click="alldelete">
             <div></div>批量删除<div></div>
           </button>
-          <button type="button" class="btn btn-primary text-return">
+          <button type="button" class="btn btn-primary text-return" @click="returnmail">
             <div></div>- 批量退件<div></div>
           </button>
         </div>
@@ -66,11 +66,14 @@
         show-overflow-tooltip>
       </el-table-column>
       <el-table-column
-        prop="postState"
+        prop="postOperation"
         align="center"
         label="状态"
         width="110"
         show-overflow-tooltip>
+        <template slot-scope="scope">
+          {{scope.row.postOperation | mainstateFilter}}
+        </template>
       </el-table-column>
       <el-table-column
         prop="func"
@@ -143,7 +146,7 @@
   </div>
 </template>
 <script>
-  import {posts,postsdelete} from "../api/getlist"
+  import {posts,postsdelete,postssendback} from "../api/getlist"
   export default {
     data() {
       var uname = (rule, value, callback) => {
@@ -214,12 +217,10 @@
 
     },
     filters: {
-      houseTypeFilter(status) {
+      mainstateFilter(status) {
         const statusMap = {
-          '1': '直管',
-          '2': '私房',
-          '3': '自管',
-          '4': '其他'
+          '1': '正常',
+          '0': '退件'
         };
         return statusMap[status]
       },
@@ -284,6 +285,27 @@
       },
       selsChange(sels){
         this.sels = sels;
+      },
+      returnmail(){
+        var ids = this.sels.map(item =>item.id).toString();
+
+        var sub = ids.split(",");
+        ids = "";
+        for (var i = 0; i < sub.length;i++){
+          if (sub[i] != ""){
+            ids += sub[i] + ",";
+          }
+        }
+        ids = ids.substring(0,ids.length-1);
+        console.log(ids)
+        postssendback(ids).then(function (response) {
+          let rmsg=JSON.parse(response.data);
+          if(rmsg.code == 1){
+            self.loadData();
+          }else{
+            self.$message.error(rmsg.msg)
+          }
+        })
       },
       handleDelete(index){
         var self = this;
