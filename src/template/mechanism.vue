@@ -39,7 +39,7 @@
         align="center">
       </el-table-column>
       <el-table-column
-        prop="t_org_addr"
+        prop="t_org_number"
         label="机构编号"
         align="center">
       </el-table-column>
@@ -236,7 +236,7 @@
       },
       loadData(){
         let self = this;
-        getorgpageinfo().then(res => {
+        getorgpageinfo(self.listQuery).then(res => {
           console.log(JSON.parse(res.data).data.rows)
         self.tableData.rows=JSON.parse(res.data).data.rows
         self.total = JSON.parse(res.data).data.total;

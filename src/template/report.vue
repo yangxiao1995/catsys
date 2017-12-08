@@ -248,7 +248,7 @@
       },
       loadData(){
         let self = this;
-        getreportpageinfo().then(res => {
+        getreportpageinfo(self.listQuery).then(res => {
          console.log(JSON.parse(res.data).data.rows)
          self.tableData.rows=JSON.parse(res.data).data.rows
         self.total = JSON.parse(res.data).data.total;

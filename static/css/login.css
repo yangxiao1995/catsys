@@ -19,7 +19,7 @@ p{
 }
 .login-wrapper img{
   position: absolute;
-  top: 26%;
+  top: 20%;
   left: 7%;
   width: 53%;
 }
@@ -32,7 +32,7 @@ p{
 .loginTitle>p{
   text-align: center;
   line-height: 45px;
-  margin-top: 175px;
+  margin-top: 150px;
   font-size: 45px;
   font-weight: bold;
   color: #efefef;
@@ -90,4 +90,5 @@ p{
   height: 47px;;
   font-size: 24px;
   border:0;
+  color: #ffffff;
 }

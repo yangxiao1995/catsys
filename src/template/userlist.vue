@@ -96,7 +96,7 @@
                 class="el-button-delete"
                 size="small"
                 type="danger"
-                @click="handleDelete(scope.row.t_id)"><img src="../../static/img/table/delete.png" alt="">&nbsp;删除
+                @click="handleDelete(scope.row.id)"><img src="../../static/img/table/delete.png" alt="">&nbsp;删除
               </el-button>
             </template>
           </el-table-column>
@@ -184,7 +184,7 @@
   }
 </style>
 <script>
-  import {user,userpost,userput} from "../api/getlist"
+  import {user,userpost,userput,userdelete} from "../api/getlist"
   var socket;
   var sendFlag=0;
   var zpFormat;
@@ -393,7 +393,7 @@
         this.$confirm('确认删除该记录吗?', '提示', {
           type: 'warning'
         }).then(()=> {
-          delUser(val).then(function (res) {
+          userdelete(val).then(function (res) {
           if (JSON.parse(res.data).code != '1') {
             self.$message.error(JSON.parse(res).msg)
             return false;
