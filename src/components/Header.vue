@@ -5,7 +5,7 @@
          收寄一体机作业平台
         </div>
       <div class="hearder-func">
-        <span class="m-r-sm text-muted welcome-message">欢迎，收货员1{{userinfo}}</span><i class="fa fa-caret-down fa-3x"></i>
+        <span class="m-r-sm text-muted welcome-message">欢迎,{{userinfo}}</span><i class="fa fa-caret-down fa-3x"></i>
         <a data-toggle="modal" data-target=".bs-example-modal-sm">
           [退出]
         </a>
@@ -21,7 +21,7 @@
           </div>
           <div class="modal-body">
             您确定要退出登录么<br><br>
-            <a  class="btn btn-success" data-dismiss="modal">确定</a>
+            <a  class="btn btn-success" data-dismiss="modal" @click="back">确定</a>
             <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
           </div>
         </div>
@@ -32,10 +32,11 @@
 
 <script>
   import { mapGetters} from 'vuex'
+  import store from '.././store/userinfo/user'
   export default {
     data(){
       return{
-        userinfo:''
+        userinfo:window.sessionStorage.getItem("user-info")
       }
     },
     name: 'header',
@@ -44,7 +45,11 @@
       password: 'password'
     }),
     methods: {
-
+      back(){
+        var self=this;
+          store.actions.FedLogOut();
+        self.$router.push({path: '/login'});
+      }
     }
   }
 </script>

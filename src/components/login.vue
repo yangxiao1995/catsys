@@ -12,13 +12,13 @@
             <input type="text" v-model="list.username" placeholder="  请输入账号（邮箱或手机号）">
             <p class="login-another">密码</p>
             <input type="password" v-model="list.password" placeholder="  密码">
-            <div class="login-func login-another">
+            <!--<div class="login-func login-another">
               <input class="login-check" type="checkbox"><p>&nbsp;&nbsp;下次自动登录</p>
               <div class="login-returnpass">
                 <a href="javascript:;"><p>忘记密码</p></a>&nbsp;&nbsp;<a href="javascript:;"><p>申请新用户</p></a>
               </div>
-            </div>
-            <el-button class="btn btn-primary" :loading="loading" @click="toLogin">
+            </div>-->
+            <el-button type="primary" class="btn btn-primary" :loading="loading" @click.native.prevent="toLogin">
               登&nbsp;&nbsp;&nbsp;&nbsp;录
             </el-button>
           </div>
@@ -55,12 +55,12 @@
           if (this.list.username != null || !this.list.password != null) {
            /* this.loading = true;*/
             login(self.list).then(res => {
-              console.log(res)
+              console.log(JSON.parse(res.data))
             /*let code = JSON.parse(res.data).code;*/
             /*if (code === 1) {*/
              /* this.loading = false;*/
-              window.sessionStorage.setItem("user-info",res.msg);
-              store.actions.LoginByEmail(res.data);
+              window.sessionStorage.setItem("user-info",JSON.parse(res.data).userName);
+              store.actions.LoginByEmail(JSON.parse(res.data).userName);
               self.$router.push('/homepage');
           /*  } else {
               this.$message.error(JSON.parse(res.data).msg);
