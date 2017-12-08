@@ -46,6 +46,11 @@ export default new Router({
           component:sys
         },
       ]
+    },
+    {
+      path:'*',
+      component:login,
+      redirect: '/'
     }
   ]
 })

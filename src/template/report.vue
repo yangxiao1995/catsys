@@ -5,9 +5,9 @@
       <div class="title-line"></div>
       <div class="title-text">
         <div class="title-text-button">
-          <button type="button" class="btn btn-primary text-add" @click="handleCreate">
+         <!-- <button type="button" class="btn btn-primary text-add" @click="handleCreate">
             <div></div>+ 添加机构<div></div>
-          </button>
+          </button>-->
           <button type="button" class="btn btn-primary text-delete" @click="alldelete">
             <div></div>批量删除<div></div>
           </button>
@@ -34,12 +34,12 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="t_operator"
+        prop="userCode"
         label="收件员工号"
         align="center">
       </el-table-column>
       <el-table-column
-        prop="t_post_user"
+        prop="userName"
         label="收件人姓名"
         align="center">
       </el-table-column>
@@ -72,12 +72,12 @@
         label="操作"
         show-overflow-tooltip>
         <template slot-scope="scope">
-          <el-button
+          <!--<el-button
           class="el-button-edit"
           size="small"
           type="danger"
           @click="handleEdit(scope.row)"><img src="../../static/img/table/edit.png" alt="">&nbsp;修改
-        </el-button>
+        </el-button>-->
           <el-button
             class="el-button-delete"
             size="small"

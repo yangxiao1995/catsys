@@ -45,6 +45,13 @@ export function  getreportpageinfo(data) {
     params:data
   })
 }
+export function  getuserlist(data) {
+  return fetch({
+    url:'/getuserlist',
+    method:'get',
+    params:data
+  })
+}
 export  function  deleteonereport(data) {
   return fetch({
     url:'/deleteonereport/'+data,

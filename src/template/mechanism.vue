@@ -45,7 +45,7 @@
       </el-table-column>
 
       <el-table-column
-        prop="t_operator"
+        prop="user_name"
         label="机构负责收件员"
         align="center">
       </el-table-column>
@@ -104,9 +104,11 @@
         </el-form-item>
 
         <el-form-item label="机构负责收件员" prop="operator">
-          <el-input style="margin-top:8px;" v-model="temp.operator"></el-input>
+          <select name="sectionNames" class="form-control" v-model="temp.operator"
+                  id="sectionNames">
+            <option v-for="(item,index) in getuserlist" :value="item.id">{{item.userName}}</option>
+          </select>
         </el-form-item>
-
        <!-- <el-form-item label="设备编号" prop="orgNumber">
           <el-input style="margin-top:8px;" v-model="temp.orgNumber"></el-input>
         </el-form-item>-->
@@ -136,7 +138,7 @@
   </div>
 </template>
 <script>
-  import {getorgpageinfo,deleteone,organizationadd,organization,organizationalldelete,organizationput} from "../api/getlist"
+  import {getorgpageinfo,deleteone,organizationadd,organization,organizationalldelete,organizationput,getuserlist} from "../api/getlist"
   export default {
     data() {
       var uname = (rule, value, callback) => {
@@ -157,6 +159,7 @@
         listQuery: {
           pageNumber:1,
         },
+        getuserlist:[],
         total:100,
         pageSize: 10,
         tableData: {
@@ -173,11 +176,12 @@
         dialogStatus: '',
         dialogFormVisible: false,
         sels:[],
+        operatorid:"",
         temp: {
           orgNumber: '',
           orgName: '',
           deptName:'',
-          operator: '',
+          operator: 0,
           /*orgNumber: '',*/
           state: -1,
         },
@@ -191,9 +195,10 @@
             { validator: uname, trigger: 'blur' }
           ],
 
-          operator: [
-            {required: true, message: '请输入机构负责收件员', trigger: 'blur'}
-          ],
+         /* operator: [
+            {required: true, message: '请输入机构负责收件员', trigger: 'blur'},
+            { validator: checkoper, trigger: 'blur' }
+          ],*/
           orgNumber: [
             {required: true, message: '请输入设备编号', trigger: 'blur'},
             { validator: uname, trigger: 'blur' }
@@ -240,6 +245,10 @@
           console.log(JSON.parse(res.data).data.rows)
         self.tableData.rows=JSON.parse(res.data).data.rows
         self.total = JSON.parse(res.data).data.total;
+      })
+        getuserlist().then(res => {
+        this.getuserlist=JSON.parse(res.data).data
+        this.operatorid=JSON.parse(res.data).data[0].id
       })
       },
       handleCreate() {
@@ -331,7 +340,7 @@
         this.temp = {
           orgNumber: '',
           orgName: '',
-          operator: '',
+          operator:this.operatorid,
           /*orgNumber: '',*/
           state: 1,
         }
