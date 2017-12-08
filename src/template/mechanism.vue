@@ -99,8 +99,8 @@
           <input type="radio" v-model="temp.state" value="0" name="state">停用
           <input type="radio" v-model="temp.state" value="1" name="state">正常
         </el-form-item>
-        <el-form-item label="机构编号" prop="orgAddr">
-          <el-input v-model="temp.orgAddr"></el-input>
+        <el-form-item label="机构编号" prop="orgNumber">
+          <el-input v-model="temp.orgNumber"></el-input>
         </el-form-item>
 
         <el-form-item label="机构负责收件员" prop="operator">
@@ -174,7 +174,7 @@
         dialogFormVisible: false,
         sels:[],
         temp: {
-          orgAddr: '',
+          orgNumber: '',
           orgName: '',
           deptName:'',
           operator: '',
@@ -329,7 +329,7 @@
       },
       resetTemp(){
         this.temp = {
-          orgAddr: '',
+          orgNumber: '',
           orgName: '',
           operator: '',
           /*orgNumber: '',*/

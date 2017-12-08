@@ -154,6 +154,23 @@
       </el-dialog>
     </div>
 
+    <div class="text-paging">
+      <div class="page-text">
+        共{{this.total}}条记录，{{this.pageNumber}}/{{getPageSize}}
+      </div>
+      <div class="page-text">
+        <el-pagination layout=" pager,jumper"
+                       background
+                       @current-change="handleCurrentChange"
+                       :page-size="pageSize"
+                       :total="total"
+                       :current-page.sync="currentPage1"
+                       @size-change="handleSizeChange"
+                       style="float:right;">
+        </el-pagination>
+      </div>
+    </div>
+
   </div>
 </template>
 <style scoped>
@@ -240,6 +257,7 @@
           loginName: '',
           userCode: '',
         },
+        currentPage1:1,
         pageNumber: 1,
         pageSize: 1,
         total: 0,
@@ -300,9 +318,13 @@
       }
 
     },
-    computed: {
+    computed:{
       getPageSize(){
-        return Math.ceil(this.total / this.pageSize);
+        if(Math.ceil( this.total/this.pageSize)==0){
+          return 1;
+        }else{
+          return Math.ceil( this.total/this.pageSize)
+        }
       }
     },
     filters: {
@@ -328,6 +350,9 @@
     },
 
     methods: {
+      handleSizeChange(){
+
+      },
       cancel(formName){
         this.$refs.temp.resetFields();
         this.dialogFormVisible=false;
@@ -343,6 +368,7 @@
           console.log(JSON.parse(res.data).data.rows)
         self.tableData.rows=JSON.parse(res.data).data
         self.total = JSON.parse(res.data).data.total;
+        self.pageSize = JSON.parse(res.data).data.pageSize;
       })
       },
       handleEdit(row){

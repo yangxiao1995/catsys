@@ -24,7 +24,7 @@
             <div></div>查询<div></div>
           </button>
           <button type="button" class="btn btn-primary text-add"  @click="handleCreate">
-            <div></div>+ 添加机构<div></div>
+            <div></div>+ 添加设备<div></div>
           </button>
           <button type="button" class="btn btn-primary text-delete" @click="alldelete">
             <div></div>批量删除<div></div>
