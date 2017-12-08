@@ -52,7 +52,10 @@
       },
         toLogin(){
           let self = this;
-          if (this.list.username != null || !this.list.password != null) {
+          console.log(this.list.password)
+          console.log(typeof this.list.password)
+          if (this.list.username != "" && this.list.password != "") {
+            console.log("123")
            /* this.loading = true;*/
             login(self.list).then(res => {
               console.log(JSON.parse(res.data))
@@ -70,7 +73,7 @@
             console.log(res);
           })
           } else {
-            alert("用户名或者密码不能为空")
+            this.$message.error("用户名或者密码不能为空");
           }
         },
     }
