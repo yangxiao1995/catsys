@@ -366,7 +366,7 @@
         let self = this;
         user(self.listQuery).then(res => {
           console.log(JSON.parse(res.data).data.rows)
-        self.tableData.rows=JSON.parse(res.data).data
+        self.tableData.rows=JSON.parse(res.data).data.rows
         self.total = JSON.parse(res.data).data.total;
         self.pageSize = JSON.parse(res.data).data.pageSize;
       })
