@@ -121,12 +121,12 @@
         </el-form-item>
 
 
-        <el-form-item label="机构负责收件员" prop="operator">
+        <!--<el-form-item label="机构负责收件员" prop="operator">
           <select name="sectionNames" class="form-control" v-model="temp.operator"
                   id="sectionNames">
             <option v-for="(item,index) in getuserlist" :value="item.id">{{item.userName}}</option>
           </select>
-        </el-form-item>
+        </el-form-item>-->
 
         <el-form-item label="组织机构详细地址" prop="orgAddr">
           <el-input v-model="temp.orgAddr"></el-input>
@@ -209,7 +209,7 @@
           orgNumber: '',
           orgName: '',
           deptName:'',
-          operator: 0,
+          /*operator: 0,*/
           orgAddr:'',
           /*orgNumber: '',*/
           state: -1,
@@ -343,16 +343,17 @@
         this.$refs.temp.validate(valid=>{
           if (valid) {
               let self = this;
+            let province=self.temp.province==="00"?"00":self.temp.province.substring(0,2)
+             let  city= self.temp.city==="00"?"00":self.temp.city.substring(2,4)
+              let area=self.temp.area==="00"?"00":self.temp.area.substring(4,6)
             let par={
                 orgNumber: self.temp.orgNumber,
                 orgName: self.temp.orgName,
                 deptName:self.temp.deptName,
-                operator: self.temp.operator,
+                /*operator: self.temp.operator,*/
                 orgAddr:self.temp.orgAddr,
                 state: self.temp.state,
-                province:self.temp.province==="00"?"00":self.temp.province.substring(0,2),
-                city: self.temp.city==="00"?"00":self.temp.city.substring(2,4),
-                area:self.temp.area==="00"?"00":self.temp.area.substring(4,6)
+              orgProv:province+city+area
             }
 
               console.log(par)
@@ -424,7 +425,7 @@
           orgNumber: '',
           orgName: '',
           orgAddr:'',
-          operator:this.operatorid,
+          /*operator:this.operatorid,*/
           /*orgNumber: '',*/
           state: 1,
           province:"00",
@@ -438,16 +439,17 @@
       },
       update(){
         let self = this;
+        let province=self.temp.province==="00"?"00":self.temp.province.substring(0,2)
+        let  city= self.temp.city==="00"?"00":self.temp.city.substring(2,4)
+        let area=self.temp.area==="00"?"00":self.temp.area.substring(4,6)
         let par={
           orgNumber: self.temp.orgNumber,
           orgName: self.temp.orgName,
           deptName:self.temp.deptName,
-          operator: self.temp.operator,
+          /*operator: self.temp.operator,*/
           orgAddr:self.temp.orgAddr,
           state: self.temp.state,
-          province:self.temp.province==="00"?"00":self.temp.province.substring(0,2),
-          city: self.temp.city==="00"?"00":self.temp.city.substring(2,4),
-          area:self.temp.area==="00"?"00":self.temp.area.substring(4,6)
+          orgProv:province+city+area
         }
         console.log(par)
         organizationput(par).then(res=>
