@@ -57,13 +57,14 @@ service.interceptors.response.use(// 响应成功关闭loading
     return response;
   },
     error => {
-    /*  if (error.response) {
+      if (error.response) {
         switch (error.response.status) {
           case 400:
             error.message = '请求错误'
             break
           case 401:
-            error.message = '用户会话过期，请重新登录。'
+            error.message =JSON.parse(error.response.data).message
+              /*'用户会话过期，请重新登录。'*/
             break
           case 403:
             error.message = '当前用户没有该权限！'
@@ -104,7 +105,7 @@ service.interceptors.response.use(// 响应成功关闭loading
             path: '/'
           })
         }
-      }*/
+      }
       // console.log(JSON.stringify(error));//console : Error: Request failed with status code 402
       return Promise.reject(error.response)
     });
