@@ -51,7 +51,7 @@ service.interceptors.response.use(// 响应成功关闭loading
 )
 
 // http响应拦截器
-service.interceptors.response.use(// 响应成功关闭loading
+/*service.interceptors.response.use(// 响应成功关闭loading
   response => {
     response.data = eval(response.data)
     return response;
@@ -107,7 +107,7 @@ service.interceptors.response.use(// 响应成功关闭loading
       }
       // console.log(JSON.stringify(error));//console : Error: Request failed with status code 402
       return Promise.reject(error.response)
-    });
+    });*/
 export default service
 
 
