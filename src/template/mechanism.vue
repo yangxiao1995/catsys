@@ -89,7 +89,7 @@
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
 
       <el-form class="small-space" :model="temp" :rules="rules" ref="temp" label-position="left" label-width="135px"
-               style='width: 400px; margin-left:50px;'>
+               style='width: 600px; margin-left:50px;'>
         <input type="hidden" v-model="uid">
         <el-form-item label="机构名称" prop="orgName">
           <el-input v-model="temp.orgName"></el-input>
@@ -101,6 +101,23 @@
         </el-form-item>
         <el-form-item label="机构编号" prop="orgNumber">
           <el-input v-model="temp.orgNumber"></el-input>
+        </el-form-item>
+        <el-form-item class="codenumber" label="所属地区">
+          <select name="sectionNames" class="form-control" v-model="temp.province" @change="getcity"
+                  id="province">
+            <option value="00">请选择省</option>
+            <option v-for="(item,index) in province" :value="item.distCd">{{item.provName}}</option>
+          </select>
+         <select name="sectionNames" class="form-control" v-model="temp.city" @change="getarea"
+                  id="city">
+           <option value="00">请选择市</option>
+            <option v-for="(item,index) in city" :value="item.distCd">{{item.cityName}}</option>
+          </select>
+           <select name="sectionNames" class="form-control" v-model="temp.area"
+                  id="area">
+             <option value="00">请选择区县</option>
+            <option v-for="(item,index) in area" :value="item.distCd">{{item.ctyName}}</option>
+          </select>
         </el-form-item>
 
 
@@ -143,7 +160,7 @@
   </div>
 </template>
 <script>
-  import {getorgpageinfo,deleteone,organizationadd,organization,organizationalldelete,organizationput,getuserlist} from "../api/getlist"
+  import {getorgpageinfo,deleteone,organizationadd,organization,organizationalldelete,organizationput,getuserlist,getaddrlist} from "../api/getlist"
   export default {
     data() {
       var uname = (rule, value, callback) => {
@@ -161,6 +178,12 @@
         excelList:null,
         isEdit:true,
         currentPage1:1,
+        province:[],
+        city:[],
+        area:[],
+        arealist:{
+
+        },
         listQuery: {
           pageNumber:1,
         },
@@ -190,6 +213,9 @@
           orgAddr:'',
           /*orgNumber: '',*/
           state: -1,
+          province:"00",
+          city:"00",
+          area:"00"
         },
         rules: {
           orgAddr: [
@@ -232,7 +258,7 @@
          }else{
          return Math.ceil( this.total/this.pageSize)
          }
-      }
+      },
     },
     methods: {
       handleSizeChange(){
@@ -245,16 +271,45 @@
       selsChange(sels){
         this.sels = sels;
       },
+      getcity(){
+        this.temp.city="00";
+        this.temp.area="00";
+        this.area=[]
+        let par={
+          province:this.temp.province.substring(0,2)
+        }
+        getaddrlist(par).then(res => {
+          console.log(JSON.parse(res.data))
+        this.city=JSON.parse(res.data).data
+        this.city.shift()
+      })
+      },
+      getarea(){
+        this.temp.area="00"
+        let par={
+          province:this.temp.province.substring(0,2),
+          city:this.temp.city.substring(2,4)
+        }
+        let self=this;
+        console.log(par)
+        getaddrlist(par).then(res => {
+        self.area=JSON.parse(res.data).data
+        self.area.shift()
+      })
+      },
       loadData(){
         let self = this;
         getorgpageinfo(self.listQuery).then(res => {
-          console.log(JSON.parse(res.data).data.rows)
+          console.log(JSON.parse(res.data))
         self.tableData.rows=JSON.parse(res.data).data.rows
         self.total = JSON.parse(res.data).data.total;
       })
         getuserlist().then(res => {
-        this.getuserlist=JSON.parse(res.data).data
-        this.operatorid=JSON.parse(res.data).data[0].id
+          self.getuserlist=JSON.parse(res.data).data
+        self.operatorid=JSON.parse(res.data).data[0].id
+      })
+        getaddrlist().then(res => {
+          self.province=JSON.parse(res.data).data
       })
       },
       handleCreate() {
@@ -267,19 +322,41 @@
           id:row.t_id
         }
         this.uid = row.t_id;
-
+        let self=this;
         organization(par).then(res =>{
-          this.temp=JSON.parse(res.data).data
-        })
+          console.log(JSON.parse(res.data).data)
+            self.temp=JSON.parse(res.data).data
+            self.temp.province=JSON.parse(res.data).data.orgProv.substring(0,2)+"0000",
+            self.getcity();
+            self.temp.city=JSON.parse(res.data).data.orgProv.substring(0,2)+JSON.parse(res.data).data.orgProv.substring(2,4)+"00",
+              self.getarea();
+            self.temp.area=JSON.parse(res.data).data.orgProv
+        console.log(self.temp.area)
+        console.log(this.temp)
         this.dialogStatus = 'update';
         this.dialogFormVisible = true;
+        })
+
       },
       //添加
       create(formName){
         this.$refs.temp.validate(valid=>{
           if (valid) {
               let self = this;
-              organizationadd(self.temp).then(res =>{
+            let par={
+                orgNumber: self.temp.orgNumber,
+                orgName: self.temp.orgName,
+                deptName:self.temp.deptName,
+                operator: self.temp.operator,
+                orgAddr:self.temp.orgAddr,
+                state: self.temp.state,
+                province:self.temp.province==="00"?"00":self.temp.province.substring(0,2),
+                city: self.temp.city==="00"?"00":self.temp.city.substring(2,4),
+                area:self.temp.area==="00"?"00":self.temp.area.substring(4,6)
+            }
+
+              console.log(par)
+              organizationadd(par).then(res =>{
                 if(JSON.parse(res.data).code==1){
                 self.$confirm('添加成功, 是否返回列表?', '提示', {
                   confirmButtonText: '确定',
@@ -350,6 +427,9 @@
           operator:this.operatorid,
           /*orgNumber: '',*/
           state: 1,
+          province:"00",
+          city:"00",
+          area:"00"
         }
       },
       cancel(formName){
@@ -358,9 +438,20 @@
       },
       update(){
         let self = this;
-        organizationput(this.temp).then(res=>
+        let par={
+          orgNumber: self.temp.orgNumber,
+          orgName: self.temp.orgName,
+          deptName:self.temp.deptName,
+          operator: self.temp.operator,
+          orgAddr:self.temp.orgAddr,
+          state: self.temp.state,
+          province:self.temp.province==="00"?"00":self.temp.province.substring(0,2),
+          city: self.temp.city==="00"?"00":self.temp.city.substring(2,4),
+          area:self.temp.area==="00"?"00":self.temp.area.substring(4,6)
+        }
+        console.log(par)
+        organizationput(par).then(res=>
         {
-
           self.$confirm('修改成功, 是否返回列表?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',

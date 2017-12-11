@@ -52,6 +52,13 @@ export function  getuserlist(data) {
     params:data
   })
 }
+export function  getaddrlist(data) {
+  return fetch({
+    url:'/getaddrlist',
+    method:'get',
+    params:data
+  })
+}
 export  function  deleteonereport(data) {
   return fetch({
     url:'/deleteonereport/'+data,
