@@ -88,7 +88,7 @@
     </el-table>
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
 
-      <el-form class="small-space" :model="temp" :rules="rules" ref="temp" label-position="left" label-width="125px"
+      <el-form class="small-space" :model="temp" :rules="rules" ref="temp" label-position="left" label-width="135px"
                style='width: 400px; margin-left:50px;'>
         <input type="hidden" v-model="uid">
         <el-form-item label="机构名称" prop="orgName">
@@ -103,11 +103,16 @@
           <el-input v-model="temp.orgNumber"></el-input>
         </el-form-item>
 
+
         <el-form-item label="机构负责收件员" prop="operator">
           <select name="sectionNames" class="form-control" v-model="temp.operator"
                   id="sectionNames">
             <option v-for="(item,index) in getuserlist" :value="item.id">{{item.userName}}</option>
           </select>
+        </el-form-item>
+
+        <el-form-item label="组织机构详细地址" prop="orgAddr">
+          <el-input v-model="temp.orgAddr"></el-input>
         </el-form-item>
        <!-- <el-form-item label="设备编号" prop="orgNumber">
           <el-input style="margin-top:8px;" v-model="temp.orgNumber"></el-input>
@@ -182,12 +187,13 @@
           orgName: '',
           deptName:'',
           operator: 0,
+          orgAddr:'',
           /*orgNumber: '',*/
           state: -1,
         },
         rules: {
           orgAddr: [
-            {required: true, message: '请输入机构编号', trigger: 'blur'},
+            {required: true, message: '组织机构详细地址', trigger: 'blur'},
             { validator: uname, trigger: 'blur' }
           ],
           orgName: [
@@ -340,6 +346,7 @@
         this.temp = {
           orgNumber: '',
           orgName: '',
+          orgAddr:'',
           operator:this.operatorid,
           /*orgNumber: '',*/
           state: 1,

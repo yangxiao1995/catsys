@@ -296,6 +296,7 @@
             ids += sub[i] + ",";
           }
         }
+        let self=this;
         ids = ids.substring(0,ids.length-1);
         console.log(ids)
         postssendback(ids).then(function (response) {
