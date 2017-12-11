@@ -281,7 +281,6 @@
         getaddrlist(par).then(res => {
           console.log(JSON.parse(res.data))
         this.city=JSON.parse(res.data).data
-        this.city.shift()
       })
       },
       getarea(){
@@ -294,7 +293,6 @@
         console.log(par)
         getaddrlist(par).then(res => {
         self.area=JSON.parse(res.data).data
-        self.area.shift()
       })
       },
       loadData(){
@@ -331,8 +329,6 @@
             self.temp.city=JSON.parse(res.data).data.orgProv.substring(0,2)+JSON.parse(res.data).data.orgProv.substring(2,4)+"00",
               self.getarea();
             self.temp.area=JSON.parse(res.data).data.orgProv
-        console.log(self.temp.area)
-        console.log(this.temp)
         this.dialogStatus = 'update';
         this.dialogFormVisible = true;
         })
