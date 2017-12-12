@@ -8,7 +8,7 @@
           <button type="button" class="btn btn-primary text-add" @click="handleCreate">
             <div></div>+ 添加机构<div></div>
           </button>
-          <button type="button" class="btn btn-primary text-delete" @click="alldelete">
+          <button type="button" class="btn btn-primary text-delete" @click="alldelete" :disabled="boodelete">
             <div></div>批量删除<div></div>
           </button>
         </div>
@@ -174,6 +174,7 @@
       }, 1000);
       };
       return {
+        boodelete:true,
         boolAdd:false,
         excelList:null,
         isEdit:true,
@@ -270,6 +271,11 @@
       },
       selsChange(sels){
         this.sels = sels;
+        if(this.sels.length>0){
+          this.boodelete=false;
+        }else{
+          this.boodelete=true;
+        }
       },
       getcity(){
         this.temp.city="00";
