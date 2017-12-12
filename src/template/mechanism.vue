@@ -290,7 +290,6 @@
           city:this.temp.city.substring(2,4)
         }
         let self=this;
-        console.log(par)
         getaddrlist(par).then(res => {
         self.area=JSON.parse(res.data).data
       })
@@ -352,7 +351,6 @@
               orgProv:province+city+area
             }
 
-              console.log(par)
               organizationadd(par).then(res =>{
                 if(JSON.parse(res.data).code==1){
                 self.$confirm('添加成功, 是否返回列表?', '提示', {
@@ -361,6 +359,8 @@
                   type: 'success'
                 }).then(()=> {
                   this.dialogFormVisible = false;
+                self.city=[],
+                self.area=[],
                 self.loadData();
               })
 
@@ -384,7 +384,6 @@
           }
         }
         ids = ids.substring(0,ids.length-1);
-        console.log(ids)
 
         this.$confirm('确认删除这些记录吗?', '提示', {
           type: 'warning'
@@ -430,6 +429,8 @@
         }
       },
       cancel(formName){
+          this.city=[],
+          this.area=[],
         this.$refs.temp.resetFields();
         this.dialogFormVisible=false;
       },
@@ -439,6 +440,7 @@
         let  city= self.temp.city==="00"?"00":self.temp.city.substring(2,4)
         let area=self.temp.area==="00"?"00":self.temp.area.substring(4,6)
         let par={
+          id:self.uid,
           orgNumber: self.temp.orgNumber,
           orgName: self.temp.orgName,
           deptName:self.temp.deptName,
@@ -447,7 +449,6 @@
           state: self.temp.state,
           orgProv:province+city+area
         }
-        console.log(par)
         organizationput(par).then(res=>
         {
           self.$confirm('修改成功, 是否返回列表?', '提示', {
@@ -455,6 +456,8 @@
           cancelButtonText: '取消',
           type: 'success'
         }).then(() =>{
+          self.city=[],
+          self.area=[],
           this.dialogFormVisible = false;
         self.loadData();
       })
