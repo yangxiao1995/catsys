@@ -5,6 +5,7 @@ import Qs from 'qs'
 import axios from 'axios'
 import router from '../router/index'
 import { Message } from 'element-ui';
+import store from "../store/userinfo/user"
 
 var  service=axios.create({
   baseURL: 'http://192.168.1.188:8081/aiom', // api的base_url yyx-house-expor-api
@@ -40,9 +41,22 @@ service.defaults.withCredentials = true;
 service.interceptors.response.use(// 响应成功关闭loading
   config => {
     config.data = JSON.stringify(config.data)
-    config.headers = {
-      'Content-Type' : 'application/x-www-form-urlencoded'
+    console.log( config.headers)
+    console.log("------")
+    if (store.state.token) {
+
+      // 判断是否存在token，如果存在的话，则每个http header都加上token
+  config.headers.Authorization =store.state.token;
+
+     /*config.headers = {
+       'Authorization' : store.state.token
+       }*/
+      console.log( config.headers)
     }
+    /*config.headers = {
+     'Content-Type' : 'application/x-www-form-urlencoded'
+     }*/
+
     return config;
   },
   err => {

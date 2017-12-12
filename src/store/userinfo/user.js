@@ -3,13 +3,19 @@ import Cookies from 'js-cookie';
 
 const user = {
   state: {
-    token: Cookies.get('X-Ivanka-Token'),
+    userName: Cookies.get('X-Ivanka-userName'),
     status:'',
+    token:Cookies.get('X-Ivanka-Token'),
   },
   actions: {
     // 邮箱登录
     LoginByEmail(token) {
 
+      Cookies.set('X-Ivanka-userName',token);
+      user.state.userName= Cookies.get('X-Ivanka-userName')
+    },
+    //token
+    LoginToken(token) {
       Cookies.set('X-Ivanka-Token',token);
       user.state.token= Cookies.get('X-Ivanka-Token')
     },
