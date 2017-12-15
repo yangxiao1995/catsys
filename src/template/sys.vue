@@ -91,7 +91,7 @@
           <el-button @click="close">取 消</el-button>
         </el-form>
       </el-dialog>
-      <el-dialog title="配置用户权限" v-model="dialogVisible" size="tiny">
+      <el-dialog title="配置用户权限" :visible.sync="dialogVisible" size="tiny">
         <div class="select-tree">
           <div class='is-empty'>
             <el-tree
