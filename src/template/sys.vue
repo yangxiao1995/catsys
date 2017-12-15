@@ -82,7 +82,7 @@
           </el-form-item>
 
           <el-form-item label="状态">
-            <input type="radio" v-model="temp.hasvalid" value="-1">停用</input>&nbsp;&nbsp;&nbsp;
+            <input type="radio" v-model="temp.hasvalid" value="0">停用</input>&nbsp;&nbsp;&nbsp;
             <input type="radio" v-model="temp.hasvalid" value="1">正常</input>
           </el-form-item>
 
@@ -233,15 +233,13 @@
       handleSizeChange(){
 
       },
-      /**/
-      handleRoleConfig(row){
+      handleRoleConfig(index, row){
         this.currentRow = row;
         this.dialogVisible = true;
         let self=this;
         authorityid(row.id).then(res => {
          self.roleTree=JSON.parse(res.data).data.authority
         this.roleDefalChecked=JSON.parse(res.data).data.checkId;
-        console.log(self.roleDefalChecked)
       })
       },
       handleCurrentChange(val){
