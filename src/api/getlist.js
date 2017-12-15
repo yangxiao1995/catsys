@@ -66,6 +66,12 @@ export function  authority(data) {
     params:data
   })
 }
+export function  authorityid(data) {
+  return fetch({
+    url:'/authority/'+data,
+    method:'get',
+  })
+}
 export function  getuserlist(data) {
   return fetch({
     url:'/getuserlist',
