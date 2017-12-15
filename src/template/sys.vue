@@ -82,7 +82,7 @@
           </el-form-item>
 
           <el-form-item label="状态">
-            <input type="radio" v-model="temp.hasvalid" value="0">停用</input>&nbsp;&nbsp;&nbsp;
+            <input type="radio" v-model="temp.hasvalid" value="-1">停用</input>&nbsp;&nbsp;&nbsp;
             <input type="radio" v-model="temp.hasvalid" value="1">正常</input>
           </el-form-item>
 
