@@ -14,10 +14,10 @@
           <button type="button" class="btn btn-primary text-add" @click="handleCreate">
             <div></div>+ 添加机构<div></div>
           </button>
-          <button type="button" class="btn btn-primary text-delete" @click="alldelete">
+          <button type="button" class="btn btn-primary text-delete" @click="alldelete" :disabled="boodelete">
             <div></div>批量删除<div></div>
           </button>
-          <button type="button" class="btn btn-primary text-return" @click="returnmail">
+          <button type="button" class="btn btn-primary text-return" @click="returnmail" :disabled="boodelete">
             <div></div>- 批量退件<div></div>
           </button>
         </div>
@@ -106,15 +106,15 @@
         </el-form-item>
 
         <el-form-item label="状态">
-          <input type="radio" v-model="temp.postState" value="0" name="state">停用
-          <input type="radio" v-model="temp.postState" value="1" name="state">正常
+          <input type="radio" v-model="temp.postOperation" value="0" name="state">退件
+          <input type="radio" v-model="temp.postOperation" value="1" name="state">正常
         </el-form-item>
         <el-form-item label="重量" prop="postWeight">
           <el-input v-model="temp.postWeight"></el-input>
         </el-form-item>
 
         <el-form-item label="收件员工号" prop="userName">
-          <el-input style="margin-top:8px;" v-model="temp.userName"></el-input>
+          <el-input style="margin-top:8px;" v-model="temp.operatorId"></el-input>
         </el-form-item>
 
         <el-form-item label="收件时间" prop="postTime">
@@ -128,7 +128,7 @@
     </el-dialog>
     <div class="text-paging">
       <div class="page-text">
-        共{{this.total}}条记录，{{this.pageNumber}}/{{getPageSize}}
+        共{{this.total}}条记录，{{this.listQuery.pageNumber}}/{{getPageSize}}
       </div>
       <div class="page-text">
         <el-pagination layout=" pager,jumper"
@@ -160,15 +160,16 @@
       }, 1000);
       };
       return {
+        boodelete:true,
         boolAdd:false,
         excelList:null,
         isEdit:true,
         currentPage1:1,
         listQuery: {
           postCode:'',
-
+          pageNumber:1,
         },
-        pageNumber:1,
+
         total:100,
         pageSize: 10,
         tableData: {
@@ -188,12 +189,12 @@
           postWeight: '',
           postCode: '',
           deptName:'',
-          userName: '',
+          operatorId: '',
           postTime: '',
           mobile: '',
           password: '',
           rePassword:'',
-          postState: -1,
+          postOperation: -1,
         },
         rules: {
           postWeight: [
@@ -245,7 +246,8 @@
         this.$router.push({path: 'info', query: {id: row.id,searchList:this.listQuery,paths:'article'}})
       },
       handleCurrentChange(val) {
-        this.pageNumber= val;
+        this.listQuery.pageNumber= val;
+        this.loadData();
       },
       loadData(){
         let self = this;
@@ -285,6 +287,11 @@
       },
       selsChange(sels){
         this.sels = sels;
+        if(this.sels.length>0){
+          this.boodelete=false;
+        }else{
+          this.boodelete=true;
+        }
       },
       returnmail(){
         var ids = this.sels.map(item =>item.id).toString();
@@ -339,11 +346,11 @@
         this.temp = {
           postWeight: '',
           postCode: '',
-          userName: '',
+          operatorId: '',
           postTime: '',
           mobile: '',
           password: '',
-          postState: 1,
+          postOperation: 1,
         }
       },
       cancel(formName){

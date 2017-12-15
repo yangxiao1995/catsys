@@ -34,28 +34,28 @@ var  service=axios.create({
     return Qs.stringify(params, {arrayFormat: 'brackets'})
   }
 });
-service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 service.defaults.withCredentials = true;
 
 service.interceptors.response.use(// 响应成功关闭loading
   config => {
     config.data = JSON.stringify(config.data)
-    console.log( config.headers)
-    console.log("------")
+    /*console.log( config.headers)
+    console.log("------")*/
     if (store.state.token) {
 
       // 判断是否存在token，如果存在的话，则每个http header都加上token
-  config.headers.Authorization =store.state.token;
+ /* config.headers.Authorization =store.state.token;*/
 
-     /*config.headers = {
-       'Authorization' : store.state.token
-       }*/
-      console.log( config.headers)
+      /*config.headers.Authorization= `token ${store.state.token}`*/
+      config.headers['Authorization'] = `token ${store.state.token}`
+
+      /*console.log( config.headers)*/
     }
-    /*config.headers = {
+    config.headers = {
      'Content-Type' : 'application/x-www-form-urlencoded'
-     }*/
+     }
 
     return config;
   },

@@ -44,11 +44,11 @@
         align="center">
       </el-table-column>
 
-      <el-table-column
+     <!-- <el-table-column
         prop="user_name"
         label="机构负责收件员"
         align="center">
-      </el-table-column>
+      </el-table-column>-->
 
      <!-- <el-table-column
         prop="t_org_prov"

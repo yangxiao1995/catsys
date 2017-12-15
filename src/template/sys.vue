@@ -5,10 +5,10 @@
       <div class="title-line"></div>
     <div class="title-text">
       <div class="title-text-left">
-        <p>角色名称：</p><input class="user-input" type="text" name="fullName" v-model="listQuery.loginName" value="">
+        <p>角色名称：</p><input class="user-input" type="text" name="fullName" v-model="listQuery.name" value="">
       </div>
         <div class="title-text-button">
-          <button type="button" class="btn btn-primary text-search">
+          <button type="button" class="btn btn-primary text-search" @click="loadData">
             <div></div>查询<div></div>
           </button>
           <button type="button" class="btn btn-primary text-add" @click="handleCreate">
@@ -37,38 +37,35 @@
             prop="roleName"
             label="角色"
             align="center"
-
           ></el-table-column>
           <el-table-column
-
             label="状态"
             align="center"
-
           >
             <template slot-scope="scope">
               {{scope.row.hasvalid |stateFilter}}
             </template>
           </el-table-column>
 
-          <el-table-column label="操作" align="center" width="300">
+          <el-table-column label="操作" align="center" width="500">
             <template slot-scope="scope">
               <el-button
+                class="el-button-edit"
                 size="small"
-                type="default"
-                class="bg-dj01"
-                @click="handleEdit(scope.row)"><img src="" alt=""> 修改
+                type="danger"
+                @click="handleEdit(scope.row)"><img src="../../static/img/table/edit.png" alt="">&nbsp;修改
               </el-button>
               <el-button
+                class="el-button-rote"
                 size="small"
-                type="info"
-                icon="setting"
-                class="btn-idShow"
+                type="danger"
                 @click="handleRoleConfig(scope.$index, scope.row)">配置权限
               </el-button>
               <el-button
+                class="el-button-delete"
                 size="small"
                 type="danger"
-                @click="handleDelete(scope.row.id)"><img src="" alt=""> 删除
+                @click="handleDelete(scope.row.id)"><img src="../../static/img/table/delete.png" alt="">&nbsp;删除
               </el-button>
             </template>
           </el-table-column>
@@ -91,7 +88,7 @@
 
           <el-button v-if="dialogStatus=='create'" :disabled="boolSave" type="primary" @click="create(temp)">确 定</el-button>
           <el-button v-else type="primary" :disabled="boolSave" @click="update">确 定</el-button>
-          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button @click="close">取 消</el-button>
         </el-form>
       </el-dialog>
       <el-dialog title="配置用户权限" v-model="dialogVisible" size="tiny">
@@ -115,6 +112,24 @@
       </el-dialog>
 
     </div>
+
+    <div class="text-paging">
+      <div class="page-text">
+        共{{this.total}}条记录，{{this.listQuery.pageNumber}}/{{getPageSize}}
+      </div>
+      <div class="page-text">
+        <el-pagination layout=" pager,jumper"
+                       background
+                       @current-change="handleCurrentChange"
+                       :page-size="pageSize"
+                       :total="total"
+                       :current-page.sync="currentPage1"
+                       @size-change="handleSizeChange"
+                       style="float:right;">
+        </el-pagination>
+      </div>
+    </div>
+
   </div>
 </template>
 <style scoped>
@@ -128,6 +143,7 @@
   }
 </style>
 <script>
+  import {role,roledelete,roleadd,rolepost,authority,authorityput} from "../api/getlist"
   export default {
     data () {
       var checkrole = (rule, value, callback) => {
@@ -156,6 +172,7 @@
         dialogLoading: false,
         roleTree: [],
         roleDefalChecked:[],
+        currentPage1:1,
         defaultProps: {
           children: 'children',
           label: 'name',
@@ -163,9 +180,8 @@
         },
         roleList: [],
         listQuery: {
-          roleName: '',
+          name: '',
           pageNumber: 1,
-          limit: 10
         },
         pageSize: 1,
         total: 0,
@@ -191,13 +207,13 @@
 
     },
     computed: {
-      /*getPageSize(){
+      getPageSize(){
         if(Math.ceil( this.total/this.pageSize)==0){
           return 1;
         }else{
           return Math.ceil( this.total/this.pageSize)
         }
-      }*/
+      }
     },
     filters: {
 
@@ -214,15 +230,14 @@
       this.loadData();
     },
     methods: {
+      handleSizeChange(){
 
+      },
       handleRoleConfig(index, row){
-        console.log(row.id);
         this.currentRow = row;
         this.dialogVisible = true;
-        getRoleList(row.id).then(res => {
-          this.roleTree = JSON.parse(res.data).data.authList;
-        this.roleDefalChecked=JSON.parse(res.data).data.checkId;
-        console.log(this.roleDefalChecked)
+        authority(row.id).then(res => {
+          this.roleTree = JSON.parse(res.data).data;
       })
       },
       handleCurrentChange(val){
@@ -230,12 +245,21 @@
         this.loadData();
       },
       loadData(){
-
+        let self=this;
+        role(self.listQuery).then(res => {
+         console.log(JSON.parse(res.data))
+        self.tableData.rows=JSON.parse(res.data).data.rows
+        self.total=JSON.parse(res.data).data.total
+        self.pageSize=JSON.parse(res.data).data.pageSize
+        });
       },
       handleEdit(row){
         this.uid = row.id;
-        this.temp = Object.assign({}, row);
-
+        this.temp = {
+          id:row.id,
+          roleName: row.roleName,
+          hasvalid: row.hasvalid
+        }
         this.dialogStatus = 'update';
         this.dialogFormVisible = true;
 
@@ -245,7 +269,7 @@
         this.$confirm('确认删除该记录吗?', '提示', {
           type: 'warning'
         }).then(() => {
-          delRole(val).then(function (res) {
+          roledelete(val).then(function (res) {
           if(JSON.parse(res.data).code!='1'){
             self.$message.error(JSON.parse(res.data).msg)
             return false;
@@ -258,14 +282,12 @@
       },
       configUserRoles(){
         let checkedKeys = this.$refs.roleTree.getCheckedKeys();
-
-        this.temp.id=this.currentRow.id;
-        this.temp.authIds=checkedKeys.join(',');
-        let params={
-          params: JSON.stringify(this.temp)
+        let par={
+          roleId:this.currentRow.id,
+          ids:checkedKeys.join(','),
         }
-        updateRole(params)
-          .then(res => {
+        console.log(par)
+        authorityput(par).then(res => {
           if(JSON.parse(res.data).code=='1'){
           this.$confirm('修改成功, 是否返回列表?', '提示', {
             confirmButtonText: '确定',
@@ -278,10 +300,13 @@
         }else{
           alert("请选择正确的权限")
         }
-
-
       })
 
+      },
+      close(){
+        this.dialogFormVisible = false
+        this.boolSave=false;
+        this.$refs['temp'].resetFields();
       },
       handleCreate() {
         this.resetTemp();
@@ -290,7 +315,7 @@
       },
       resetTemp(){
         this.temp = {
-          roleId: '',
+          roleName: '',
           hasvalid: 1
         }
       },
@@ -299,12 +324,9 @@
         this.$refs.temp.validate(valid =>{
           if (valid) {
             this.boolSave = true;
-            let data = {
-              params: JSON.stringify(this.temp)
-            }
             console.log(this.temp);
             let self = this;
-            addRole(data).then(res=>{
+            roleadd(self.temp).then(res=>{
               if(JSON.parse(res.data).code ==1){
               this.$alert('添加成功', '提示', {
                 confirmButtonText: '确定',
@@ -324,24 +346,22 @@
         })
       },
       update(){
-        let data = {
-          params: JSON.stringify(this.temp)
-        }
         let self = this;
-        updateRole(data).then(res => {
-          if(JSON.parse(res.data).code=="-1"){
-          this.$message.error(JSON.parse(res.data).msg);
-          return false
-        }
-        self.$confirm('修改成功, 是否返回列表?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'success'
-        }).then(() => {
-          this.dialogFormVisible = false;
-        self.loadData();
-      })
-
+        rolepost(self.temp).then(res => {
+          console.log(JSON.parse(res.data))
+          if(JSON.parse(res.data).code=="1"){
+            self.$confirm('修改成功, 是否返回列表?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'success'
+            }).then(() => {
+              this.dialogFormVisible = false;
+            self.loadData();
+          })
+        }else{
+            this.$message.error(JSON.parse(res.data).msg);
+            return false
+          }
       })
 
       },

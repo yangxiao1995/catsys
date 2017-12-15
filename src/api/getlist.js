@@ -24,10 +24,24 @@ export function  userpost(data) {
     data:data
   })
 }
+export function  roleadd(data) {
+  return fetch({
+    url:'/role',
+    method:'post',
+    data:data
+  })
+}
 export function  reportpost(data) {
   return fetch({
     url:'/report',
     method:'post',
+    data:data
+  })
+}
+export function  rolepost(data) {
+  return fetch({
+    url:'/role',
+    method:'put',
     data:data
   })
 }
@@ -45,9 +59,23 @@ export function  getreportpageinfo(data) {
     params:data
   })
 }
+export function  authority(data) {
+  return fetch({
+    url:'/authority',
+    method:'get',
+    params:data
+  })
+}
 export function  getuserlist(data) {
   return fetch({
     url:'/getuserlist',
+    method:'get',
+    params:data
+  })
+}
+export function  role(data) {
+  return fetch({
+    url:'/role',
     method:'get',
     params:data
   })
@@ -68,6 +96,12 @@ export  function  deleteonereport(data) {
 export  function  userdelete(data) {
   return fetch({
     url:'/user/'+data,
+    method:"delete"
+  })
+}
+export  function  roledelete(data) {
+  return fetch({
+    url:'/role/'+data,
     method:"delete"
   })
 }
@@ -175,6 +209,13 @@ export function  userput(data) {
 export function  postssendback(data) {
   return fetch({
     url:'/posts/sendback/'+data,
+    method:'put',
+    data:data
+  })
+}
+export function  authorityput(data) {
+  return fetch({
+    url:'/authority',
     method:'put',
     data:data
   })
