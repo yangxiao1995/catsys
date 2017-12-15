@@ -234,7 +234,7 @@
 
       },
       /**/
-      handleRoleConfig(index, row){
+      handleRoleConfig(row){
         this.currentRow = row;
         this.dialogVisible = true;
         let self=this;
