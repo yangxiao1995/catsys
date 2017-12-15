@@ -151,6 +151,12 @@
   border: 0!important;;
   font-size: 22px!important;;
 }
+.el-button-rote{
+  background-color: #ffffff!important;;
+  color: #2ac6b9!important;;
+  border: 0!important;;
+  font-size: 22px!important;;
+}
 button img{
   vertical-align: bottom!important;
 }
