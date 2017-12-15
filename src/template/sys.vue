@@ -233,6 +233,7 @@
       handleSizeChange(){
 
       },
+      /**/
       handleRoleConfig(index, row){
         this.currentRow = row;
         this.dialogVisible = true;
