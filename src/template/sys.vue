@@ -228,7 +228,6 @@
 
     created(){
       this.loadData();
-      this.getRoleList();
     },
     methods: {
       handleSizeChange(){
@@ -239,13 +238,8 @@
         this.dialogVisible = true;
         let self=this;
         authorityid(row.id).then(res => {
-          let array=[];
-          let datalength=JSON.parse(res.data).data;
-          for(var i=0;i<datalength.length;i++){
-            array.push(datalength[i].authId.toString());
-          }
-        self.roleDefalChecked=array
-
+         self.roleTree=JSON.parse(res.data).data.authority
+        this.roleDefalChecked=JSON.parse(res.data).data.checkId;
         console.log(self.roleDefalChecked)
       })
       },
