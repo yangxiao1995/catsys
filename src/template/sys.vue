@@ -143,7 +143,7 @@
   }
 </style>
 <script>
-  import {role,roledelete,roleadd,rolepost,authority,authorityput} from "../api/getlist"
+  import {role,roledelete,roleadd,rolepost,authority,authorityput,authorityid} from "../api/getlist"
   export default {
     data () {
       var checkrole = (rule, value, callback) => {
@@ -174,7 +174,7 @@
         roleDefalChecked:[],
         currentPage1:1,
         defaultProps: {
-          children: 'children',
+          children: 'id',
           label: 'name',
           id: "id",
         },
@@ -228,6 +228,7 @@
 
     created(){
       this.loadData();
+      this.getRoleList();
     },
     methods: {
       handleSizeChange(){
@@ -236,8 +237,16 @@
       handleRoleConfig(index, row){
         this.currentRow = row;
         this.dialogVisible = true;
-        authority(row.id).then(res => {
-          this.roleTree = JSON.parse(res.data).data;
+        let self=this;
+        authorityid(row.id).then(res => {
+          let array=[];
+          let datalength=JSON.parse(res.data).data;
+          for(var i=0;i<datalength.length;i++){
+            array.push(datalength[i].authId.toString());
+          }
+        self.roleDefalChecked=array
+
+        console.log(self.roleDefalChecked)
       })
       },
       handleCurrentChange(val){
@@ -366,8 +375,8 @@
 
       },
       getRoleList(){
-        getRoleAll().then(res => {
-          this.roleList = JSON.parse(res.data).data;
+        authority().then(res => {
+          this.roleTree = JSON.parse(res.data).data;
       })
       },
     }
