@@ -239,7 +239,8 @@
         let self=this;
         authorityid(row.id).then(res => {
          self.roleTree=JSON.parse(res.data).data.authority
-        this.roleDefalChecked=JSON.parse(res.data).data.checkId;
+        self.roleDefalChecked=JSON.parse(res.data).data.checkId;
+        console.log(self.roleTree)
       })
       },
       handleCurrentChange(val){
