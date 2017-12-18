@@ -330,6 +330,12 @@
         this.temp = Object.assign({}, row);
         this.dialogStatus = 'update';
         this.dialogFormVisible = true;
+        let self=this
+        getusers().then(res => {
+          console.log("...")
+        console.log(JSON.parse(res.data))
+        self.equipment=JSON.parse(res.data).data
+      })
       },
       selsChange(sels){
         this.sels = sels;
@@ -355,11 +361,6 @@
         self.tableData.rows=JSON.parse(res.data).data.rows
         self.total = JSON.parse(res.data).data.total;
         self.pageSize = JSON.parse(res.data).data.pageSize;
-      })
-        getusers().then(res => {
-          console.log("...")
-          console.log(JSON.parse(res.data))
-        self.equipment=JSON.parse(res.data).data
       })
       },
       cancel(formName){
