@@ -71,7 +71,6 @@
               this.loading = false;
             }*/
             /*     this.$router.push('/index');*/
-            console.log(res);
           })
           } else {
             this.$message.error("用户名或者密码不能为空");

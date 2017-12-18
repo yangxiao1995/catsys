@@ -72,6 +72,12 @@ export function  getmenu() {
     method:'get',
   })
 }
+export function  getusers() {
+  return fetch({
+    url:'/user/users',
+    method:'get',
+  })
+}
 export function  authorityid(data) {
   return fetch({
     url:'/authority/'+data,

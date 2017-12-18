@@ -194,7 +194,7 @@
 </style>
 <script src="../../static/js/jquery-ui.js"></script>
 <script>
-  import {machine,machineadd,machinedelete,machineput} from "../api/getlist"
+  import {machine,machineadd,machinedelete,machineput,getusers} from "../api/getlist"
   import  util from '../common/util'
   export default {
     data() {
@@ -209,11 +209,7 @@
       }, 1000);
       };
       return {
-        equuipment:[{ "value": "三123全鲜食（北新泾店）"},
-          { "value": "啊（北新泾店）11"},
-          { "value": "哦（北新泾店）23"},
-          { "value": "啊啊（北新泾店）23"},
-          { "value": "Hot honey 首尔炸鸡（仙霞路）"}],
+        equipment:[],
         timeout:  null,
         boodelete:true,
         boolAdd:false,
@@ -295,19 +291,20 @@
     },
     methods: {
       querySearchAsync(queryString, cb ) {
-        var equuipment = this.equuipment;
-        var results = queryString ? equuipment.filter(this.createStateFilter(queryString)) : equuipment;
+        var equipment = this.equipment;
+        var results = queryString ? equipment.filter(this.createStateFilter(queryString)) : equipment;
         cb (results)
       },
       createStateFilter(queryString) {
-        return (equuipment) => {
-          return (equuipment.value.indexOf(queryString) >= 0);
+        return (equipment) => {
+          return (equipment.userName.indexOf(queryString) >= 0);
         };
       },
 
       handleSelect(item) {
+        console.log(item)
         this.$refs.temp.resetFields("macUser");
-        this.temp.macUser=item.value
+        this.temp.macUser=item.userName
       },
 
       handleSizeChange(){
@@ -358,6 +355,11 @@
         self.tableData.rows=JSON.parse(res.data).data.rows
         self.total = JSON.parse(res.data).data.total;
         self.pageSize = JSON.parse(res.data).data.pageSize;
+      })
+        getusers().then(res => {
+          console.log("...")
+          console.log(JSON.parse(res.data))
+        self.equipment=JSON.parse(res.data).data
       })
       },
       cancel(formName){
