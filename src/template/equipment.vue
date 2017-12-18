@@ -318,6 +318,12 @@
         this.resetTemp();
         this.dialogStatus = 'create';
         this.dialogFormVisible = true;
+        let self=this
+        getusers().then(res => {
+          console.log("...")
+        console.log(JSON.parse(res.data))
+        self.equipment=JSON.parse(res.data).data
+      })
       },
       getData(){
         if (this.listQuery.macWorkTime != '') {
@@ -330,12 +336,6 @@
         this.temp = Object.assign({}, row);
         this.dialogStatus = 'update';
         this.dialogFormVisible = true;
-        let self=this
-        getusers().then(res => {
-          console.log("...")
-        console.log(JSON.parse(res.data))
-        self.equipment=JSON.parse(res.data).data
-      })
       },
       selsChange(sels){
         this.sels = sels;
