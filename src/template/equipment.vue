@@ -139,7 +139,12 @@
         </el-form-item>
 
         <el-form-item label="设备管理人" prop="macUser">
-          <el-input style="margin-top:8px;"  v-model="temp.macUser"></el-input>
+          <el-autocomplete
+            style="margin-top:8px;"
+            v-model="temp.macUser"
+            :fetch-suggestions="querySearchAsync"
+            @select="handleSelect"
+          ></el-autocomplete>
         </el-form-item>
 
         <el-form-item  label="入网时间" prop="macWorkTime">
@@ -204,6 +209,12 @@
       }, 1000);
       };
       return {
+        equuipment:[{ "value": "三123全鲜食（北新泾店）"},
+          { "value": "啊（北新泾店）11"},
+          { "value": "哦（北新泾店）23"},
+          { "value": "啊啊（北新泾店）23"},
+          { "value": "Hot honey 首尔炸鸡（仙霞路）"}],
+        timeout:  null,
         boodelete:true,
         boolAdd:false,
         excelList:null,
@@ -249,7 +260,7 @@
 
           macUser: [
             {required: true, message: '请输入设备管理人', trigger: 'blur'},
-            {validator:uname,trigger:'blur'}
+           /* {validator:uname,trigger:'blur'}*/
           ],
           macWorkTime: [
             {required: true, message: '请输入入网时间', trigger: 'blur'},
@@ -283,6 +294,22 @@
       }
     },
     methods: {
+      querySearchAsync(queryString, cb ) {
+        var equuipment = this.equuipment;
+        var results = queryString ? equuipment.filter(this.createStateFilter(queryString)) : equuipment;
+        cb (results)
+      },
+      createStateFilter(queryString) {
+        return (equuipment) => {
+          return (equuipment.value.indexOf(queryString) >= 0);
+        };
+      },
+
+      handleSelect(item) {
+        this.$refs.temp.resetFields("macUser");
+        this.temp.macUser=item.value
+      },
+
       handleSizeChange(){
 
       },

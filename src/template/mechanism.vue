@@ -307,10 +307,10 @@
         self.tableData.rows=JSON.parse(res.data).data.rows
         self.total = JSON.parse(res.data).data.total;
       })
-        getuserlist().then(res => {
+      /*  getuserlist().then(res => {
           self.getuserlist=JSON.parse(res.data).data
-        self.operatorid=JSON.parse(res.data).data[0].id
-      })
+       /!* self.operatorid=JSON.parse(res.data).data[0].id*!/
+      })*/
         getaddrlist().then(res => {
           self.province=JSON.parse(res.data).data
       })
