@@ -36,7 +36,7 @@
   export default {
     data(){
       return{
-        userinfo:window.sessionStorage.getItem("user-info")
+        userinfo:store.state.userName
       }
     },
     name: 'header',

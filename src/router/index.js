@@ -22,27 +22,27 @@ export default new Router({
       component: homepage,
       children:[
         {
-          path: '/mailmanagement',
+          path: '/posts',
           component:mailmanagement
         },
         {
-          path: '/',
+          path: '/report',
           component:report
         },
         {
-          path: '/equipment',
+          path: '/machine',
           component:equipment
         },
         {
-          path: '/mechanism',
+          path: '/organization',
           component:mechanism
         },
         {
-          path: '/userlist',
+          path: '/user',
           component:userlist
         },
         {
-          path: '/sys',
+          path: '/system',
           component:sys
         },
       ]
