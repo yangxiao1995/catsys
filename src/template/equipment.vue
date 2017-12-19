@@ -123,7 +123,7 @@
         </el-form-item>
 
         <el-form-item label="状态">
-          <input type="radio" v-model="temp.macState" value="0" name="state">停用
+          <input type="radio" v-model="temp.macState" value="2" name="state">停用
           <input type="radio" v-model="temp.macState" value="1" name="state">正常
         </el-form-item>
         <el-form-item label="序列号" prop="macSeries">
@@ -138,17 +138,26 @@
           <el-input style="margin-top:8px;" v-model="temp.macManufacturer"></el-input>
         </el-form-item>
 
-        <el-form-item label="设备管理人" prop="macUser">
+        <el-form-item label="设备管理人" prop="">
           <el-autocomplete
             style="margin-top:8px;"
-            v-model="temp.macUser"
+            v-model="macUser"
             :fetch-suggestions="querySearchAsync"
             @select="handleSelect"
           ></el-autocomplete>
         </el-form-item>
 
-        <el-form-item  label="入网时间" prop="macWorkTime">
-          <el-input style="margin-top:8px;"   v-model="temp.macWorkTime"></el-input>
+        <el-form-item  label="入网时间" prop="">
+          <el-date-picker
+            style="margin-top:8px;"
+            v-model="temp.macWorkTime"
+            class="worktimedata"
+            type="date"
+            format="yyyy-MM-dd"
+            @change="getDatatwo"
+            :editable="edit"
+            placeholder="选择日期">
+          </el-date-picker>
         </el-form-item>
 
         <el-button v-if="dialogStatus=='create'" class="btn-primary" type="primary" :disabled="boolAdd" @click="create(temp)">确 定</el-button>
@@ -194,7 +203,7 @@
 </style>
 <script src="../../static/js/jquery-ui.js"></script>
 <script>
-  import {machine,machineadd,machinedelete,machineput,getusers} from "../api/getlist"
+  import {machine,machineadd,machinedelete,machineput,getusers,machinegetid} from "../api/getlist"
   import  util from '../common/util'
   export default {
     data() {
@@ -209,6 +218,7 @@
       }, 1000);
       };
       return {
+        edit:false,
         equipment:[],
         timeout:  null,
         boodelete:true,
@@ -231,17 +241,17 @@
           create: '新增'
         },
         sels:[],
+        macUser:"",
         uid: '',
         dialogStatus: '',
         dialogFormVisible: false,
         temp: {
           macName: '',
-          deptName:'',
           macType: '',
+          macSeries:"",
           macManufacturer: '',
           macUser: '',
           macWorkTime: '',
-          deptId:'',
           macState: -1,
         },
         rules: {
@@ -296,15 +306,15 @@
         cb (results)
       },
       createStateFilter(queryString) {
-        return (equipment) => {
-          return (equipment.userName.indexOf(queryString) >= 0);
+        return (state) => {
+          return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) >= 0);
         };
       },
 
       handleSelect(item) {
         console.log(item)
-        this.$refs.temp.resetFields("macUser");
-        this.temp.macUser=item.userName
+        /*this.macUser=item.value*/
+        this.temp.macUser=item.id
       },
 
       handleSizeChange(){
@@ -316,24 +326,43 @@
       },
       handleCreate() {
         this.resetTemp();
+        this.macUser="";
         this.dialogStatus = 'create';
         this.dialogFormVisible = true;
         let self=this
+        self.equipment=[]
         getusers().then(res => {
-          console.log("...")
-        console.log(JSON.parse(res.data))
-        self.equipment=JSON.parse(res.data).data
+          for(var i=0;i<JSON.parse(res.data).data.length;i++){
+          self.equipment.push({"value":JSON.parse(res.data).data[i].userName,"id":JSON.parse(res.data).data[i].id})
+          }
       })
       },
       getData(){
         if (this.listQuery.macWorkTime != '') {
           this.listQuery.macWorkTime = util.formatDate.format(new Date(this.listQuery.macWorkTime), 'yyyy-MM-dd');
         }
-
+      },
+      getDatatwo(){
+        if (this.temp.macWorkTime != '') {
+          this.temp.macWorkTime = util.formatDate.format(new Date(this.temp.macWorkTime), 'yyyy-MM-dd hh:mm:ss');
+        }
+        console.log(this.temp.macWorkTime)
       },
       handleEdit(row){
-        this.uid = row.id;
-        this.temp = Object.assign({}, row);
+        console.log("...")
+        console.log(row.id)
+        machinegetid(row.id).then(res => {
+          console.log(JSON.parse(res.data))
+      })
+        this.temp={
+          macName: row.macName,
+          macType: row.macType,
+          macSeries:row.macSeries,
+          macManufacturer: row.macManufacturer,
+          macUser: row.macUser,
+          macWorkTime: row.macWorkTime,
+          macState: row.macState,
+        }
         this.dialogStatus = 'update';
         this.dialogFormVisible = true;
       },
@@ -349,9 +378,11 @@
         this.temp = {
           macName: '',
           macType: '',
+          macSeries:"",
           macManufacturer: '',
           macUser: '',
           macState: 1,
+          macWorkTime:new Date()
         }
       },
       loadData(){
@@ -366,22 +397,31 @@
       cancel(formName){
         this.$refs.temp.resetFields();
         this.dialogFormVisible=false;
-
       },
       update(){
         let self = this;
-        machineput(this.temp).then(res=>
-        {
-          self.$confirm('修改成功, 是否返回列表?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'success'
-        }).then(() =>{
-          this.dialogFormVisible = false;
-        self.loadData();
-      })
 
-      })
+        this.$refs.temp.validate(valid=>{
+          if (valid) {
+            if(self.macUser=="" || self.macUser==null){
+              this.$message.error("请填写设备管理人")
+            }else{
+              let self = this;
+              machineput(this.temp).then(res=>
+              {
+                self.$confirm('修改成功, 是否返回列表?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'success'
+              }).then(() =>{
+                this.dialogFormVisible = false;
+              self.loadData();
+            })
+            })
+            }
+          }
+        }
+      )
 
       },
       //添加
@@ -389,6 +429,9 @@
         let self=this;
         this.$refs.temp.validate(valid=>{
           if (valid) {
+            if(self.macUser=="" || self.macUser==null){
+              this.$message.error("请填写设备管理人")
+            }else{
               let self = this;
               machineadd(self.temp).then(res =>{
                 if(JSON.parse(res.data).code==1){
@@ -405,6 +448,7 @@
                 this.$message.error(JSON.parse(res.data).msg);
               }
             })
+            }
           }
         }
       )

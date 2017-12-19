@@ -37,6 +37,7 @@
   height: 50px!important;;
   width:280px!important;
 }
+
 .el-picker-panel{
   width: 280px !important;
 }
@@ -44,6 +45,12 @@
   height: 50px!important;;
   width:280px!important;
   margin:0!important;
+}
+.worktimedata{
+  height:36px!important;
+}
+.worktimedata>.el-input__icon+.el-input__inner{
+  height:36px!important;
 }
 .dataimg img{
   margin-bottom: 5px;
