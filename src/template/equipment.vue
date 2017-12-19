@@ -333,7 +333,7 @@
         self.equipment=[]
         getusers().then(res => {
           for(var i=0;i<JSON.parse(res.data).data.length;i++){
-          self.equipment.push({"value":JSON.parse(res.data).data[i].userName,"id":JSON.parse(res.data).data[i].id})
+          self.equipment.push({"value":JSON.parse(res.data).data[i].userNameCode,"id":JSON.parse(res.data).data[i].id})
           }
       })
       },
@@ -349,20 +349,27 @@
         console.log(this.temp.macWorkTime)
       },
       handleEdit(row){
-        console.log("...")
-        console.log(row.id)
-        machinegetid(row.id).then(res => {
-          console.log(JSON.parse(res.data))
-      })
-        this.temp={
-          macName: row.macName,
-          macType: row.macType,
-          macSeries:row.macSeries,
-          macManufacturer: row.macManufacturer,
-          macUser: row.macUser,
-          macWorkTime: row.macWorkTime,
-          macState: row.macState,
+        let self=this;
+        self.equipment=[]
+        getusers().then(res => {
+          for(var i=0;i<JSON.parse(res.data).data.length;i++){
+          self.equipment.push({"value":JSON.parse(res.data).data[i].userNameCode,"id":JSON.parse(res.data).data[i].id})
         }
+      })
+        machinegetid(row.id).then(res => {
+          console.log(JSON.parse(res.data).data)
+        this.macUser=JSON.parse(res.data).data.userName
+        this.temp={
+          macName: JSON.parse(res.data).data.macName,
+          macType: JSON.parse(res.data).data.macType,
+          macSeries:JSON.parse(res.data).data.macSeries,
+          macManufacturer: JSON.parse(res.data).data.macManufacturer,
+          macUser: JSON.parse(res.data).data.macUser,
+          macWorkTime: JSON.parse(res.data).data.macWorkTime,
+          macState: JSON.parse(res.data).data.macState,
+        }
+      })
+
         this.dialogStatus = 'update';
         this.dialogFormVisible = true;
       },
