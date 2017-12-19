@@ -360,6 +360,7 @@
           console.log(JSON.parse(res.data).data)
         this.macUser=JSON.parse(res.data).data.userName
         this.temp={
+          id:row.id,
           macName: JSON.parse(res.data).data.macName,
           macType: JSON.parse(res.data).data.macType,
           macSeries:JSON.parse(res.data).data.macSeries,
