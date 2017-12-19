@@ -257,11 +257,9 @@
         rules: {
           macName: [
             {required: true, message: '请输入设备名称', trigger: 'blur'},
-            { validator: uname, trigger: 'blur' }
           ],
           macManufacturer: [
             {required: true, message: '请输入厂商', trigger: 'blur'},
-            { validator: uname, trigger: 'blur' }
           ],
 
           macUser: [
@@ -270,7 +268,6 @@
           ],
           macWorkTime: [
             {required: true, message: '请输入入网时间', trigger: 'blur'},
-            {validator:uname,trigger:'blur'}
           ],
         },
         multipleSelection: [],
