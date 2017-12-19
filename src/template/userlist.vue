@@ -125,11 +125,20 @@
           <el-form-item label="用户代码" prop="userCode">
             <el-input style="margin-top:8px;" v-model="temp.userCode"></el-input>
           </el-form-item>
-          <el-form-item label="用户类型" prop="userType">
-            <el-input style="margin-top:8px;" v-model="temp.userType"></el-input>
+          <el-form-item label="用户类型" prop="">
+            <select style="margin-top:8px;" name="sectionNames" class="form-control" v-model="temp.userType"
+                    id="sectionNames">
+              <option value="1">管理员</option>
+              <option value="2">收件员</option>
+            </select>
           </el-form-item>
-          <el-form-item label="用户组织机构" prop="userOrg">
-            <el-input style="margin-top:8px;" v-model="temp.userOrg"></el-input>
+          <el-form-item label="用户组织机构" prop="">
+            <el-autocomplete
+              style="margin-top:8px;"
+              v-model="userOrg"
+              :fetch-suggestions="querySearchAsync"
+              @select="handleSelect"
+            ></el-autocomplete>
           </el-form-item>
 
           <el-form-item label="电子邮件" prop="email">
@@ -184,7 +193,7 @@
   }
 </style>
 <script>
-  import {user,userpost,userput,userdelete} from "../api/getlist"
+  import {user,userpost,userput,userdelete,organizationsinfo} from "../api/getlist"
   var socket;
   var sendFlag=0;
   var zpFormat;
@@ -253,6 +262,8 @@
       return {
         boolAdd:false,
         listLoading: true,
+        userlist:[],
+        userOrg:'',
         listQuery: {
           loginName: '',
           userCode: '',
@@ -282,7 +293,6 @@
         rules: {
           loginName: [
             {required: true, message: '请输入登录名', trigger: 'blur'},
-            { validator: uname, trigger: 'blur' }
           ],
 
           userName: [
@@ -350,6 +360,21 @@
     },
 
     methods: {
+      querySearchAsync(queryString, cb ) {
+        var userlist = this.userlist;
+        var results = queryString ? userlist.filter(this.createStateFilter(queryString)) : userlist;
+        cb (results)
+      },
+      createStateFilter(queryString) {
+        return (state) => {
+          return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) >= 0);
+        };
+      },
+
+      handleSelect(item) {
+        console.log(item)
+        this.temp.userOrg=item.id
+      },
       handleSizeChange(){
 
       },
@@ -407,6 +432,13 @@
       },
       handleCreate() {
         this.resetTemp();
+        let self=this;
+        self.userlist=[]
+        organizationsinfo().then(res => {
+          for(var i=0;i<JSON.parse(res.data).data.length;i++){
+          self.userlist.push({"value":JSON.parse(res.data).data[i].showtext,"id":JSON.parse(res.data).data[i].id})
+        }
+      })
         this.dialogStatus = 'create';
         this.dialogFormVisible = true;
       },
@@ -419,7 +451,7 @@
           password: '',
           state:1,
           userCode:'',
-          userType:'',
+          userType:2,
           userOrg:''
         }
       },
