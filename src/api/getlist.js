@@ -74,7 +74,7 @@ export function  getmenu() {
 }
 export function  getusers() {
   return fetch({
-    url:'/user/users',
+    url:'/user/usersinfo',
     method:'get',
   })
 }
@@ -103,6 +103,12 @@ export function  getaddrlist(data) {
     url:'/getaddrlist',
     method:'get',
     params:data
+  })
+}
+export function  machinegetid(data) {
+  return fetch({
+    url:'/machine/'+data,
+    method:'get',
   })
 }
 export  function  deleteonereport(data) {
