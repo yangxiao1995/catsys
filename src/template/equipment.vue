@@ -343,7 +343,6 @@
         if (this.temp.macWorkTime != '') {
           this.temp.macWorkTime = util.formatDate.format(new Date(this.temp.macWorkTime), 'yyyy-MM-dd hh:mm:ss');
         }
-        console.log(this.temp.macWorkTime)
       },
       handleEdit(row){
         let self=this;
@@ -387,7 +386,7 @@
           macManufacturer: '',
           macUser: '',
           macState: 1,
-          macWorkTime:new Date()
+          macWorkTime:util.formatDate.format(new Date(), 'yyyy-MM-dd hh:mm:ss')
         }
       },
       loadData(){
