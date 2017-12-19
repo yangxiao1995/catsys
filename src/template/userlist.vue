@@ -495,7 +495,10 @@
         this.$confirm('确认重置'+name+'的密码吗?', '提示', {
           type: 'warning'
         }).then(()=> {
-          resetpassword(val).then(function (res) {
+          let par={
+            id:val
+          }
+          resetpassword(par).then(function (res) {
           if (JSON.parse(res.data).code != '1') {
             self.$message.error(JSON.parse(res).msg)
             return false;
