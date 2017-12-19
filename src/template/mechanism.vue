@@ -221,11 +221,9 @@
         rules: {
           orgAddr: [
             {required: true, message: '组织机构详细地址', trigger: 'blur'},
-            { validator: uname, trigger: 'blur' }
           ],
           orgName: [
             {required: true, message: '请输入机构名称', trigger: 'blur'},
-            { validator: uname, trigger: 'blur' }
           ],
 
          /* operator: [
@@ -234,7 +232,6 @@
           ],*/
           orgNumber: [
             {required: true, message: '请输入设备编号', trigger: 'blur'},
-            { validator: uname, trigger: 'blur' }
           ],
         },
       }
