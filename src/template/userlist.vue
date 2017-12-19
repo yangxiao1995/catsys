@@ -398,6 +398,7 @@
       },
       handleEdit(row){
         this.uid = row.id;
+        console.log(row)
         this.temp = {
           id:row.id,
           loginName: row.loginName,
@@ -410,6 +411,7 @@
           userType:row.userType,
           userOrg:row.userOrg
         }
+        this.userOrg=row.orgName
         this.dialogStatus = 'update';
         this.dialogFormVisible = true;
       },
@@ -459,9 +461,12 @@
       create(formName){
         this.$refs.temp.validate(valid=>{
           if (valid) {
-            this.boolAdd=true;
+            if(this.temp.userOrg=="" || this.temp.userOrg==null){
+              this.$message.error("请填写用户组织机构")
+            }else{
+              this.boolAdd=true;
               let self = this;
-            userpost(self.temp).then(res =>{
+              userpost(self.temp).then(res =>{
                 if(JSON.parse(res.data).code==1){
                 self.$confirm('添加成功, 是否返回列表?', '提示', {
                   confirmButtonText: '确定',
@@ -478,6 +483,7 @@
                 this.boolAdd=false;
               }
             })
+            }
           }
         }
       )
