@@ -78,6 +78,12 @@ export function  getusers() {
     method:'get',
   })
 }
+export function  organizationsinfo() {
+  return fetch({
+    url:'/organization/organizationsinfo',
+    method:'get',
+  })
+}
 export function  authorityid(data) {
   return fetch({
     url:'/authority/'+data,
@@ -205,6 +211,13 @@ export function  organization(data) {
 export function  machineput(data) {
   return fetch({
     url:'/machine',
+    method:'put',
+    data:data
+  })
+}
+export function  resetpassword(data) {
+  return fetch({
+    url:'/user/resetpassword',
     method:'put',
     data:data
   })

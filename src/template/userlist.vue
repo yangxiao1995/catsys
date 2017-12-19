@@ -84,7 +84,7 @@
                 class="el-button-delete"
                 size="small"
                 type="default"
-                @click="handleReset(scope.row.id,scope.row.userName)">重置密码
+                @click="handleReset(scope.row.id,scope.row.loginName)">重置密码
               </el-button>
               <el-button
                 class="el-button-edit"
@@ -193,7 +193,7 @@
   }
 </style>
 <script>
-  import {user,userpost,userput,userdelete,organizationsinfo} from "../api/getlist"
+  import {user,userpost,userput,userdelete,organizationsinfo,resetpassword} from "../api/getlist"
   var socket;
   var sendFlag=0;
   var zpFormat;
@@ -434,6 +434,7 @@
       },
       handleCreate() {
         this.resetTemp();
+        this.userOrg="";
         let self=this;
         self.userlist=[]
         organizationsinfo().then(res => {
@@ -489,21 +490,50 @@
       )
 
       },
+      handleReset(val,name){
+        let self=this;
+        this.$confirm('确认重置'+name+'的密码吗?', '提示', {
+          type: 'warning'
+        }).then(()=> {
+          resetpassword(val).then(function (res) {
+          if (JSON.parse(res.data).code != '1') {
+            self.$message.error(JSON.parse(res).msg)
+            return false;
+          }else {
+            self.$message.success('重置密码成功')
+          }
+          self.loadData();
+        });
+      }).catch(()=> {
 
+        });
+
+      },
       update(){
         let self = this;
-        userput(self.temp).then(res=>
-        {
-          self.$confirm('修改成功, 是否返回列表?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'success'
-        }).then(() =>{
-          this.dialogFormVisible = false;
-        self.loadData();
-      })
+        this.$refs.temp.validate(valid=>{
+          if (valid) {
+            if(this.temp.userOrg=="" || this.temp.userOrg==null){
+              this.$message.error("请填写用户组织机构")
+            }else{
+              this.boolAdd=true;
+              userput(self.temp).then(res=>
+              {
+                self.$confirm('修改成功, 是否返回列表?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'success'
+              }).then(() =>{
+                this.dialogFormVisible = false;
+              self.loadData();
+            })
 
-      })
+            })
+            }
+          }
+        }
+      )
+
 
       },
 
