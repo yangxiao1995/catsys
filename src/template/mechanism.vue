@@ -160,7 +160,7 @@
   </div>
 </template>
 <script>
-  import {getorgpageinfo,deleteone,organizationadd,organization,organizationalldelete,organizationput,getuserlist,getaddrlist} from "../api/getlist"
+  import {getorgpageinfo,organizationadd,organization,organizationalldelete,organizationput,getuserlist,getaddrlist} from "../api/getlist"
   export default {
     data() {
       var uname = (rule, value, callback) => {
@@ -407,7 +407,7 @@
         this.$confirm('确认删除该记录吗?', '提示', {
           type: 'warning'
         }).then(() => {
-          deleteone(index).then(function (response) {
+          organizationalldelete(index).then(function (response) {
           let rmsg=JSON.parse(response.data);
           if(rmsg.code == 1){
             self.loadData();

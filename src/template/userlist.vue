@@ -125,12 +125,25 @@
           <el-form-item label="用户代码" prop="userCode">
             <el-input style="margin-top:8px;" v-model="temp.userCode"></el-input>
           </el-form-item>
-          <el-form-item label="用户类型" prop="">
+          <el-form-item label="用户角色" prop="">
             <select style="margin-top:8px;" name="sectionNames" class="form-control" v-model="temp.userType"
                     id="sectionNames">
               <option value="1">管理员</option>
               <option value="2">收件员</option>
             </select>
+            <div class="select-tree">
+              <div class='is-empty'>
+                <el-tree
+                  ref="userRole"
+                  :data="userRole"
+                  :default-checked-keys="roleDefalChecked"
+                  show-checkbox
+                  default-expand-all
+                  node-key="id" v-loading="dialogLoading"
+                  :props="defaultProps">
+                </el-tree>
+              </div>
+            </div>
           </el-form-item>
           <el-form-item label="用户组织机构" prop="">
             <el-autocomplete
@@ -193,7 +206,7 @@
   }
 </style>
 <script>
-  import {user,userpost,userput,userdelete,organizationsinfo,resetpassword} from "../api/getlist"
+  import {user,userpost,userput,userdelete,organizationsinfo,resetpassword,role} from "../api/getlist"
   var socket;
   var sendFlag=0;
   var zpFormat;
@@ -263,7 +276,9 @@
         boolAdd:false,
         listLoading: true,
         userlist:[],
+        userRole:[],
         userOrg:'',
+        userType:'',
         listQuery: {
           loginName: '',
           userCode: '',
@@ -357,6 +372,7 @@
 
     created(){
       this.loadData();
+      this.getString();
     },
 
     methods: {
@@ -392,6 +408,7 @@
         user(self.listQuery).then(res => {
           console.log(JSON.parse(res.data).data.rows)
         self.tableData.rows=JSON.parse(res.data).data.rows
+        self.userRole=JSON.parse(res.data).data.rows.userRole
         self.total = JSON.parse(res.data).data.total;
         self.pageSize = JSON.parse(res.data).data.pageSize;
       })
@@ -432,16 +449,22 @@
         });
 
       },
-      handleCreate() {
-        this.resetTemp();
-        this.userOrg="";
+      getString(){
         let self=this;
-        self.userlist=[]
+        /*self.userlist=[]
+        self.selectuserlist=[]*/
         organizationsinfo().then(res => {
           for(var i=0;i<JSON.parse(res.data).data.length;i++){
           self.userlist.push({"value":JSON.parse(res.data).data[i].showtext,"id":JSON.parse(res.data).data[i].id})
         }
       })
+        role().then(res => {
+          console.log(res)
+      })
+      },
+      handleCreate() {
+        this.resetTemp();
+        this.userOrg="";
         this.dialogStatus = 'create';
         this.dialogFormVisible = true;
       },
