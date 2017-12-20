@@ -54,7 +54,7 @@ export function  organizationadd(data) {
 }
 export function  getreportpageinfo(data) {
   return fetch({
-    url:'/getreportpageinfo',
+    url:'/report/getreportpageinfo',
     method:'get',
     params:data
   })
@@ -106,7 +106,7 @@ export function  role(data) {
 }
 export function  getaddrlist(data) {
   return fetch({
-    url:'/getaddrlist',
+    url:'/organization/getaddrlist',
     method:'get',
     params:data
   })
@@ -119,7 +119,7 @@ export function  machinegetid(data) {
 }
 export  function  deleteonereport(data) {
   return fetch({
-    url:'/deleteonereport/'+data,
+    url:'/report/'+data,
     method:"delete"
   })
 }
@@ -159,12 +159,12 @@ export  function  reportalldelete(data) {
     method:"delete",
   })
 }
-export  function  deleteone(data) {
+/*export  function  deleteone(data) {
   return fetch({
-    url:'/deleteone/'+data,
+    url:'/organization/'+data,
     method:"delete",
   })
-}
+}*/
 
 export function  machine(data) {
   return fetch({
@@ -182,7 +182,7 @@ export function  reportgetone(data) {
 }
 export function  getorgpageinfo(data) {
   return fetch({
-    url:'/getorgpageinfo',
+    url:'/organization/getorgpageinfo',
     method:'get',
     params:data
   })
