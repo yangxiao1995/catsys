@@ -67,7 +67,7 @@
           ></el-table-column>
 
           <el-table-column
-            prop="userOrg"
+            prop="orgName"
             label="用户组织机构"
             align="center"
           >
@@ -126,24 +126,12 @@
             <el-input style="margin-top:8px;" v-model="temp.userCode"></el-input>
           </el-form-item>
           <el-form-item label="用户角色" prop="">
-            <select style="margin-top:8px;" name="sectionNames" class="form-control" v-model="temp.userType"
-                    id="sectionNames">
-              <option value="1">管理员</option>
-              <option value="2">收件员</option>
-            </select>
-            <div class="select-tree">
-              <div class='is-empty'>
-                <el-tree
-                  ref="userRole"
-                  :data="userRole"
-                  :default-checked-keys="roleDefalChecked"
-                  show-checkbox
-                  default-expand-all
-                  node-key="id" v-loading="dialogLoading"
-                  :props="defaultProps">
-                </el-tree>
-              </div>
-            </div>
+            <el-autocomplete
+              style="margin-top:8px;"
+              v-model="userType"
+              :fetch-suggestions="querySelectAsync"
+              @select="handleSelecttop"
+            ></el-autocomplete>
           </el-form-item>
           <el-form-item label="用户组织机构" prop="">
             <el-autocomplete
@@ -162,10 +150,10 @@
             <el-input style="margin-top:8px;"  v-model="temp.mobile"></el-input>
           </el-form-item>
 
-          <el-form-item v-show="dialogStatus == 'create'" label="用户密码" prop="password">
+          <el-form-item v-if="dialogStatus == 'create'" label="用户密码" prop="password">
             <el-input style="margin-top:8px;" type="password" v-model="temp.password"></el-input>
           </el-form-item>
-          <el-form-item v-show="dialogStatus == 'create'" label="确认密码" prop="rePassword">
+          <el-form-item v-if="dialogStatus == 'create'" label="确认密码" prop="rePassword">
             <el-input style="margin-top:8px;" type="password" v-model="temp.rePassword"></el-input>
           </el-form-item>
 
@@ -276,7 +264,7 @@
         boolAdd:false,
         listLoading: true,
         userlist:[],
-        userRole:[],
+        userName:[],
         userOrg:'',
         userType:'',
         listQuery: {
@@ -381,6 +369,11 @@
         var results = queryString ? userlist.filter(this.createStateFilter(queryString)) : userlist;
         cb (results)
       },
+      querySelectAsync(queryString, cb ) {
+        var userName = this.userName;
+        var results = queryString ? userName.filter(this.createStateFilter(queryString)) : userName;
+        cb (results)
+      },
       createStateFilter(queryString) {
         return (state) => {
           return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) >= 0);
@@ -388,8 +381,10 @@
       },
 
       handleSelect(item) {
-        console.log(item)
         this.temp.userOrg=item.id
+      },
+      handleSelecttop(item) {
+        this.temp.roleId=item.id
       },
       handleSizeChange(){
 
@@ -397,7 +392,7 @@
       cancel(formName){
         this.$refs.temp.resetFields();
         this.dialogFormVisible=false;
-
+        this.userType='';
       },
       handleCurrentChange(val){
         this.pageNumber = val;
@@ -408,7 +403,7 @@
         user(self.listQuery).then(res => {
           console.log(JSON.parse(res.data).data.rows)
         self.tableData.rows=JSON.parse(res.data).data.rows
-        self.userRole=JSON.parse(res.data).data.rows.userRole
+        self.userType=JSON.parse(res.data).data.rows.userRole
         self.total = JSON.parse(res.data).data.total;
         self.pageSize = JSON.parse(res.data).data.pageSize;
       })
@@ -422,12 +417,12 @@
           userName:row.userName,
           email: row.email,
           mobile: row.mobile,
-          password: row.password,
           state:row.state,
           userCode:row.userCode,
-          userType:row.userType,
+          roleId:row.userType,
           userOrg:row.userOrg
         }
+        this.userType=row.roleName
         this.userOrg=row.orgName
         this.dialogStatus = 'update';
         this.dialogFormVisible = true;
@@ -459,7 +454,10 @@
         }
       })
         role().then(res => {
-          console.log(res)
+        for(var i=0;i<JSON.parse(res.data).data.rows.length;i++){
+          self.userName.push({"value":JSON.parse(res.data).data.rows[i].roleName,"id":JSON.parse(res.data).data.rows[i].id})
+        }
+        console.log(self.userName)
       })
       },
       handleCreate() {
@@ -477,7 +475,7 @@
           password: '',
           state:1,
           userCode:'',
-          userType:2,
+          roleId:'',
           userOrg:''
         }
       },
@@ -537,6 +535,7 @@
       },
       update(){
         let self = this;
+        console.log(self.temp)
         this.$refs.temp.validate(valid=>{
           if (valid) {
             if(this.temp.userOrg=="" || this.temp.userOrg==null){
@@ -559,8 +558,6 @@
           }
         }
       )
-
-
       },
 
       resultMsg(msg) {
