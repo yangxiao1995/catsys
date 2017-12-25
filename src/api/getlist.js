@@ -97,9 +97,16 @@ export function  getuserlist(data) {
     params:data
   })
 }
-export function  role(data) {
+export function  rolelist(data) {
   return fetch({
     url:'/role/list',
+    method:'get',
+    params:data
+  })
+}
+export function  role(data) {
+  return fetch({
+    url:'/role',
     method:'get',
     params:data
   })

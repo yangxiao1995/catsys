@@ -194,7 +194,7 @@
   }
 </style>
 <script>
-  import {user,userpost,userput,userdelete,organizationsinfo,resetpassword,role} from "../api/getlist"
+  import {user,userpost,userput,userdelete,organizationsinfo,resetpassword,rolelist} from "../api/getlist"
   var socket;
   var sendFlag=0;
   var zpFormat;
@@ -453,7 +453,7 @@
           self.userlist.push({"value":JSON.parse(res.data).data[i].showtext,"id":JSON.parse(res.data).data[i].id})
         }
       })
-        role().then(res => {
+        rolelist().then(res => {
         for(var i=0;i<JSON.parse(res.data).data.length;i++){
           self.userName.push({"value":JSON.parse(res.data).data [i].roleName,"id":JSON.parse(res.data).data[i].id})
         }
