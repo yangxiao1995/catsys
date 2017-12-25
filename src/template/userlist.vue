@@ -46,8 +46,8 @@
           >
           </el-table-column>
           <el-table-column
-            prop="userType"
-            label="用户类型"
+            prop="roleName"
+            label="角色名"
             align="center"
           >
             <template slot-scope="scope">
