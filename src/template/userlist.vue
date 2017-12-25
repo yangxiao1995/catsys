@@ -50,9 +50,6 @@
             label="角色名"
             align="center"
           >
-            <template slot-scope="scope">
-              {{scope.row.userType | usertypeFilter}}
-            </template>
           </el-table-column>
           <el-table-column
             prop="email"
