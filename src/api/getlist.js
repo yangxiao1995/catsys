@@ -99,7 +99,7 @@ export function  getuserlist(data) {
 }
 export function  role(data) {
   return fetch({
-    url:'/role',
+    url:'/role/list',
     method:'get',
     params:data
   })
