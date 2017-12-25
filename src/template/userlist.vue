@@ -454,9 +454,6 @@
         }
       })
         role().then(res => {
-          console.log("...")
-          console.log(JSON.parse(res.data).data)
-        console.log("...1")
         for(var i=0;i<JSON.parse(res.data).data.length;i++){
           self.userName.push({"value":JSON.parse(res.data).data [i].roleName,"id":JSON.parse(res.data).data[i].id})
         }
