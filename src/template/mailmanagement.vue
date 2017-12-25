@@ -12,7 +12,7 @@
              <div></div>查询<div></div>
           </button>
           <button type="button" class="btn btn-primary text-add" @click="handleCreate">
-            <div></div>+ 添加机构<div></div>
+            <div></div>+ 添加邮件<div></div>
           </button>
           <button type="button" class="btn btn-primary text-delete" @click="alldelete" :disabled="boodelete">
             <div></div>批量删除<div></div>
@@ -81,12 +81,12 @@
         label="操作"
         show-overflow-tooltip>
         <template slot-scope="scope">
-          <el-button
+         <!-- <el-button
             class="el-button-edit"
             size="small"
             type="danger"
             @click="handleEdit(scope.row)"><img src="../../static/img/table/edit.png" alt="">&nbsp;修改
-          </el-button>
+          </el-button>-->
           <el-button
             class="el-button-delete"
             size="small"
