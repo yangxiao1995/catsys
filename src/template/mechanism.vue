@@ -454,16 +454,21 @@
         }
         organizationput(par).then(res=>
         {
+          if(JSON.parse(res.data).code==1){
           self.$confirm('修改成功, 是否返回列表?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'success'
-        }).then(() =>{
-          self.city=[],
-          self.area=[],
-          this.dialogFormVisible = false;
-        self.loadData();
-      })
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'success'
+          }).then(() =>{
+            self.city=[],
+            self.area=[],
+            this.dialogFormVisible = false;
+          self.loadData();
+        })
+        }else{
+          self.$message.error(JSON.parse(res.data).msg)
+        }
+
 
       })
 
