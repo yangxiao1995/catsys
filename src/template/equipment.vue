@@ -282,8 +282,11 @@
       stateFilter(status) {
         const statusMap = {
           '1': '正常',
-          '0': '停止',
-        };
+          '0': '删除',
+          "-1":"异常",
+          "2":"维护"
+
+      };
         return statusMap[status]
       },
     },
