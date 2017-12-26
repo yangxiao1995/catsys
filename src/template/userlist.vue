@@ -6,7 +6,7 @@
       <div class="title-text">
         <div class="title-text-left">
             <p>登录名：</p><input class="user-input" type="text" name="fullName" v-model="listQuery.loginName" value="">
-            <p>用户编号：</p><input class="user-input" type="text" name="fullName" v-model="listQuery.userCode" value="">
+            <p>用户代码：</p><input class="user-input" type="text" name="fullName" v-model="listQuery.userCode" value="">
         </div>
         <div class="title-text-button">
           <button type="button" class="btn btn-primary text-search" @click="loadData">
