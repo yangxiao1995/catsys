@@ -64,8 +64,10 @@
               <el-button
                 class="el-button-delete"
                 size="small"
+                icon="delete"
                 type="danger"
-                @click="handleDelete(scope.row.id)"><img src="../../static/img/table/delete.png" alt="">&nbsp;删除
+                @click="handleDelete(scope.row.id)">&nbsp;删除
+                <!--<img src="../../static/img/table/delete.png" alt="">-->
               </el-button>
             </template>
           </el-table-column>
