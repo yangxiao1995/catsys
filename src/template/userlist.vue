@@ -416,7 +416,7 @@
           mobile: row.mobile,
           state:row.state,
           userCode:row.userCode,
-          roleId:row.userType,
+          roleId:row.roleId,
           userOrg:row.userOrg
         }
         this.userType=row.roleName

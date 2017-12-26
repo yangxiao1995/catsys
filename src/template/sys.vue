@@ -173,7 +173,7 @@
         roleDefalChecked:[],
         currentPage1:1,
         defaultProps: {
-          children: 'id',
+          children: 'menuList',
           label: 'name',
           id: "id",
         },
@@ -236,6 +236,7 @@
         this.currentRow = row;
         this.dialogVisible = true;
         let self=this;
+        console.log(row.id)
         authorityid(row.id).then(res => {
          self.roleTree=JSON.parse(res.data).data.authority
         self.roleDefalChecked=JSON.parse(res.data).data.checkId;
