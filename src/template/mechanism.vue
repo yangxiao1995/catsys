@@ -231,7 +231,7 @@
             { validator: checkoper, trigger: 'blur' }
           ],*/
           orgNumber: [
-            {required: true, message: '请输入设备编号', trigger: 'blur'},
+            {required: true, message: '请输入机构编号', trigger: 'blur'},
           ],
         },
       }

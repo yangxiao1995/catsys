@@ -451,8 +451,8 @@
         }
       })
         rolelist().then(res => {
-        for(var i=0;i<JSON.parse(res.data).data.length;i++){
-          self.userName.push({"value":JSON.parse(res.data).data [i].roleName,"id":JSON.parse(res.data).data[i].id})
+        for(var j=0;j<JSON.parse(res.data).data.length;j++){
+          self.userName.push({"value":JSON.parse(res.data).data [j].roleName,"id":JSON.parse(res.data).data[j].id})
         }
         console.log(self.userName)
       })
@@ -541,14 +541,19 @@
               this.boolAdd=true;
               userput(self.temp).then(res=>
               {
+                if(JSON.parse(res.data).code==1){
+
                 self.$confirm('修改成功, 是否返回列表?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'success'
-              }).then(() =>{
-                this.dialogFormVisible = false;
-              self.loadData();
-            })
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  type: 'success'
+                }).then(() =>{
+                  this.dialogFormVisible = false;
+                self.loadData();
+              })
+              }else{
+                self.$message.error(JSON.parse(res.data).msg)
+              }
 
             })
             }

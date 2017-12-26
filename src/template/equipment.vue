@@ -75,7 +75,7 @@
         show-overflow-tooltip>
       </el-table-column>
       <el-table-column
-        prop="macUser"
+        prop="userName"
         align="center"
         label="设备管理人"
         show-overflow-tooltip>
