@@ -92,6 +92,9 @@
         label="状态"
         width="110"
         show-overflow-tooltip>
+        <template slot-scope="scope">
+          {{scope.row.macState | stateFilter}}
+        </template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -279,7 +282,7 @@
       stateFilter(status) {
         const statusMap = {
           '1': '正常',
-          '0': '',
+          '0': '停止',
         };
         return statusMap[status]
       },
