@@ -4,7 +4,7 @@
     <div class="sidebar-collapse navbar-default menu-body left-menu">
       <div class="leftmenu-icon"></div>
       <div class="leftmenu-name">
-        <p>用户：</p><p class="left-text-name">张某某</p>
+        <!--<p>用户：</p><p class="left-text-name">张某某</p>-->
       </div>
       <ul class="nav metismenu" id="side-menu">
         <li v-for="(item,index) in datas">
