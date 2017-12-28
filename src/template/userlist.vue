@@ -170,7 +170,7 @@
           :show-file-list="false"
           action="http://192.168.1.188:9000/aiom/user/upload"
           :on-success="handleAvatarSuccess">
-          <img v-if="imageUrl" :src="imageUrl" class="avatar">
+          <img v-if="headPic" :src="headPic" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           <div class="el-upload__text"><em>点击上传头像</em></div>
         </el-upload>
@@ -287,7 +287,7 @@
       }, 1000);
       };
       return {
-        imageUrl: '',
+        headPic: '',
         boolAdd:false,
         hurl: {"Content-Type": "multipart/form-data"},
         listLoading: true,
@@ -314,6 +314,7 @@
         dialogStatus: '',
         dialogFormVisible: false,
         temp: {
+          headPic:'',
           loginName: '',
           userName: '',
           email: '',
@@ -393,13 +394,14 @@
 
     methods: {
       handleAvatarSuccess(res, file){
-        this.imageUrl = URL.createObjectURL(file.raw);
+        this.headPic = URL.createObjectURL(file.raw);
+        this.temp.headPic=file.response.data;
       },
       handleClose(done) {
         this.$confirm('确认关闭？')
           .then(_ => {
           done();
-       this.imageUrl="";
+       this.headPic="";
         this.userType='';
       })
       .catch(_ => {});
@@ -433,7 +435,7 @@
         this.$refs.temp.resetFields();
         this.dialogFormVisible=false;
         this.userType='';
-        this.imageUrl="";
+        this.headPic="";
       },
       handleCurrentChange(val){
         this.pageNumber = val;
@@ -461,7 +463,8 @@
           state:row.state,
           userCode:row.userCode,
           roleId:row.roleId,
-          userOrg:row.userOrg
+          userOrg:row.userOrg,
+          headPic:row.headPic
         }
         this.userType=row.roleName
         this.userOrg=row.orgName
@@ -509,6 +512,7 @@
       },
       resetTemp(){
         this.temp = {
+          headPic:'',
           loginName: '',
           userName: '',
           email: '',
