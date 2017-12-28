@@ -171,3 +171,6 @@ button img{
   width:150px;
   display: inline-block;
 }
+.el-upload-dragger{
+  width:180px!important;
+}

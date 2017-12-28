@@ -101,10 +101,10 @@
           </el-table-column>
         </el-table>
 
-      <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+      <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" :before-close="handleClose">
 
         <el-form class="small-space" :model="temp" :rules="rules" ref="temp" label-position="left" label-width="120px"
-                 style='width: 400px; margin-left:50px;'>
+                 style='width: 400px; margin-left:50px;display: inline-block' >
           <input type="hidden" v-model="uid">
           <el-form-item label="登录名" prop="loginName">
             <el-input v-model="temp.loginName"></el-input>
@@ -160,6 +160,21 @@
           <el-button v-else type="primary" @click="update">确 定</el-button>
           <el-button @click="cancel(temp)" class="btn-white">取 消</el-button>
         </el-form>
+
+        <el-upload
+          style="float: right;margin-right: 150px;width:180px;"
+          class="image-uploader"
+          drag
+          :multiple="true"
+          :header="hurl"
+          :show-file-list="false"
+          action="http://192.168.1.188:9000/aiom/user/upload"
+          :on-success="handleAvatarSuccess">
+          <img v-if="imageUrl" :src="imageUrl" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          <div class="el-upload__text"><em>点击上传头像</em></div>
+        </el-upload>
+        <span slot="footer" class="dialog-footer"></span>
       </el-dialog>
     </div>
 
@@ -183,6 +198,18 @@
   </div>
 </template>
 <style scoped>
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 180px;
+    height: 120px;
+    line-height: 180px;
+    text-align: center;
+  }
+  .avatar{
+    width:180px;
+    height:180px;
+  }
   .title-text-left p{
     margin-left: 15px;
   }
@@ -260,7 +287,9 @@
       }, 1000);
       };
       return {
+        imageUrl: '',
         boolAdd:false,
+        hurl: {"Content-Type": "multipart/form-data"},
         listLoading: true,
         userlist:[],
         userName:[],
@@ -363,6 +392,18 @@
     },
 
     methods: {
+      handleAvatarSuccess(res, file){
+        this.imageUrl = URL.createObjectURL(file.raw);
+      },
+      handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+          done();
+       this.imageUrl="";
+        this.userType='';
+      })
+      .catch(_ => {});
+      },
       querySearchAsync(queryString, cb ) {
         var userlist = this.userlist;
         var results = queryString ? userlist.filter(this.createStateFilter(queryString)) : userlist;
@@ -392,6 +433,7 @@
         this.$refs.temp.resetFields();
         this.dialogFormVisible=false;
         this.userType='';
+        this.imageUrl="";
       },
       handleCurrentChange(val){
         this.pageNumber = val;
