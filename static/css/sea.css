@@ -260,14 +260,14 @@ fieldset[disabled] .btn-primary.active {
     padding-top: 110px;
   text-align: center;
 }
-.leftmenu-icon{
+.leftmenu-icon>img{
   width: 100px;;
   height: 100px;;
   display: inline-block;
-  border: 1px solid red;
+  /*border: 1px solid red;*/
   border-radius: 50%;
   margin-top: 55px;
-  background-image: url("../../static/img/data.png");
+  /*background-image: url("../../static/img/data.png");*/
   background-size: cover;
   background-repeat: no-repeat;
 }

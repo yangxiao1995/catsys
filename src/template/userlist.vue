@@ -220,6 +220,7 @@
   }
 </style>
 <script>
+  import store from '.././store/userinfo/user.js'
   import {user,userpost,userput,userdelete,organizationsinfo,resetpassword,rolelist} from "../api/getlist"
   var socket;
   var sendFlag=0;
@@ -454,6 +455,7 @@
       handleEdit(row){
         this.uid = row.id;
         console.log(row)
+        store.actions.LoginByIcon(row.headPic);
         this.temp = {
           id:row.id,
           loginName: row.loginName,

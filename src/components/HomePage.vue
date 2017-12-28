@@ -2,7 +2,7 @@
   <div class="login-warpper">
     <v-header></v-header>
     <div class="sidebar-collapse navbar-default menu-body left-menu">
-      <div class="leftmenu-icon"></div>
+      <div class="leftmenu-icon"><img :src="icon" alt=""></div>
       <div class="leftmenu-name">
         <!--<p>用户：</p><p class="left-text-name">张某某</p>-->
       </div>
@@ -26,10 +26,12 @@
 <script>
   import  header from './Header.vue'
   import {getmenu} from "../api/getlist"
+  import store from '.././store/userinfo/user'
 export default {
   data () {
     return {
-      datas:[]
+      datas:[],
+      icon:store.state.icon
     }
   },
   components: {
