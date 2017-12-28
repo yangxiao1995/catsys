@@ -170,7 +170,7 @@
           :show-file-list="false"
           action="http://192.168.1.188:9000/aiom/user/upload"
           :on-success="handleAvatarSuccess">
-          <img v-if="headPic" :src="headPic" class="avatar">
+          <img v-if="temp.headPic" :src="temp.headPic" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           <div class="el-upload__text"><em>点击上传头像</em></div>
         </el-upload>
