@@ -84,17 +84,19 @@
                 @click="handleReset(scope.row.id,scope.row.loginName)">重置密码
               </el-button>
               <el-button
+                title="修改"
                 class="el-button-edit"
                 size="small"
                 type="danger"
-                @click="handleEdit(scope.row)"><img src="../../static/img/table/edit.png" alt="">&nbsp;修改
+                @click="handleEdit(scope.row)"><img src="../../static/img/table/edit.png" alt="">
               </el-button>
               <el-button
+                title="删除"
                 class="el-button-delete"
                 size="small"
                 type="danger"
                 icon="delete"
-                @click="handleDelete(scope.row.id)">&nbsp;删除
+                @click="handleDelete(scope.row.id)">
                 <!--<img src="../../static/img/table/delete.png" alt="">-->
               </el-button>
             </template>

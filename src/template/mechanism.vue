@@ -75,14 +75,16 @@
             class="el-button-edit"
             size="small"
             type="danger"
-            @click="handleEdit(scope.row)"><img src="../../static/img/table/edit.png" alt="">&nbsp;修改
+            title="修改"
+            @click="handleEdit(scope.row)"><img src="../../static/img/table/edit.png" alt="">
           </el-button>
           <el-button
             class="el-button-delete"
             size="small"
             icon="delete"
             type="danger"
-            @click="handleDelete(scope.row.t_id)">&nbsp;删除
+            title="删除"
+            @click="handleDelete(scope.row.t_id)">
             <!--<img src="../../static/img/table/delete.png" alt="">-->
           </el-button>
         </template>

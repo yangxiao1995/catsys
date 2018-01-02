@@ -146,6 +146,9 @@
 .ui-widget.ui-widget-content{
   width:245px;
 }
+.cell button{
+  height: 36px!important;
+}
 .el-button-edit{
   background-color:#ffffff!important;;
   color: rgb(31, 195, 85)!important;;
