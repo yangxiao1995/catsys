@@ -78,6 +78,13 @@ export function  getusers() {
     method:'get',
   })
 }
+export function  downloadkey(data) {
+  return fetch({
+    url:'/user/downloadkey',
+    method:'get',
+    params:data
+  })
+}
 export function  organizationsinfo() {
   return fetch({
     url:'/organization/organizationsinfo',
