@@ -75,7 +75,22 @@
             align="center"
           >
           </el-table-column>
-          <el-table-column label="操作" align="center"   width="400">
+          <el-table-column
+            v-show="roleName=='管理员'"
+            prop=""
+            label="公钥下载"
+            align="center"
+          >
+            <template slot-scope="scope">
+            <el-button
+              class="el-button-delete"
+              size="small"
+              type="default"
+              @click="downkey(scope.row.id)">下载
+            </el-button>
+              </template>
+          </el-table-column>
+          <el-table-column label="操作" align="center"   width="300">
             <template slot-scope="scope">
               <el-button
                 class="el-button-delete"
@@ -223,7 +238,7 @@
 </style>
 <script>
   import store from '.././store/userinfo/user.js'
-  import {user,userpost,userput,userdelete,organizationsinfo,resetpassword,rolelist} from "../api/getlist"
+  import {user,userpost,userput,userdelete,organizationsinfo,resetpassword,rolelist,downloadkey} from "../api/getlist"
   var socket;
   var sendFlag=0;
   var zpFormat;
@@ -290,6 +305,7 @@
       }, 1000);
       };
       return {
+        roleName:store.state.user,
         headPic: '',
         boolAdd:false,
         hurl: {"Content-Type": "multipart/form-data"},
@@ -424,7 +440,14 @@
           return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) >= 0);
         };
       },
-
+      downkey(id){
+        let par={
+          id:id
+        }
+        downloadkey(par).then(res => {
+          console.log(res)
+      })
+      },
       handleSelect(item) {
         this.temp.userOrg=item.id
       },

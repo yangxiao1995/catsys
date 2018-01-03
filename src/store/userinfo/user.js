@@ -7,6 +7,7 @@ const user = {
     status:'',
     token:Cookies.get('X-Ivanka-Token'),
     icon:Cookies.get('X-Ivanka-icon'),
+    user:Cookies.get('X-Ivanka-user'),
   },
   actions: {
     // 邮箱登录
@@ -19,6 +20,11 @@ const user = {
 
       Cookies.set('X-Ivanka-icon',icon);
       user.state.icon= Cookies.get('X-Ivanka-icon')
+    },
+     LoginByUser(users) {
+
+      Cookies.set('X-Ivanka-user',users);
+      user.state.user= Cookies.get('X-Ivanka-user')
     },
     //token
     LoginToken(token) {
