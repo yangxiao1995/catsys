@@ -76,7 +76,7 @@
           >
           </el-table-column>
           <el-table-column
-            v-show="roleName=='管理员'"
+            v-if="this.roleName=='管理员'"
             prop=""
             label="公钥下载"
             align="center"
@@ -436,13 +436,13 @@
         };
       },
       downkey(id){
-       /* let par={
+        let par={
           id:id
         }
         downloadkey(par).then(res => {
           console.log(res)
-      })*/
-        window.location.href="http://192.168.1.188:9000/aiom/user/downloadkey?id="+id
+      })
+        //window.location.href="http://192.168.1.188:9000/aiom/user/downloadkey?id="+id
       },
       handleSelect(item) {
         this.temp.userOrg=item.id
