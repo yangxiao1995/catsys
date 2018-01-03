@@ -82,12 +82,7 @@
             align="center"
           >
             <template slot-scope="scope">
-            <el-button
-              class="el-button-delete"
-              size="small"
-              type="default"
-              @click="downkey(scope.row.id)">下载
-            </el-button>
+            <a class="el-button-delete" @click="downkey(scope.row.id)">下载</a>
               </template>
           </el-table-column>
           <el-table-column label="操作" align="center"   width="300">
@@ -441,12 +436,13 @@
         };
       },
       downkey(id){
-        let par={
+       /* let par={
           id:id
         }
         downloadkey(par).then(res => {
           console.log(res)
-      })
+      })*/
+        window.location.href="http://192.168.1.188:9000/aiom/user/downloadkey?id="+id
       },
       handleSelect(item) {
         this.temp.userOrg=item.id
