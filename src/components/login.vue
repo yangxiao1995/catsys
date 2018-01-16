@@ -66,6 +66,7 @@
               store.actions.LoginByEmail(JSON.parse(res.data).userName);
               store.actions.LoginToken(JSON.parse(res.data).token);
               store.actions.LoginByUser(JSON.parse(res.data).roleName);
+              store.actions.LoginByIcon(JSON.parse(res.data).headPic);
               self.$router.push('/homepage');
           /*  } else {
               this.$message.error(JSON.parse(res.data).msg);
