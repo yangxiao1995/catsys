@@ -409,11 +409,21 @@
     },
 
     methods: {
-      myUpload(){
+      myUpload(item){
         console.log("00000000")
-        userupload().then(res => {
-         console.log(res)
+        console.log(item.file)
+        let formData = new FormData()
+        formData.append('file', item.file)
+        formData.append('type', 'SKU')
+        let par={
+          "file":item.file
+        }
+        userupload(par).then(res => {
+          console.log(res)
+      }).catch(err => {
+          this.$message.error('上传失败，请重新上传')
       })
+
       },
       handleAvatarSuccess(res, file){
         this.headPic = URL.createObjectURL(file.raw);
