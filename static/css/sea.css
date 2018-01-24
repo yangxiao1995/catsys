@@ -282,10 +282,10 @@ fieldset[disabled] .btn-primary.active {
 }
 
 .right_sircle {
-  padding-left: 50px;
+  padding-left: 58px;
   padding-right: 50px;
     display: inline-block;
-    width: 84%;
+    width: 82%;
     float: right;
     height:100%;
     position: relative;

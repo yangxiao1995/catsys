@@ -60,9 +60,9 @@
                 class="el-button-rote"
                 size="small"
                 type="danger"
-                icon="setting"
                 title="配置权限"
                 @click="handleRoleConfig(scope.$index, scope.row)">
+                <i class="el-icon-setting"></i>
               </el-button>
               <el-button
                 class="el-button-delete"
@@ -71,6 +71,7 @@
                 type="danger"
                 title="删除"
                 @click="handleDelete(scope.row.id)">
+                <i class="el-icon-delete"></i>
                 <!--<img src="../../static/img/table/delete.png" alt="">-->
               </el-button>
             </template>

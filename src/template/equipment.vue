@@ -113,7 +113,8 @@
             size="small"
             type="danger"
             title="删除"
-            @click="handleDelete(scope.row.id)"><img src="../../static/img/table/delete.png" alt="">
+            @click="handleDelete(scope.row.id)"><!--<img src="../../static/img/table/delete.png" alt="">-->
+            <i class="el-icon-delete"></i>
           </el-button>
         </template>
       </el-table-column>
