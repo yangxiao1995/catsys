@@ -107,6 +107,7 @@
                 type="danger"
                 icon="delete"
                 @click="handleDelete(scope.row.id)">
+                <i class="el-icon-delete"></i>
                 <!--<img src="../../static/img/table/delete.png" alt="">-->
               </el-button>
             </template>

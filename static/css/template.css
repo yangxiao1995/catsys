@@ -78,7 +78,7 @@
 .mailinput{
   margin-left: 15px;
   display: inline-block;
-  width: 495px;;
+  width: 400px;;
   height: 50px;;
 }
 .title-text-button{
@@ -176,4 +176,7 @@ button img{
 }
 .el-upload-dragger{
   width:180px!important;
+}
+.el-table th div{
+  line-height: 40px!important;
 }

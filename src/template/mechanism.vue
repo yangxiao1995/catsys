@@ -85,6 +85,7 @@
             type="danger"
             title="删除"
             @click="handleDelete(scope.row.t_id)">
+            <i class="el-icon-delete"></i>
             <!--<img src="../../static/img/table/delete.png" alt="">-->
           </el-button>
         </template>
