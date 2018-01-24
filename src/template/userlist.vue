@@ -178,6 +178,7 @@
           style="float: right;margin-right: 150px;width:180px;"
           class="image-uploader"
           drag
+          :http-request="myUpload"
           :multiple="true"
           :header="hurl"
           :show-file-list="false"
@@ -234,7 +235,7 @@
 </style>
 <script>
   import store from '.././store/userinfo/user.js'
-  import {user,userpost,userput,userdelete,organizationsinfo,resetpassword,rolelist,downloadkey} from "../api/getlist"
+  import {user,userpost,userput,userdelete,organizationsinfo,resetpassword,rolelist,downloadkey,userupload} from "../api/getlist"
   var socket;
   var sendFlag=0;
   var zpFormat;
@@ -408,6 +409,12 @@
     },
 
     methods: {
+      myUpload(){
+        console.log("00000000")
+        userupload().then(res => {
+         console.log(res)
+      })
+      },
       handleAvatarSuccess(res, file){
         this.headPic = URL.createObjectURL(file.raw);
         this.temp.headPic=file.response.data;

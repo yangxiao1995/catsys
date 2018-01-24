@@ -55,10 +55,8 @@
           console.log(this.list.password)
           console.log(typeof this.list.password)
           if (this.list.username != "" && this.list.password != "") {
-            console.log("123")
            /* this.loading = true;*/
             login(self.list).then(res => {
-              console.log(JSON.parse(res.data))
             /*let code = JSON.parse(res.data).code;*/
             /*if (code === 1) {*/
              /* this.loading = false;*/

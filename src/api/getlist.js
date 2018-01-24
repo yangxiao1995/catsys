@@ -17,6 +17,13 @@ export function  machineadd(data) {
     data:data
   })
 }
+export function  userupload(data) {
+  return fetch({
+    url:'/user/upload',
+    method:'post',
+    data:data
+  })
+}
 export function  userpost(data) {
   return fetch({
     url:'/user',
