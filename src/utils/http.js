@@ -43,11 +43,11 @@ service.interceptors.request.use(
     if (store.state.token) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
       config.headers.Authorization = `${store.state.token}`;
     }
-    if(config.url=="/user/upload"){
+   /* if(config.url=="/user/upload"){
       config.headers = {
         'Content-Type' : 'multipart/form-data'
       }
-    }
+    }*/
     if(config.method=='post'){
       config.data = {
         ...config.data

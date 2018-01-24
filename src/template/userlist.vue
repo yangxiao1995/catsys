@@ -234,6 +234,7 @@
   }
 </style>
 <script>
+  import axios from 'axios'
   import store from '.././store/userinfo/user.js'
   import {user,userpost,userput,userdelete,organizationsinfo,resetpassword,rolelist,downloadkey,userupload} from "../api/getlist"
   var socket;
@@ -410,9 +411,7 @@
 
     methods: {
       myUpload(item){
-        console.log("00000000")
-        console.log(item.file)
-        let formData = new FormData()
+        /*let formData = new FormData()
         formData.append('file', item.file)
         formData.append('type', 'SKU')
         let par={
@@ -422,6 +421,24 @@
           console.log(res)
       }).catch(err => {
           this.$message.error('上传失败，请重新上传')
+      })*/
+
+
+        var self = this
+        console.log(item)
+        let file = item.file
+        let param = new FormData()  // 创建form对象
+        param.append('file', file, file.name)  // 通过append向form对象添加数据
+        // 添加请求头
+        axios.post({
+          method:'post',
+          url:item.action,
+          headers: {'Content-Type': 'multipart/form-data'},
+          data:param,
+        }).then(response => {
+          if (response.data.code === 0) {
+          console.log(response)
+        }
       })
 
       },
