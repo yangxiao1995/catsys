@@ -38,6 +38,26 @@ service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencod
 
 service.defaults.withCredentials = true;
 
+service.interceptors.request.use(
+  config => {
+    if (store.state.token) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
+      config.headers.Authorization = `${store.state.token}`;
+    }
+
+    if(config.method=='post'){
+      config.data = {
+        ...config.data
+      }
+    }else if(config.method=='get'){
+      config.params = {
+        ...config.params
+      }
+    }
+    return config
+  },function(error){
+    return Promise.reject(error)
+  }
+)
 service.interceptors.response.use(// 响应成功关闭loading
   config => {
     config.data = JSON.stringify(config.data)
