@@ -178,7 +178,7 @@
           style="float: right;margin-right: 150px;width:180px;"
           class="image-uploader"
           drag
-          :http-request="myUpload"
+          :headers="myUpload"
           :multiple="true"
           :header="hurl"
           :show-file-list="false"
@@ -243,6 +243,7 @@
   var idNum;
   export default {
     data () {
+
       var uname = (rule, value, callback) => {
 
         setTimeout(() => {
@@ -303,6 +304,9 @@
       }, 1000);
       };
       return {
+        myUpload: {
+          Authorization: store.state.token
+        },
         roleName:store.state.user,
         headPic: '',
         boolAdd:false,
@@ -410,7 +414,7 @@
     },
 
     methods: {
-      myUpload(item){
+   /*   myUpload(item){
         let formData = new FormData()
         formData.append('file', item.file)
         let par={
@@ -423,7 +427,7 @@
       })
 
 
-       /* var self = this
+       /!* var self = this
         console.log(item)
         let file = item.file
         let param = new FormData()  // 创建form对象
@@ -438,9 +442,9 @@
           if (response.data.code === 0) {
           console.log(response)
         }
-      })*/
+      })*!/
 
-      },
+      },*/
       handleAvatarSuccess(res, file){
         this.headPic = URL.createObjectURL(file.raw);
         this.temp.headPic=file.response.data;
