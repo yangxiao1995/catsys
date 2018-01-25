@@ -411,9 +411,8 @@
 
     methods: {
       myUpload(item){
-        /*let formData = new FormData()
+        let formData = new FormData()
         formData.append('file', item.file)
-        formData.append('type', 'SKU')
         let par={
           "file":item.file
         }
@@ -421,10 +420,10 @@
           console.log(res)
       }).catch(err => {
           this.$message.error('上传失败，请重新上传')
-      })*/
+      })
 
 
-        var self = this
+       /* var self = this
         console.log(item)
         let file = item.file
         let param = new FormData()  // 创建form对象
@@ -439,7 +438,7 @@
           if (response.data.code === 0) {
           console.log(response)
         }
-      })
+      })*/
 
       },
       handleAvatarSuccess(res, file){
