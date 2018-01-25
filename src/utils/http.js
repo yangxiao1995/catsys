@@ -45,7 +45,8 @@ service.interceptors.request.use(
     }
     if(config.url=="/user/upload"){
       config.headers = {
-        'Content-Type' : 'multipart/form-data'
+        'Content-Type' : 'multipart/form-data',
+        'Authorization' : `${store.state.token}`
       }
     }
     if(config.method=='post'){
