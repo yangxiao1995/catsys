@@ -178,9 +178,9 @@
           style="float: right;margin-right: 150px;width:180px;"
           class="image-uploader"
           drag
+          :withCredentials="true"
           :headers="myUpload"
           :multiple="true"
-          :header="hurl"
           :show-file-list="false"
           action="http://192.168.1.188:9000/aiom/user/upload"
           :on-success="handleAvatarSuccess">
@@ -310,7 +310,6 @@
         roleName:store.state.user,
         headPic: '',
         boolAdd:false,
-        hurl: {"Content-Type": "multipart/form-data"},
         listLoading: true,
         userlist:[],
         userName:[],
@@ -446,6 +445,8 @@
 
       },*/
       handleAvatarSuccess(res, file){
+        console.log(res)
+        console.log(file)
         this.headPic = URL.createObjectURL(file.raw);
         this.temp.headPic=file.response.data;
       },
