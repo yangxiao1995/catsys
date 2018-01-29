@@ -5,7 +5,7 @@
          收寄一体机作业平台
         </div>
       <div class="hearder-func">
-        <span class="m-r-sm text-muted welcome-message">欢迎,{{userinfo}}</span><i class="fa fa-caret-down fa-3x"></i>
+        <span class="m-r-sm text-muted welcome-message">欢迎,{{userinfo}}</span><!--<i class="fa fa-caret-down fa-3x"></i>-->
         <a data-toggle="modal" data-target=".bs-example-modal-sm">
           [退出]
         </a>
