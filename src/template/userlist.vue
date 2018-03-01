@@ -235,7 +235,7 @@
 </style>
 <script>
   import axios from 'axios'
-  import store from '.././store/userinfo/user.js'
+  import store from '.././store/userinfo/user'
   import {user,userpost,userput,userdelete,organizationsinfo,resetpassword,rolelist,downloadkey,userupload} from "../api/getlist"
   var socket;
   var sendFlag=0;
@@ -475,13 +475,13 @@
         };
       },
       downkey(id){
-        let par={
-          id:id
-        }
-        downloadkey(par).then(res => {
-          console.log(res)
-      })
-        //window.location.href="http://192.168.1.188:9000/aiom/user/downloadkey?id="+id
+//        let par={
+//          id:id
+//        }
+//        downloadkey(par).then(res => {
+//          console.log(res)
+//      })
+        window.location.href="http://192.168.1.188:9000/aiom/user/downloadkey?id="+id+"&Authorization="+`token ${store.state.token}`
       },
       handleSelect(item) {
         this.temp.userOrg=item.id
