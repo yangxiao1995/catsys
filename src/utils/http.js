@@ -43,7 +43,9 @@ service.interceptors.request.use(
     if (store.state.token) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
       config.headers.Authorization = `${store.state.token}`;
     }
-    if(config.url=="/user/upload"){
+    console.log("请求:...")
+    console.log(config.url)
+    if(config.url=="/user/upload" || config.url=="/user/downloadkey"){
       config.headers = {
         'Content-Type' : 'multipart/form-data',
         'Authorization' : `${store.state.token}`
