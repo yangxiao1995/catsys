@@ -180,7 +180,7 @@
         roleDefalChecked:[],
         currentPage1:1,
         defaultProps: {
-          children: 'menuList',
+          children: 'children',
           label: 'name',
           id: "id",
         },
