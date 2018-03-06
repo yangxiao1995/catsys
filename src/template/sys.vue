@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="contain-title">
-      <h1> >系统管理</h1>
+      <h1> >角色管理</h1>
       <div class="title-line"></div>
     <div class="title-text">
       <div class="title-text-left">

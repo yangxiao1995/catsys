@@ -2,7 +2,7 @@
   <div>
     <div class="main_header">
         <div class="logo-title">
-         收寄一体机作业平台
+         收寄一体机管理平台
         </div>
       <div class="hearder-func">
         <span class="m-r-sm text-muted welcome-message">欢迎,{{userinfo}}&nbsp;</span><!--<i class="fa fa-caret-down fa-3x"></i>-->

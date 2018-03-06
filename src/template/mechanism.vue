@@ -107,24 +107,34 @@
         <el-form-item label="机构编号" prop="orgNumber">
           <el-input v-model="temp.orgNumber"></el-input>
         </el-form-item>
-        <el-form-item class="codenumber" label="所属地区">
+        <el-form-item class="codenumber" label="所属地区" prop="region">
+          <el-select class="select-area" v-model="temp.region" placeholder="请选择省" @change="getcity">
+            <el-option v-for="(item,index) in province" :key="item.distCd" :value="item.distCd" :label="item.provName"></el-option>
+          </el-select>
+          <el-select class="select-area" v-model="temp.city" placeholder="请选择市" @change="getarea" id="city">
+            <el-option v-for="(item,index) in city" :key="item.id" :value="item.distCd" :label="item.cityName"></el-option>
+          </el-select>
+          <el-select class="select-area" v-model="temp.area" placeholder="请选择区县" id="area">
+            <el-option v-for="(item,index) in area" :key="item.id" :value="item.distCd" :label="item.ctyName"></el-option>
+          </el-select>
+        </el-form-item>
+       <!-- <el-form-item class="codenumber" label="所属地区" prop="orgSelect">
+
+          <el-select class="select-area" v-model="temp.region" placeholder="请选择省">
+            <el-option v-for="(item,index) in province" :key="item.distCd" :value="item.distCd" :label="item.provName"></el-option>
+          </el-select>
+          <el-select class="select-area" v-model="temp.city" placeholder="请选择市" @change="getarea" id="city">
+            <el-option v-for="(item,index) in city" :key="item.id" :value="item.distCd" :label="item.cityName"></el-option>
+          </el-select>
+          <el-select class="select-area" v-model="temp.area" placeholder="请选择区县" id="area">
+            <el-option v-for="(item,index) in area" :key="item.id" :value="item.distCd" :label="item.ctyName"></el-option>
+          </el-select>
           <select name="sectionNames" class="form-control" v-model="temp.province" @change="getcity"
                   id="province">
             <option value="00">请选择省</option>
             <option v-for="(item,index) in province" :value="item.distCd">{{item.provName}}</option>
           </select>
-         <select name="sectionNames" class="form-control" v-model="temp.city" @change="getarea"
-                  id="city">
-           <option value="00">请选择市</option>
-            <option v-for="(item,index) in city" :value="item.distCd">{{item.cityName}}</option>
-          </select>
-           <select name="sectionNames" class="form-control" v-model="temp.area"
-                  id="area">
-             <option value="00">请选择区县</option>
-            <option v-for="(item,index) in area" :value="item.distCd">{{item.ctyName}}</option>
-          </select>
-        </el-form-item>
-
+        </el-form-item>-->
 
         <!--<el-form-item label="机构负责收件员" prop="operator">
           <select name="sectionNames" class="form-control" v-model="temp.operator"
@@ -164,6 +174,7 @@
 
   </div>
 </template>
+<script src="../../static/js/jquery.min.js"></script>
 <script>
   import {getorgpageinfo,organizationadd,organization,organizationalldelete,organizationput,getuserlist,getaddrlist} from "../api/getlist"
   export default {
@@ -219,18 +230,23 @@
           orgAddr:'',
           /*orgNumber: '',*/
           state: -1,
-          province:"00",
-          city:"00",
-          area:"00"
+          region:'',
+          city:'',
+          area:''
         },
         rules: {
+          region: [
+            { required: true, message: '请选择所属地区', trigger: 'change' }
+          ],
           orgAddr: [
             {required: true, message: '组织机构详细地址', trigger: 'blur'},
           ],
           orgName: [
             {required: true, message: '请输入机构名称', trigger: 'blur'},
           ],
-
+          orgSelect:[
+            { required: true, message: '请选择所属地区', trigger: 'change' }
+          ],
          /* operator: [
             {required: true, message: '请输入机构负责收件员', trigger: 'blur'},
             { validator: checkoper, trigger: 'blur' }
@@ -280,34 +296,36 @@
         }
       },
       getcity(){
-        this.temp.city="00";
-        this.temp.area="00";
+        console.log(this.temp.region)
+        this.temp.city="";
+        this.temp.area="";
         this.area=[]
         let par={
-          province:this.temp.province.substring(0,2)
+          province:this.temp.region.substring(0,2)
         }
         getaddrlist(par).then(res => {
-          console.log(JSON.parse(res.data))
         this.city=JSON.parse(res.data).data
       })
       },
       getarea(){
-        this.temp.area="00"
+        this.temp.area=""
         let par={
-          province:this.temp.province.substring(0,2),
+          province:this.temp.region.substring(0,2),
           city:this.temp.city.substring(2,4)
         }
+        console.log(par)
         let self=this;
         getaddrlist(par).then(res => {
+          console.log(JSON.parse(res.data).data)
         self.area=JSON.parse(res.data).data
       })
       },
       loadData(){
         let self = this;
         getorgpageinfo(self.listQuery).then(res => {
-          console.log(JSON.parse(res.data))
         self.tableData.rows=JSON.parse(res.data).data.rows
         self.total = JSON.parse(res.data).data.total;
+
       })
       /*  getuserlist().then(res => {
           self.getuserlist=JSON.parse(res.data).data
@@ -331,7 +349,7 @@
         organization(par).then(res =>{
           console.log(JSON.parse(res.data).data)
             self.temp=JSON.parse(res.data).data
-            self.temp.province=JSON.parse(res.data).data.orgProv.substring(0,2)+"0000",
+            self.temp.region=JSON.parse(res.data).data.orgProv.substring(0,2)+"0000",
             self.getcity();
             self.temp.city=JSON.parse(res.data).data.orgProv.substring(0,2)+JSON.parse(res.data).data.orgProv.substring(2,4)+"00",
               self.getarea();
@@ -346,9 +364,9 @@
         this.$refs.temp.validate(valid=>{
           if (valid) {
               let self = this;
-            let province=self.temp.province==="00"?"00":self.temp.province.substring(0,2)
-             let  city= self.temp.city==="00"?"00":self.temp.city.substring(2,4)
-              let area=self.temp.area==="00"?"00":self.temp.area.substring(4,6)
+            let region=self.temp.region===""?"00":self.temp.region.substring(0,2)
+             let  city= self.temp.city===""?"00":self.temp.city.substring(2,4)
+              let area=self.temp.area===""?"00":self.temp.area.substring(4,6)
             let par={
                 orgNumber: self.temp.orgNumber,
                 orgName: self.temp.orgName,
@@ -356,9 +374,9 @@
                 /*operator: self.temp.operator,*/
                 orgAddr:self.temp.orgAddr,
                 state: self.temp.state,
-              orgProv:province+city+area
+              orgProv:region+city+area
             }
-
+            console.log(par)
               organizationadd(par).then(res =>{
                 if(JSON.parse(res.data).code==1){
                 self.$confirm('添加成功, 是否返回列表?', '提示', {
@@ -370,6 +388,7 @@
                 self.city=[],
                 self.area=[],
                 self.loadData();
+
               })
 
               }else{
@@ -431,9 +450,9 @@
           /*operator:this.operatorid,*/
           /*orgNumber: '',*/
           state: 1,
-          province:"00",
-          city:"00",
-          area:"00"
+          region:'',
+          city:'',
+          area:''
         }
       },
       cancel(formName){
@@ -444,7 +463,7 @@
       },
       update(){
         let self = this;
-        let province=self.temp.province==="00"?"00":self.temp.province.substring(0,2)
+        let region=self.temp.region==="00"?"00":self.temp.region.substring(0,2)
         let  city= self.temp.city==="00"?"00":self.temp.city.substring(2,4)
         let area=self.temp.area==="00"?"00":self.temp.area.substring(4,6)
         let par={
@@ -455,7 +474,7 @@
           /*operator: self.temp.operator,*/
           orgAddr:self.temp.orgAddr,
           state: self.temp.state,
-          orgProv:province+city+area
+          orgProv:region+city+area
         }
         organizationput(par).then(res=>
         {

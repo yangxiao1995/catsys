@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="contain-title">
-      <h1> >邮件管理 </h1>
+      <h1> >设备生产管理 </h1>
       <div class="title-line"></div>
       <div class="title-text">
         <div class="title-text-left">
@@ -11,9 +11,9 @@
           <button type="button" class="btn btn-primary text-search" @click="loadData">
              <div></div>查询<div></div>
           </button>
-          <button type="button" class="btn btn-primary text-add" @click="handleCreate">
+          <!--<button type="button" class="btn btn-primary text-add" @click="handleCreate">
             <div></div>+ 添加邮件<div></div>
-          </button>
+          </button>-->
           <button type="button" class="btn btn-primary text-delete" @click="alldelete" :disabled="boodelete">
             <div></div>批量删除<div></div>
           </button>

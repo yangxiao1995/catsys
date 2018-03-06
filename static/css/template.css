@@ -174,7 +174,7 @@
 button img{
   vertical-align: bottom!important;
 }
-.codenumber select{
+.codenumber .select-area{
   width:150px;
   display: inline-block;
 }

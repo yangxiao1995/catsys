@@ -125,7 +125,7 @@ fieldset[disabled] .btn-primary.active {
     padding: 14px 20px 14px 25px;
 }
 .left-menu .nav > li{
-  height: 75px;;
+  /*height: 75px;;*/
 }
 .left-menu .nav > li > a {
     color: #fff;

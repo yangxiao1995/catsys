@@ -6,9 +6,26 @@
       <div class="leftmenu-name">
         <!--<p>用户：</p><p class="left-text-name">张某某</p>-->
       </div>
-      <ul class="nav metismenu" id="side-menu">
+      <ul class="nav metismenu" id="side-menu" @click="acticive">
         <li v-for="(item,index) in datas">
-          <router-link :to="item.url" >{{item.name}}<span class="fa fa-angle-down"></span></router-link>
+          <!--<router-link :to="item.url" >{{item.name}}<span class="fa fa-angle-down"></span></router-link>
+          <ul v-if="item.children.length>0" class="nav nav-second-level collapse" aria-expanded="true">
+            <li  v-for="itemTwo in item.children">
+              <router-link :to='itemTwo.url' actived>{{itemTwo.name}}</router-link>
+            </li>
+          </ul>-->
+
+          <router-link :to="item.url" v-if="item.children.length==0" aria-expanded="true">{{item.name}}<span class="fa fa-angle-down"></span></router-link>
+          <a href="javascript:;" v-else aria-expanded="true">
+            <span class="nav-label">{{item.name}}<span class="fa fa-angle-down"></span></span>
+          </a>
+          <ul v-if="item.children.length>0" class="nav nav-second-level collapse" aria-expanded="true">
+            <li  v-for="itemTwo in item.children">
+              <router-link :to='itemTwo.url' actived>{{itemTwo.name}}</router-link>
+            </li>
+          </ul>
+
+
         </li>
        <!-- <li><router-link to="/equipment">设备管理<span class="fa fa-angle-down"></span></router-link></li>
         <li><router-link to="/mechanism">机构管理<span class="fa fa-angle-down"></span></router-link></li>
@@ -27,6 +44,8 @@
   import  header from './Header.vue'
   import {getmenu} from "../api/getlist"
   import store from '.././store/userinfo/user'
+  import $ from  'jquery'
+  import js from  '../../static/js/jquery.metisMenu.js'
 export default {
   data () {
     return {
@@ -37,6 +56,9 @@ export default {
   components: {
     'v-header': header
   },
+  beforeCreate:function () {
+    this.acticive;
+  },
   created(){
     this.getmenu();
   },
@@ -44,9 +66,11 @@ export default {
     getmenu(){
       let self=this;
       getmenu().then(res => {
-        console.log(JSON.parse(res.data).data)
       self.datas=JSON.parse(res.data).data
     });
+    },
+    acticive:function () {
+      $('#side-menu').metisMenu();
     }
   }
 }

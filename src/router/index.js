@@ -22,7 +22,11 @@ export default new Router({
       component: homepage,
       children:[
         {
-          path: '/posts',
+          path: '/production/machine',
+          component:mailmanagement
+        },
+        {
+          path: '/production/user',
           component:mailmanagement
         },
         {
@@ -42,7 +46,7 @@ export default new Router({
           component:userlist
         },
         {
-          path: '/system',
+          path: '/role',
           component:sys
         },
       ]
