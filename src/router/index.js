@@ -10,6 +10,7 @@ import mechanism from '../template/mechanism.vue'
 import userlist from '../template/userlist.vue'
 import sys from '../template/sys.vue'
 
+
 Vue.use(Router)
 
 export default new Router({

@@ -144,6 +144,7 @@
           <el-input style="margin-top:8px;" v-model="temp.macManufacturer"></el-input>
         </el-form-item>
 
+
         <el-form-item label="设备管理人" prop="">
           <el-autocomplete
             style="margin-top:8px;"

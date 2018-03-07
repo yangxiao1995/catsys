@@ -11,9 +11,6 @@
           <button type="button" class="btn btn-primary text-search" @click="loadData">
              <div></div>查询<div></div>
           </button>
-          <!--<button type="button" class="btn btn-primary text-add" @click="handleCreate">
-            <div></div>+ 添加邮件<div></div>
-          </button>-->
           <button type="button" class="btn btn-primary text-delete" @click="alldelete" :disabled="boodelete">
             <div></div>批量删除<div></div>
           </button>
