@@ -87,13 +87,13 @@
         show-overflow-tooltip>
       </el-table-column>
       <el-table-column
-        prop="macState"
+        prop="state"
         align="center"
         label="状态"
         width="110"
         show-overflow-tooltip>
         <template slot-scope="scope">
-          {{scope.row.macState | stateFilter}}
+          {{scope.row.state | stateFilter}}
         </template>
       </el-table-column>
       <el-table-column
@@ -129,8 +129,8 @@
         </el-form-item>
 
         <el-form-item label="状态">
-          <input type="radio" v-model="temp.macState" value="2" name="state">停用
-          <input type="radio" v-model="temp.macState" value="1" name="state">正常
+          <input type="radio" v-model="temp.state" value="2" name="state">停用
+          <input type="radio" v-model="temp.state" value="1" name="state">正常
         </el-form-item>
         <el-form-item label="序列号" prop="macSeries">
           <el-input v-model="temp.macSeries"></el-input>
@@ -260,7 +260,7 @@
           macManufacturer: '',
           macUser: '',
           macWorkTime: '',
-          macState: -1,
+          state: -1,
         },
         rules: {
           macName: [
@@ -374,7 +374,7 @@
           macManufacturer: JSON.parse(res.data).data.macManufacturer,
           macUser: JSON.parse(res.data).data.macUser,
           macWorkTime: JSON.parse(res.data).data.macWorkTime,
-          macState: JSON.parse(res.data).data.macState,
+          state: JSON.parse(res.data).data.state,
         }
       })
 
@@ -396,7 +396,7 @@
           macSeries:"",
           macManufacturer: '',
           macUser: '',
-          macState: 1,
+          state: 1,
           macWorkTime:util.formatDate.format(new Date(), 'yyyy-MM-dd hh:mm:ss')
         }
       },

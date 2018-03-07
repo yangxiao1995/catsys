@@ -8,7 +8,7 @@
         <div class="loginForm">
           <p>登录</p>
           <div class="loginForm-contain">
-            <p class="login-role">用户名</p>
+            <p class="login-role">员工号</p>
             <input type="text" v-model="list.username" placeholder="  请输入账号（邮箱或手机号）">
             <p class="login-another">密码</p>
             <input type="password" v-model="list.password" placeholder="  密码">
