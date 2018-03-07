@@ -148,6 +148,7 @@
           <el-autocomplete
             style="margin-top:8px;"
             v-model="macUser"
+            suffix-icon="el-icon-arrow-down"
             :fetch-suggestions="querySearchAsync"
             @select="handleSelect"
           ></el-autocomplete>
