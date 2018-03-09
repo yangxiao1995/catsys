@@ -119,11 +119,11 @@
         <el-form class="small-space" :model="temp" :rules="rules" ref="temp" label-position="left" label-width="120px"
                  style='width: 400px; margin-left:50px;display: inline-block' >
           <input type="hidden" v-model="uid">
-          <el-form-item label="登录名" prop="loginName">
+          <el-form-item label="员工号" prop="loginName">
             <el-input v-model="temp.loginName"></el-input>
           </el-form-item>
 
-          <el-form-item label="用户名" prop="userName">
+          <el-form-item label="用户姓名" prop="userName">
             <el-input style="margin-top:8px;" v-model="temp.userName"></el-input>
           </el-form-item>
 
@@ -154,9 +154,9 @@
             ></el-autocomplete>
           </el-form-item>
 
-          <el-form-item label="电子邮件" prop="email">
+          <!--<el-form-item label="电子邮件" prop="email">
             <el-input style="margin-top:8px;" v-model="temp.email"></el-input>
-          </el-form-item>
+          </el-form-item>-->
 
           <el-form-item label="手机号" prop="mobile">
             <el-input style="margin-top:8px;"  v-model="temp.mobile"></el-input>
@@ -337,7 +337,7 @@
           headPic:'',
           loginName: '',
           userName: '',
-          email: '',
+          /*email: '',*/
           mobile: '',
           password: '',
           state:"1",
@@ -520,7 +520,7 @@
           id:row.id,
           loginName: row.loginName,
           userName:row.userName,
-          email: row.email,
+          /*email: row.email,*/
           mobile: row.mobile,
           state:row.state,
           userCode:row.userCode,
@@ -577,7 +577,7 @@
           headPic:'',
           loginName: '',
           userName: '',
-          email: '',
+          /*email: '',*/
           mobile: '',
           password: '',
           state:1,

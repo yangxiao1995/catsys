@@ -132,9 +132,9 @@
           <input type="radio" v-model="temp.state" value="2" name="state">停用
           <input type="radio" v-model="temp.state" value="1" name="state">正常
         </el-form-item>
-        <el-form-item label="序列号" prop="macSeries">
+        <!--<el-form-item label="序列号" prop="macSeries">
           <el-input v-model="temp.macSeries"></el-input>
-        </el-form-item>
+        </el-form-item>-->
 
         <el-form-item label="型号" prop="macType">
           <el-input style="margin-top:8px;" v-model="temp.macType"></el-input>
@@ -145,7 +145,7 @@
         </el-form-item>
 
 
-        <el-form-item label="设备管理人" prop="">
+        <el-form-item label="设备管理人" prop="macUser">
           <el-autocomplete
             style="margin-top:8px;"
             v-model="macUser"
@@ -153,6 +153,17 @@
             :fetch-suggestions="querySearchAsync"
             @select="handleSelect"
           ></el-autocomplete>
+        </el-form-item>
+
+        <el-form-item label="设备操作员" prop="operators">
+          <el-select v-model="temp.operators" multiple placeholder="请选择">
+            <el-option
+              v-for="item in userName"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
 
         <el-form-item  label="入网时间" prop="">
@@ -211,7 +222,7 @@
 </style>
 <script src="../../static/js/jquery-ui.js"></script>
 <script>
-  import {machine,machineadd,machinedelete,machineput,getusers,machinegetid} from "../api/getlist"
+  import {machine,machineadd,machinedelete,machineput,getusers,machinegetid,getorgusers} from "../api/getlist"
   import  util from '../common/util'
   export default {
     data() {
@@ -226,6 +237,7 @@
       }, 1000);
       };
       return {
+        userName:[],
         edit:false,
         equipment:[],
         timeout:  null,
@@ -260,6 +272,7 @@
           macManufacturer: '',
           macUser: '',
           macWorkTime: '',
+          operators:[],
           state: -1,
         },
         rules: {
@@ -271,12 +284,15 @@
           ],
 
           macUser: [
-            {required: true, message: '请输入设备管理人', trigger: 'blur'},
+            {required: true, message: '请输入设备管理人', trigger: 'change'},
            /* {validator:uname,trigger:'blur'}*/
           ],
           macWorkTime: [
             {required: true, message: '请输入入网时间', trigger: 'blur'},
           ],
+          operators:[
+            {required: true, message: '请选择设备操作员', trigger: 'change'},
+          ]
         },
         multipleSelection: [],
         listLoading: false
@@ -370,7 +386,7 @@
           id:row.id,
           macName: JSON.parse(res.data).data.macName,
           macType: JSON.parse(res.data).data.macType,
-          macSeries:JSON.parse(res.data).data.macSeries,
+          /*macSeries:JSON.parse(res.data).data.macSeries,*/
           macManufacturer: JSON.parse(res.data).data.macManufacturer,
           macUser: JSON.parse(res.data).data.macUser,
           macWorkTime: JSON.parse(res.data).data.macWorkTime,
@@ -393,7 +409,8 @@
         this.temp = {
           macName: '',
           macType: '',
-          macSeries:"",
+          operators:[],
+          /*macSeries:"",*/
           macManufacturer: '',
           macUser: '',
           state: 1,
@@ -407,6 +424,13 @@
         self.tableData.rows=JSON.parse(res.data).data.rows
         self.total = JSON.parse(res.data).data.total;
         self.pageSize = JSON.parse(res.data).data.pageSize;
+      })
+        getorgusers().then(res => {
+        let usercontant='';
+        for(let j=0;j<JSON.parse(res.data).data.length;j++){
+          usercontant={value:JSON.parse(res.data).data[j].id,label:JSON.parse(res.data).data[j].userName}
+          self.userName.push(usercontant)
+        }
       })
       },
       cancel(formName){
@@ -446,12 +470,14 @@
       },
       //添加
       create(formName){
+        this.temp.operators.toString()
+        console.log(this.temp)
         let self=this;
         this.$refs.temp.validate(valid=>{
           if (valid) {
-            if(self.macUser=="" || self.macUser==null){
+           /* if(self.macUser=="" || self.macUser==null){
               this.$message.error("请填写设备管理人")
-            }else{
+            }else{*/
               let self = this;
               machineadd(self.temp).then(res =>{
                 if(JSON.parse(res.data).code==1){
@@ -468,7 +494,6 @@
                 this.$message.error(JSON.parse(res.data).msg);
               }
             })
-            }
           }
         }
       )
