@@ -91,6 +91,12 @@ export function  getorgusers() {
     method:'get',
   })
 }
+export function  manufacturer() {
+  return fetch({
+    url:'/manufacturer',
+    method:'get',
+  })
+}
 export function  downloadkey(data) {
   return fetch({
     url:'/user/downloadkey',

@@ -141,7 +141,14 @@
         </el-form-item>
 
         <el-form-item label="厂商" prop="macManufacturer">
-          <el-input style="margin-top:8px;" v-model="temp.macManufacturer"></el-input>
+          <el-select style="margin-top:8px;" v-model="temp.macManufacturer" placeholder="请选择">
+            <el-option
+              v-for="item in manufacturer"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
 
 
@@ -222,7 +229,7 @@
 </style>
 <script src="../../static/js/jquery-ui.js"></script>
 <script>
-  import {machine,machineadd,machinedelete,machineput,getusers,machinegetid,getorgusers} from "../api/getlist"
+  import {machine,machineadd,machinedelete,machineput,getusers,machinegetid,getorgusers,manufacturer} from "../api/getlist"
   import  util from '../common/util'
   export default {
     data() {
@@ -237,6 +244,7 @@
       }, 1000);
       };
       return {
+        manufacturer:[],
         userName:[],
         edit:false,
         equipment:[],
@@ -431,6 +439,14 @@
           usercontant={value:JSON.parse(res.data).data[j].id,label:JSON.parse(res.data).data[j].userName}
           self.userName.push(usercontant)
         }
+      })
+        manufacturer().then(res => {
+          let maccontant='';
+          for(let j=0;j<JSON.parse(res.data).data.length;j++){
+            maccontant={value:JSON.parse(res.data).data[j].id,label:JSON.parse(res.data).data[j].name}
+          self.manufacturer.push(maccontant)
+        }
+
       })
       },
       cancel(formName){
