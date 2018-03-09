@@ -486,7 +486,7 @@
       },
       //添加
       create(formName){
-        this.temp.operators.toString()
+        this.temp.operators=this.temp.operators.toString()
         console.log(this.temp)
         let self=this;
         this.$refs.temp.validate(valid=>{
