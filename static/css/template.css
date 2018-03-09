@@ -184,3 +184,6 @@ button img{
 .el-table th div{
   line-height: 40px!important;
 }
+.el-table .cell{
+  line-height: 30px !important;
+}

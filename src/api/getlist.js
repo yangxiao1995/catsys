@@ -85,6 +85,12 @@ export function  getusers() {
     method:'get',
   })
 }
+export function  getorgusers() {
+  return fetch({
+    url:'/user/orgusers',
+    method:'get',
+  })
+}
 export function  downloadkey(data) {
   return fetch({
     url:'/user/downloadkey',
