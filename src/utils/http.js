@@ -41,7 +41,11 @@ service.defaults.withCredentials = true;
 service.interceptors.request.use(
   config => {
     if (store.state.token) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
-      config.headers.Authorization = `${store.state.token}`;
+     /* config.headers.Authorization = `${store.state.token}`;*/
+      config.headers = {
+        'Content-Type' : 'application/json',
+        'Authorization':`${store.state.token}`
+      }
     }
     if(config.url=="/user/upload" || config.url=="/user/downloadkey"){
       config.headers = {

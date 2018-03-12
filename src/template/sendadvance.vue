@@ -411,11 +411,13 @@
       //添加
       create(formName){
         console.log(this.temp)
+        console.log(JSON.stringify(this.temp))
+        let par=JSON.stringify(this.temp)
         let self=this;
         this.$refs.temp.validate(valid=>{
           if (valid) {
             let self = this;
-            prerasadd(self.temp).then(res =>{
+            prerasadd(par).then(res =>{
               if(JSON.parse(res.data).code==1){
               self.$confirm('添加成功, 是否返回列表?', '提示', {
                 confirmButtonText: '确定',
