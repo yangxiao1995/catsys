@@ -66,6 +66,7 @@ export default {
     getmenu(){
       let self=this;
       getmenu().then(res => {
+        console.log(JSON.parse(res.data).data)
       self.datas=JSON.parse(res.data).data
     });
     },

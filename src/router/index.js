@@ -4,6 +4,7 @@ import homepage from '../components/HomePage.vue'
 import login from '../components/login.vue'
 import mailmanagement from '../template/mailmanagement.vue'
 import usermanagement from '../template/usermanagement.vue'
+import sendadvance from '../template/sendadvance.vue'
 import report from '../template/report.vue'
 import equipment from '../template/equipment.vue'
 import mechanism from '../template/mechanism.vue'
@@ -38,6 +39,10 @@ export default new Router({
         {
           path: '/machine',
           component:equipment
+        },
+        {
+          path: '/preras',
+          component:sendadvance
         },
         {
           path: '/organization',

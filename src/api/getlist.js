@@ -290,3 +290,24 @@ export function  authorityput(data) {
     data:data
   })
 }
+/*客户管理*/
+export function  preras(data) {
+  return fetch({
+    url:'/preras',
+    method:'get',
+    params:data
+  })
+}
+export  function  prerasdelete(data) {
+  return fetch({
+    url:'/preras/'+data,
+    method:"delete",
+  })
+}
+export function  prerasadd(data) {
+  return fetch({
+    url:'/preras',
+    method:'post',
+    data:data
+  })
+}
