@@ -11,14 +11,8 @@ var  service=axios.create({
   baseURL: 'http://192.168.1.188:9000/aiom', // api的base_url yyx-house-expor-api
   timeout: 5000,                  // 请求超时时间
   transformRequest: [function (data, headers) {
-
-    if(headers.post['Content-Type'].toString() == ('application/json')){
-      data=JSON.stringify(data)
       // 这里可以在发送请求之前对请求数据做处理，比如form-data格式化等，这里可以使用开头引入的Qs（这个模块在安装axios的时候就已经安装了，不需要另外安装）
-    }else {
-      data = Qs.stringify(data)
-    }
-
+    data = Qs.stringify(data)
     return data;
   }],
 
