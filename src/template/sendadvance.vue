@@ -412,7 +412,7 @@
       create(formName){
         console.log(this.temp)
         console.log(JSON.stringify(this.temp))
-        let par=JSON.stringify(this.temp)
+        let par=this.temp
         let self=this;
         this.$refs.temp.validate(valid=>{
           if (valid) {

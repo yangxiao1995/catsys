@@ -10,9 +10,14 @@ import store from "../store/userinfo/user"
 var  service=axios.create({
   baseURL: 'http://192.168.1.188:9000/aiom', // api的base_url yyx-house-expor-api
   timeout: 5000,                  // 请求超时时间
-  transformRequest: [function (data) {
-    // 这里可以在发送请求之前对请求数据做处理，比如form-data格式化等，这里可以使用开头引入的Qs（这个模块在安装axios的时候就已经安装了，不需要另外安装）
-    data = Qs.stringify(data);
+  transformRequest: [function (data, headers) {
+
+    if(headers.post['Content-Type'].toString() == ('application/json')){
+      data=JSON.stringify(data)
+      // 这里可以在发送请求之前对请求数据做处理，比如form-data格式化等，这里可以使用开头引入的Qs（这个模块在安装axios的时候就已经安装了，不需要另外安装）
+    }else {
+      data = Qs.stringify(data)
+    }
 
     return data;
   }],
@@ -34,6 +39,7 @@ var  service=axios.create({
     return Qs.stringify(params, {arrayFormat: 'brackets'})
   }
 });
+
 service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 service.defaults.withCredentials = true;
@@ -49,7 +55,7 @@ service.interceptors.request.use(
     }
     if(config.url=="/user/upload" || config.url=="/user/downloadkey"){
       config.headers = {
-        'Content-Type' : 'multipart/form-data',
+        //'Content-Type' : 'multipart/form-data',
         'Authorization' : `${store.state.token}`
       }
     }
@@ -119,7 +125,7 @@ service.interceptors.response.use(// 响应成功关闭loading
             error.message = '请求超时'
             break
           case 500:
-            error.message = '服务器内部错误'
+            error.message = '服务器内部错误，请联系管理员。'
             break
           case 501:
             error.message = '服务未实现'
