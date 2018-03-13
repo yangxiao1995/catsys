@@ -222,13 +222,10 @@
       return {
         manufacturer:[],
         customer:[],
-        edit:false,
         equipment:[],
         timeout:  null,
         boodelete:true,
         boolAdd:false,
-        excelList:null,
-        isEdit:true,
         currentPage1:1,
         listQuery: {
           code:'',
@@ -245,7 +242,6 @@
           create: '新增'
         },
         sels:[],
-        macUser:"",
         uid: '',
         dialogStatus: '',
         dialogFormVisible: false,
@@ -300,16 +296,6 @@
       }
     },
     methods: {
-      querySearchAsync(queryString, cb ) {
-        var equipment = this.equipment;
-        var results = queryString ? equipment.filter(this.createStateFilter(queryString)) : equipment;
-        cb (results)
-      },
-      createStateFilter(queryString) {
-        return (state) => {
-          return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) >= 0);
-        };
-      },
       handleSizeChange(){
 
       },
