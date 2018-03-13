@@ -273,6 +273,7 @@
         customerone(row.id).then(res => {
           console.log(JSON.parse(res.data).data)
         this.temp={
+          id:row.id,
           custName: JSON.parse(res.data).data.custName,
           custCode: JSON.parse(res.data).data.custCode,
           state: JSON.parse(res.data).data.state,

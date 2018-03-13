@@ -142,12 +142,6 @@
                       placeholder="选择日期">
                     </el-date-picker>
                 </el-form-item>
-
-        <!--<el-form-item label="状态">
-          <input type="radio" v-model="temp.state" value="2" name="state">停用
-          <input type="radio" v-model="temp.state" value="1" name="state">正常
-        </el-form-item>-->
-
         <el-form-item label="代码" prop="code">
           <el-input style="margin-top:8px;" v-model="temp.code"></el-input>
         </el-form-item>
@@ -314,6 +308,7 @@
         prerasone(row.id).then(res => {
           console.log(JSON.parse(res.data).data)
         this.temp={
+          id:row.id,
           name: JSON.parse(res.data).data.name,
           code: JSON.parse(res.data).data.code,
           startTime: JSON.parse(res.data).data.startTime,
