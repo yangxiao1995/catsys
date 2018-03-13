@@ -205,7 +205,7 @@
 </style>
 <script src="../../static/js/jquery-ui.js"></script>
 <script>
-  import {preras,prerasdelete,prerasadd,customer} from "../api/getlist"
+  import {preras,prerasdelete,prerasadd,customer,prerasone,prerasput} from "../api/getlist"
   import  util from '../common/util'
   export default {
     data() {
@@ -325,18 +325,14 @@
       },
       handleEdit(row){
         let self=this;
-        self.equipment=[]
-        machinegetid(row.id).then(res => {
+        prerasone(row.id).then(res => {
           console.log(JSON.parse(res.data).data)
-        this.macUser=JSON.parse(res.data).data.userName
         this.temp={
-          id:row.id,
-          macName: JSON.parse(res.data).data.macName,
-          macType: JSON.parse(res.data).data.macType,
-          /*macSeries:JSON.parse(res.data).data.macSeries,*/
-          macManufacturer: JSON.parse(res.data).data.macManufacturer,
-          macUser: JSON.parse(res.data).data.macUser,
-          macWorkTime: JSON.parse(res.data).data.macWorkTime,
+          name: JSON.parse(res.data).data.name,
+          code: JSON.parse(res.data).data.code,
+          startTime: JSON.parse(res.data).data.startTime,
+          endTime: JSON.parse(res.data).data.endTime,
+          customerId: row.id,
           state: JSON.parse(res.data).data.state,
         }
       })
@@ -384,14 +380,10 @@
       },
       update(){
         let self = this;
-
         this.$refs.temp.validate(valid=>{
           if (valid) {
-            if(self.macUser=="" || self.macUser==null){
-              this.$message.error("请填写设备管理人")
-            }else{
               let self = this;
-              machineput(this.temp).then(res=>
+            prerasput(this.temp).then(res=>
               {
                 if(JSON.parse(res.data).code=='1'){
                 self.$confirm('修改成功, 是否返回列表?', '提示', {
@@ -405,9 +397,7 @@
               }else{
                 self.$message.error(JSON.parse(res.data).msg)
               }
-
             })
-            }
           }
         }
       )
