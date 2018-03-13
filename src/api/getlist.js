@@ -290,7 +290,7 @@ export function  authorityput(data) {
     data:data
   })
 }
-/*客户管理*/
+/*预收寄登记*/
 export function  preras(data) {
   return fetch({
     url:'/preras',
@@ -308,6 +308,24 @@ export function  prerasadd(data) {
   return fetch({
     url:'/preras',
     method:'post',
+    data:data,
+    transformRequest: [function (data) {
+      data=JSON.stringify(data)
+      return data;
+    }]
+  })
+}
+/*客户管理*/
+export function  customer(data) {
+  return fetch({
+    url:'/customer',
+    method:'get',
     data:data
+  })
+}
+export  function  customerdelete(data) {
+  return fetch({
+    url:'/customer/'+data,
+    method:"delete",
   })
 }

@@ -1,12 +1,13 @@
 <template>
   <div>
     <div class="contain-title">
-      <h1> >预收寄登记 </h1>
+      <h1> >客户管理 </h1>
       <div class="title-line"></div>
       <div class="title-text">
         <div class="title-text-left">
-          <p>名称</p><input v-model="listQuery.name" class="equiinput" type="text">
-          <p class="text-data">代码</p><input v-model="listQuery.code" class="equiinput" type="text">
+          <p>客户名称</p><input v-model="listQuery.custName" class="equiinput" type="text">
+          <p class="text-data">客户代码</p>
+           <input v-model="listQuery.custCode" class="equidata" type="text">
         </div>
         <div class="title-text-button">
           <button type="button" class="btn btn-primary text-search" @click="loadData">
@@ -41,52 +42,20 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="name"
-        label="预收寄名称"
+        prop="custName"
+        label="客户名称"
         align="center">
       </el-table-column>
       <el-table-column
-        prop="code"
-        label="预收寄代码"
+        prop="custCode"
+        label="客户代码"
         align="center">
       </el-table-column>
-      <el-table-column
-        prop="state"
-        align="center"
-        label="状态"
-        show-overflow-tooltip>
-        <template slot-scope="scope">
-          {{scope.row.state | stateFilter}}
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="startTime"
-        align="center"
-        label="开始收件时间"
-        show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="endTime"
-        align="center"
-        label="结束收件时间"
-        show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="updatorId"
-        align="center"
-        label="更新人"
-        show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="creatorId"
-        align="center"
-        label="创建人"
-        show-overflow-tooltip>
-      </el-table-column>
+
       <el-table-column
         prop="createTime"
-        align="center"
         label="创建时间"
+        align="center"
         show-overflow-tooltip>
       </el-table-column>
       <el-table-column
@@ -94,6 +63,16 @@
         align="center"
         label="更新时间"
         show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column
+        prop="state"
+        align="center"
+        label="状态"
+        width="110"
+        show-overflow-tooltip>
+        <template slot-scope="scope">
+          {{scope.row.state | stateFilter}}
+        </template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -120,46 +99,69 @@
     </el-table>
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
 
-      <el-form class="small-space" :model="temp" :rules="rules" ref="temp" label-position="left" label-width="105px"
+      <el-form class="small-space" :model="temp" :rules="rules" ref="temp" label-position="left" label-width="95px"
                style='width: 400px; margin-left:50px;'>
         <input type="hidden" v-model="uid">
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="temp.name"></el-input>
+        <el-form-item label="设备名称" prop="macName">
+          <el-input v-model="temp.macName"></el-input>
         </el-form-item>
-        <el-form-item  label="收寄起始时间" prop="">
-            <el-date-picker
-              v-model="temp.startTime"
-              type="date"
-              format="yyyy-MM-dd HH:mm:ss"
-              placeholder="选择日期">
-            </el-date-picker>
-        </el-form-item>
-        <el-form-item  label="收寄结束时间" prop="">
-                    <el-date-picker
-                      v-model="temp.endTime"
-                      type="date"
-                      format="yyyy-MM-dd HH:mm:ss"
-                      placeholder="选择日期">
-                    </el-date-picker>
-                </el-form-item>
 
-        <!--<el-form-item label="状态">
+        <el-form-item label="状态">
           <input type="radio" v-model="temp.state" value="2" name="state">停用
           <input type="radio" v-model="temp.state" value="1" name="state">正常
+        </el-form-item>
+        <!--<el-form-item label="序列号" prop="macSeries">
+          <el-input v-model="temp.macSeries"></el-input>
         </el-form-item>-->
 
-        <el-form-item label="代码" prop="code">
-          <el-input style="margin-top:8px;" v-model="temp.code"></el-input>
+        <el-form-item label="型号" prop="macType">
+          <el-input style="margin-top:8px;" v-model="temp.macType"></el-input>
         </el-form-item>
-        <el-form-item label="客户名称" prop="customerId">
-          <el-select v-model="temp.customerId" placeholder="请选择">
+
+        <el-form-item label="厂商" prop="macManufacturer">
+          <el-select style="margin-top:8px;" v-model="temp.macManufacturer" placeholder="请选择">
             <el-option
-              v-for="item in customer"
+              v-for="item in manufacturer"
               :key="item.value"
               :label="item.label"
               :value="item.value">
             </el-option>
           </el-select>
+        </el-form-item>
+
+
+        <el-form-item label="设备管理人" prop="macUser">
+          <el-autocomplete
+            style="margin-top:8px;"
+            v-model="macUser"
+            suffix-icon="el-icon-arrow-down"
+            :fetch-suggestions="querySearchAsync"
+            @select="handleSelect"
+          ></el-autocomplete>
+        </el-form-item>
+
+        <el-form-item label="设备操作员" prop="operators">
+          <el-select v-model="temp.operators" multiple placeholder="请选择">
+            <el-option
+              v-for="item in userName"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item  label="入网时间" prop="">
+          <el-date-picker
+            style="margin-top:8px;"
+            v-model="temp.macWorkTime"
+            class="worktimedata"
+            type="date"
+            format="yyyy-MM-dd"
+            @change="getDatatwo"
+            :editable="edit"
+            placeholder="选择日期">
+          </el-date-picker>
         </el-form-item>
 
         <el-button v-if="dialogStatus=='create'" class="btn-primary" type="primary" :disabled="boolAdd" @click="create(temp)">确 定</el-button>
@@ -205,7 +207,7 @@
 </style>
 <script src="../../static/js/jquery-ui.js"></script>
 <script>
-  import {preras,prerasdelete,prerasadd,customer} from "../api/getlist"
+  import {customer,customerdelete} from "../api/getlist"
   import  util from '../common/util'
   export default {
     data() {
@@ -221,7 +223,7 @@
       };
       return {
         manufacturer:[],
-        customer:[],
+        userName:[],
         edit:false,
         equipment:[],
         timeout:  null,
@@ -231,8 +233,8 @@
         isEdit:true,
         currentPage1:1,
         listQuery: {
-          code:'',
-          name:"",
+          custName:'',
+          custCode:"",
           pageNumber:1,
         },
         total:100,
@@ -250,25 +252,29 @@
         dialogStatus: '',
         dialogFormVisible: false,
         temp: {
-          name: '',
-          code:"",
-          startTime : '',
-          endTime:"",
-          customerId:''
-          /*state: -1,*/
+          custName: '',
+          custCode: '',
+          createTime:"",
+          updateTime: '',
+          state: -1,
         },
         rules: {
-          name: [
-            {required: true, message: '请输入预收寄名称', trigger: 'blur'},
+          macName: [
+            {required: true, message: '请输入设备名称', trigger: 'blur'},
           ],
-          code: [
-            {required: true, message: '请输入预收寄代码', trigger: 'blur'},
+          macManufacturer: [
+            {required: true, message: '请输入厂商', trigger: 'blur'},
+          ],
+
+          macUser: [
+            {required: true, message: '请输入设备管理人', trigger: 'change'},
+            /* {validator:uname,trigger:'blur'}*/
           ],
           macWorkTime: [
             {required: true, message: '请输入入网时间', trigger: 'blur'},
           ],
-          customerId:[
-            {required: true, message: '请选择客户名称', trigger: 'change'},
+          operators:[
+            {required: true, message: '请选择设备操作员', trigger: 'change'},
           ]
         },
         multipleSelection: [],
@@ -283,6 +289,7 @@
           '0': '删除',
           "-1":"异常",
           "2":"维护"
+
         };
         return statusMap[status]
       },
@@ -310,6 +317,13 @@
           return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) >= 0);
         };
       },
+
+      handleSelect(item) {
+        console.log(item)
+        /*this.macUser=item.value*/
+        this.temp.macUser=item.id
+      },
+
       handleSizeChange(){
 
       },
@@ -319,13 +333,35 @@
       },
       handleCreate() {
         this.resetTemp();
+        this.macUser="";
         this.dialogStatus = 'create';
         this.dialogFormVisible = true;
         let self=this
+        self.equipment=[]
+        getusers().then(res => {
+          for(var i=0;i<JSON.parse(res.data).data.length;i++){
+          self.equipment.push({"value":JSON.parse(res.data).data[i].userNameCode,"id":JSON.parse(res.data).data[i].id})
+        }
+      })
+      },
+      getData(){
+        if (this.listQuery.macWorkTime != '') {
+          this.listQuery.macWorkTime = util.formatDate.format(new Date(this.listQuery.macWorkTime), 'yyyy-MM-dd');
+        }
+      },
+      getDatatwo(){
+        if (this.temp.macWorkTime != '') {
+          this.temp.macWorkTime = util.formatDate.format(new Date(this.temp.macWorkTime), 'yyyy-MM-dd hh:mm:ss');
+        }
       },
       handleEdit(row){
         let self=this;
         self.equipment=[]
+        getusers().then(res => {
+          for(var i=0;i<JSON.parse(res.data).data.length;i++){
+          self.equipment.push({"value":JSON.parse(res.data).data[i].userNameCode,"id":JSON.parse(res.data).data[i].id})
+        }
+      })
         machinegetid(row.id).then(res => {
           console.log(JSON.parse(res.data).data)
         this.macUser=JSON.parse(res.data).data.userName
@@ -354,28 +390,23 @@
       },
       resetTemp(){
         this.temp = {
-          name: '',
-          code: '',
-          startTime:util.formatDate.format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-          endTime:util.formatDate.format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-          customerId:''
+          macName: '',
+          macType: '',
+          operators:[],
+          /*macSeries:"",*/
+          macManufacturer: '',
+          macUser: '',
+          state: 1,
+          macWorkTime:util.formatDate.format(new Date(), 'yyyy-MM-dd hh:mm:ss')
         }
       },
       loadData(){
         let self = this;
-        preras(self.listQuery).then(res => {
+        customer(self.listQuery).then(res => {
           console.log(JSON.parse(res.data))
         self.tableData.rows=JSON.parse(res.data).data.rows
         self.total = JSON.parse(res.data).data.total;
         self.pageSize = JSON.parse(res.data).data.pageSize;
-      })
-        self.customer=[]
-        customer(self.listQuery).then(res => {
-        let cust='';
-        for(let l=0;l<JSON.parse(res.data).data.rows.length;l++){
-          cust={label:JSON.parse(res.data).data.rows[l].custName,value:JSON.parse(res.data).data.rows[l].id}
-          self.customer.push(cust)
-        }
       })
       },
       cancel(formName){
@@ -415,11 +446,16 @@
       },
       //添加
       create(formName){
+        this.temp.operators=this.temp.operators.toString()
         console.log(this.temp)
         let self=this;
         this.$refs.temp.validate(valid=>{
           if (valid) {
-            prerasadd(self.temp).then(res =>{
+            /* if(self.macUser=="" || self.macUser==null){
+             this.$message.error("请填写设备管理人")
+             }else{*/
+            let self = this;
+            machineadd(self.temp).then(res =>{
               if(JSON.parse(res.data).code==1){
               self.$confirm('添加成功, 是否返回列表?', '提示', {
                 confirmButtonText: '确定',
@@ -455,7 +491,7 @@
         this.$confirm('确认删除这些记录吗?', '提示', {
           type: 'warning'
         }).then(() => {
-          prerasdelete(ids).then(function (response) {
+          customerdelete(ids).then(function (response) {
           let rmsg=JSON.parse(response.data);
           if(rmsg.code == 1){
             self.loadData();
@@ -471,7 +507,7 @@
         this.$confirm('确认删除该记录吗?', '提示', {
           type: 'warning'
         }).then(() => {
-          prerasdelete(index).then(function (response) {
+          customerdelete(index).then(function (response) {
           let rmsg=JSON.parse(response.data);
           if(rmsg.code == 1){
             self.loadData();
