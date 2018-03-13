@@ -295,7 +295,23 @@ export function  preras(data) {
   return fetch({
     url:'/preras',
     method:'get',
-    params:data
+  })
+}
+export function  prerasone(data) {
+  return fetch({
+    url:'/preras/one/'+data,
+    method:'get',
+  })
+}
+export function  prerasput(data) {
+  return fetch({
+    url:'/preras',
+    method:'put',
+    data:data,
+    transformRequest: [function (data) {
+      data=JSON.stringify(data)
+      return data;
+    }]
   })
 }
 export  function  prerasdelete(data) {
