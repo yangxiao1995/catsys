@@ -41,13 +41,13 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="userName"
-        label="用户名"
+        prop="macName"
+        label="设备名称"
         align="center">
       </el-table-column>
       <el-table-column
-        prop="userCode"
-        label="员工号"
+        prop="macSeries"
+        label="序列号"
         align="center">
       </el-table-column>
 
