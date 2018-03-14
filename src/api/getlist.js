@@ -7,7 +7,11 @@ export function  login(data) {
     url:'/login',
     method:'post',
     credentials: "include",
-    data:data
+    data:data,
+    transformRequest: [function (data) {
+      data=JSON.stringify(data)
+      return data;
+    }]
   })
 }
 export function  machineadd(data) {
@@ -234,6 +238,13 @@ export function  posts(data) {
     params:data
   })
 }
+export function  postsuser(data) {
+  return fetch({
+    url:'/posts/user/'+data.id,
+    method:'get',
+    params:data
+  })
+}
 export function  organization(data) {
   return fetch({
     url:'/organization',
@@ -295,6 +306,7 @@ export function  preras(data) {
   return fetch({
     url:'/preras',
     method:'get',
+    params:data
   })
 }
 export function  prerasone(data) {
@@ -336,12 +348,96 @@ export function  customer(data) {
   return fetch({
     url:'/customer',
     method:'get',
-    data:data
+    params:data
+  })
+}
+export function  customerone(data) {
+  return fetch({
+    url:'/customer/'+data,
+    method:'get',
   })
 }
 export  function  customerdelete(data) {
   return fetch({
     url:'/customer/'+data,
+    method:"delete",
+  })
+}
+export function  customerput(data) {
+  return fetch({
+    url:'/customer',
+    method:'put',
+    data:data,
+    transformRequest: [function (data) {
+      data=JSON.stringify(data)
+      return data;
+    }]
+  })
+}
+export function  customeradd(data) {
+  return fetch({
+    url:'/customer',
+    method:'post',
+    data:data,
+    transformRequest: [function (data) {
+      data=JSON.stringify(data)
+      return data;
+    }]
+  })
+}
+/*设备生产管理*/
+export function  promachine(data) {
+  return fetch({
+    url:'/production/machine',
+    method:'get',
+  })
+}
+export function  prouser(data) {
+  return fetch({
+    url:'/production/user',
+    method:'get',
+  })
+}
+/*厂商管理*/
+export function  getmanufacturer(data) {
+  return fetch({
+    url:'/manufacturer',
+    method:'get',
+    params:data
+  })
+}
+export function  getmanufaone(data) {
+  return fetch({
+    url:'/manufacturer/'+data,
+    method:'get',
+    params:data
+  })
+}
+export function  manufactureradd(data) {
+  return fetch({
+    url:'/manufacturer',
+    method:'post',
+    data:data,
+    transformRequest: [function (data) {
+      data=JSON.stringify(data)
+      return data;
+    }]
+  })
+}
+export function  manufacturerput(data) {
+  return fetch({
+    url:'/manufacturer',
+    method:'put',
+    data:data,
+    transformRequest: [function (data) {
+      data=JSON.stringify(data)
+      return data;
+    }]
+  })
+}
+export  function  manufacturerdelete(data) {
+  return fetch({
+    url:'/manufacturer/'+data,
     method:"delete",
   })
 }

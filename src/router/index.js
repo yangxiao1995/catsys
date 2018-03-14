@@ -2,8 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import homepage from '../components/HomePage.vue'
 import login from '../components/login.vue'
+import promachin from '../template/promachin.vue'
 import mailmanagement from '../template/mailmanagement.vue'
 import usermanagement from '../template/usermanagement.vue'
+import venmanage from '../template/venmanage.vue'
 import sendadvance from '../template/sendadvance.vue'
 import customer from '../template/customer.vue'
 import report from '../template/report.vue'
@@ -27,7 +29,15 @@ export default new Router({
       children:[
         {
           path: '/production/machine',
+          component:promachin
+        },
+        {
+          path: '/mailmanagement',
           component:mailmanagement
+        },
+        {
+          path: '/manufacturer',
+          component:venmanage
         },
         {
           path: '/production/user',

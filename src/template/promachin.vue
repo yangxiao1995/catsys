@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="contain-title">
-      <h1> >用户生产管理 </h1>
+      <h1> >设备生产管理 </h1>
       <div class="title-line"></div>
       <div class="title-text">
         <div class="title-text-left">
@@ -10,7 +10,7 @@
         </div>
         <div class="title-text-button">
           <button type="button" class="btn btn-primary text-search" @click="loadData">
-            <div></div>查询<div></div>
+             <div></div>查询<div></div>
           </button>
         <!--  <button type="button" class="btn btn-primary text-delete" @click="alldelete" :disabled="boodelete">
             <div></div>批量删除<div></div>
@@ -143,7 +143,7 @@
   }
 </style>
 <script>
-  import {prouser} from "../api/getlist"
+  import {promachine} from "../api/getlist"
   export default {
     data() {
       return {
@@ -183,11 +183,11 @@
     },
     computed:{
       getPageSize(){
-        if(Math.ceil( this.total/this.pageSize)==0){
-          return 1;
-        }else{
-          return Math.ceil( this.total/this.pageSize)
-        }
+         if(Math.ceil( this.total/this.pageSize)==0){
+         return 1;
+         }else{
+         return Math.ceil( this.total/this.pageSize)
+         }
       }
     },
     methods: {
@@ -203,7 +203,7 @@
       },
       loadData(){
         let self = this;
-        prouser().then(res => {
+        promachine().then(res => {
           console.log(JSON.parse(res.data).data)
         self.tableData.rows=JSON.parse(res.data).data
         self.total = JSON.parse(res.data).data.total;
@@ -245,7 +245,7 @@
           this.boodelete=true;
         }
       },
-    /*  returnmail(){
+   /*   returnmail(){
         var ids = this.sels.map(item =>item.id).toString();
 
         var sub = ids.split(",");

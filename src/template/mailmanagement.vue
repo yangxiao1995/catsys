@@ -1,19 +1,16 @@
 <template>
   <div>
     <div class="contain-title">
-      <h1> >设备生产管理 </h1>
+      <h1> >生产管理详情页 </h1>
       <div class="title-line"></div>
       <div class="title-text">
         <div class="title-text-left">
-          <p>邮件条码</p><input class="mailinput" v-model="listQuery.postCode" type="text">
+          <p>邮件条码</p><input class="mailinput" v-model="listQuery.code" type="text">
         </div>
         <div class="title-text-button">
           <button type="button" class="btn btn-primary text-search" @click="loadData">
              <div></div>查询<div></div>
           </button>
-          <!--<button type="button" class="btn btn-primary text-add" @click="handleCreate">
-            <div></div>+ 添加邮件<div></div>
-          </button>-->
           <button type="button" class="btn btn-primary text-delete" @click="alldelete" :disabled="boodelete">
             <div></div>批量删除<div></div>
           </button>
@@ -43,8 +40,8 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="postCode"
-        label="邮件条码"
+        prop="postCust"
+        label="客户"
         align="center">
       </el-table-column>
       <el-table-column
@@ -54,39 +51,55 @@
       </el-table-column>
 
       <el-table-column
-        prop="operatorId"
-        label="收件员工号"
+        prop="postMoney"
+        label="金额"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        prop="postWidth"
+        label="宽度"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        prop="postTime"
+        width="255"
+        label="收寄时间"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        prop="postCode"
+        label="邮件代码"
         align="center">
       </el-table-column>
 
       <el-table-column
-        prop="postTime"
-        label="收件时间"
+        prop="postType"
+        label="类型"
         align="center"
         show-overflow-tooltip>
       </el-table-column>
       <el-table-column
         prop="postOperation"
         align="center"
-        label="状态"
-        width="110"
+        label="操作状态"
         show-overflow-tooltip>
         <template slot-scope="scope">
           {{scope.row.postOperation | mainstateFilter}}
         </template>
       </el-table-column>
       <el-table-column
-        prop="func"
         align="center"
         label="操作"
+        width="150"
         show-overflow-tooltip>
         <template slot-scope="scope">
-         <!-- <el-button
+          <el-button
             class="el-button-edit"
             size="small"
             type="danger"
-            @click="handleEdit(scope.row)"><img src="../../static/img/table/edit.png" alt="">&nbsp;修改
-          </el-button>-->
+            title="修改"
+            @click="handleEdit(scope.row)"><img src="../../static/img/table/edit.png" alt="">
+          </el-button>
           <el-button
             class="el-button-delete"
             size="small"
@@ -150,7 +163,7 @@
   </div>
 </template>
 <script>
-  import {posts,postsdelete,postssendback} from "../api/getlist"
+  import {posts,postsdelete,postssendback,postsuser} from "../api/getlist"
   export default {
     data() {
       var uname = (rule, value, callback) => {
@@ -170,8 +183,8 @@
         isEdit:true,
         currentPage1:1,
         listQuery: {
-          postCode:'',
-          pageNumber:1,
+          code:'',
+        /*  pageNumber:1,*/
         },
 
         total:100,
@@ -246,19 +259,21 @@
       handleSizeChange(){
 
       },
-      handleUpdate(row){
-        this.$router.push({path: 'info', query: {id: row.id,searchList:this.listQuery,paths:'article'}})
-      },
       handleCurrentChange(val) {
         this.listQuery.pageNumber= val;
         this.loadData();
       },
       loadData(){
         let self = this;
-        posts(self.listQuery).then(res => {
-          console.log(JSON.parse(res.data).data.rows)
-        self.tableData.rows=JSON.parse(res.data).data.rows
-        self.total = JSON.parse(res.data).data.total;
+        let par={
+          id:self.$route.query.id,
+          code:self.listQuery.code
+        }
+        console.log(par)
+        postsuser(par).then(res => {
+          console.log(JSON.parse(res.data).data)
+        self.tableData.rows=JSON.parse(res.data).data
+       /* self.total = JSON.parse(res.data).data.total;*/
       })
       },
       alldelete(){
