@@ -52,28 +52,28 @@
         align="center">
       </el-table-column>
 
-      <el-table-column
-        prop="createTime"
-        label="创建时间"
-        align="center"
-        show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="updateTime"
-        align="center"
-        label="更新时间"
-        show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="state"
-        align="center"
-        label="状态"
-        width="110"
-        show-overflow-tooltip>
-        <template slot-scope="scope">
-          {{scope.row.state | stateFilter}}
-        </template>
-      </el-table-column>
+      <!--<el-table-column-->
+        <!--prop="createTime"-->
+        <!--label="创建时间"-->
+        <!--align="center"-->
+        <!--show-overflow-tooltip>-->
+      <!--</el-table-column>-->
+      <!--<el-table-column-->
+        <!--prop="updateTime"-->
+        <!--align="center"-->
+        <!--label="更新时间"-->
+        <!--show-overflow-tooltip>-->
+      <!--</el-table-column>-->
+      <!--<el-table-column-->
+        <!--prop="state"-->
+        <!--align="center"-->
+        <!--label="状态"-->
+        <!--width="110"-->
+        <!--show-overflow-tooltip>-->
+        <!--<template slot-scope="scope">-->
+          <!--{{scope.row.state | stateFilter}}-->
+        <!--</template>-->
+      <!--</el-table-column>-->
       <el-table-column
         align="center"
         label="操作"

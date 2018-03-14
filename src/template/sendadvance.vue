@@ -71,30 +71,30 @@
         label="结束收件时间"
         show-overflow-tooltip>
       </el-table-column>
-      <el-table-column
-        prop="updatorId"
-        align="center"
-        label="更新人"
-        show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="creatorId"
-        align="center"
-        label="创建人"
-        show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="createTime"
-        align="center"
-        label="创建时间"
-        show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="updateTime"
-        align="center"
-        label="更新时间"
-        show-overflow-tooltip>
-      </el-table-column>
+      <!--<el-table-column-->
+        <!--prop="updatorId"-->
+        <!--align="center"-->
+        <!--label="更新人"-->
+        <!--show-overflow-tooltip>-->
+      <!--</el-table-column>-->
+      <!--<el-table-column-->
+        <!--prop="creatorId"-->
+        <!--align="center"-->
+        <!--label="创建人"-->
+        <!--show-overflow-tooltip>-->
+      <!--</el-table-column>-->
+      <!--<el-table-column-->
+        <!--prop="createTime"-->
+        <!--align="center"-->
+        <!--label="创建时间"-->
+        <!--show-overflow-tooltip>-->
+      <!--</el-table-column>-->
+      <!--<el-table-column-->
+        <!--prop="updateTime"-->
+        <!--align="center"-->
+        <!--label="更新时间"-->
+        <!--show-overflow-tooltip>-->
+      <!--</el-table-column>-->
       <el-table-column
         align="center"
         label="操作"

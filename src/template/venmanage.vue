@@ -57,18 +57,18 @@
         align="center">
       </el-table-column>
 
-      <el-table-column
-        prop="createTime"
-        align="center"
-        label="创建时间"
-        show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="updateTime"
-        align="center"
-        label="更新时间"
-        show-overflow-tooltip>
-      </el-table-column>
+      <!--<el-table-column-->
+        <!--prop="createTime"-->
+        <!--align="center"-->
+        <!--label="创建时间"-->
+        <!--show-overflow-tooltip>-->
+      <!--</el-table-column>-->
+      <!--<el-table-column-->
+        <!--prop="updateTime"-->
+        <!--align="center"-->
+        <!--label="更新时间"-->
+        <!--show-overflow-tooltip>-->
+      <!--</el-table-column>-->
       <el-table-column
         align="center"
         label="操作"
