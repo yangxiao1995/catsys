@@ -34,7 +34,7 @@ var  service=axios.create({
   }
 });
 
-service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+service.defaults.headers.post['Content-Type'] = 'application/json';
 
 service.defaults.withCredentials = true;
 
