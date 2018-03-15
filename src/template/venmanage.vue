@@ -279,8 +279,8 @@
         getmanufacturer(self.listQuery).then(res => {
           console.log(JSON.parse(res.data))
         self.tableData.rows=JSON.parse(res.data).data
-        /*self.total = JSON.parse(res.data).data.total;
-        self.pageSize = JSON.parse(res.data).data.pageSize;*/
+        self.total = JSON.parse(res.data).data.total;
+        self.pageSize = JSON.parse(res.data).data.pageSize;
       })
       },
       cancel(formName){
