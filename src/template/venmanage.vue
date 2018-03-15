@@ -102,7 +102,7 @@
         </el-form-item>
 
         <el-form-item label="是否有效">
-          <input type="radio" v-model="temp.hasvalid" value="2" name="state">停用
+          <input type="radio" v-model="temp.hasvalid" value="0" name="state">停用
           <input type="radio" v-model="temp.hasvalid" value="1" name="state">正常
         </el-form-item>
 

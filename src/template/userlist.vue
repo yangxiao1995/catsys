@@ -51,11 +51,11 @@
             align="center"
           >
           </el-table-column>
-          <el-table-column
-            prop="email"
-            label="电子邮件"
-            align="center"
-          ></el-table-column>
+          <!--<el-table-column-->
+            <!--prop="email"-->
+            <!--label="电子邮件"-->
+            <!--align="center"-->
+          <!--&gt;</el-table-column>-->
 
           <el-table-column
             prop="mobile"

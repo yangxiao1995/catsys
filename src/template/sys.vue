@@ -35,7 +35,7 @@
 
           <el-table-column
             prop="roleName"
-            label="角色"
+            label="角色名称"
             align="center"
           ></el-table-column>
           <el-table-column
