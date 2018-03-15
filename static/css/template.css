@@ -187,3 +187,7 @@ button img{
 .el-table .cell{
   line-height: 30px !important;
 }
+.quertselect{
+  width: 200px;
+  margin-left: 20px;
+}
