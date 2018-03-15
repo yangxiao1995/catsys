@@ -252,6 +252,13 @@ export function  getorgpageinfo(data) {
     params:data
   })
 }
+export function  orgpageiprov(data) {
+  return fetch({
+    url:'/organization/getorgpageinfobyorgprov',
+    method:'get',
+    params:data
+  })
+}
 export function  user(data) {
   return fetch({
     url:'/user',

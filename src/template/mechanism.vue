@@ -4,6 +4,24 @@
       <h1> >机构管理 </h1>
       <div class="title-line"></div>
       <div class="title-text">
+        <div class="title-text-left">
+          <el-form class="small-space" :model="temp" :rules="rules" ref="" label-position="left" label-width=""
+                   style='width: 1000px;'>
+          <el-form-item class="" label="">
+            <p>所属地区</p>
+            <el-select class="quertselect" v-model="quertprov.prov" placeholder="请选择省" @change="getcityT">
+              <el-option v-for="(item,index) in province" :key="item.distCd" :value="item.distCd" :label="item.provName"></el-option>
+            </el-select>
+            <el-select class="quertselect" v-model="quertprov.city" placeholder="请选择市" @change="getareaT" id="city">
+              <el-option v-for="(item,index) in cityT" :key="item.id" :value="item.distCd" :label="item.cityName"></el-option>
+            </el-select>
+            <el-select class="quertselect" v-model="quertprov.home" placeholder="请选择区县" @change="gethome" id="area">
+              <el-option v-for="(item,index) in areaT" :key="item.id" :value="item.distCd" :label="item.ctyName"></el-option>
+            </el-select>
+          </el-form-item>
+            </el-form>
+        </div>
+
         <div class="title-text-button">
           <button type="button" class="btn btn-primary text-add" @click="handleCreate">
             <div></div>+ 添加机构<div></div>
@@ -41,6 +59,11 @@
       <el-table-column
         prop="t_org_number"
         label="机构编号"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        prop="t_org_addr"
+        label="机构地址"
         align="center">
       </el-table-column>
 
@@ -176,7 +199,7 @@
 </template>
 <script src="../../static/js/jquery.min.js"></script>
 <script>
-  import {getorgpageinfo,organizationadd,organization,organizationalldelete,organizationput,getuserlist,getaddrlist} from "../api/getlist"
+  import {getorgpageinfo,organizationadd,organization,organizationalldelete,organizationput,getuserlist,getaddrlist,orgpageiprov} from "../api/getlist"
   export default {
     data() {
       var uname = (rule, value, callback) => {
@@ -190,6 +213,11 @@
       }, 1000);
       };
       return {
+        quertprov:{
+          prov:'',
+          city:'',
+          home:''
+        },
         boodelete:true,
         boolAdd:false,
         excelList:null,
@@ -198,6 +226,8 @@
         province:[],
         city:[],
         area:[],
+        cityT:[],
+        areaT:[],
         arealist:{
 
         },
@@ -295,15 +325,60 @@
           this.boodelete=true;
         }
       },
+      getprovData(par){
+        let self=this;
+        orgpageiprov(par).then(res => {
+        self.tableData.rows=JSON.parse(res.data).data.rows
+        self.total = JSON.parse(res.data).data.total;
+      })
+      },
+      getcityT(){
+        this.quertprov.city="";
+        this.quertprov.home="";
+        this.area=[]
+        let par={
+          province:this.quertprov.prov.substring(0,2)
+        }
+        getaddrlist(par).then(res => {
+        this.cityT=JSON.parse(res.data).data
+      })
+        let param={
+          orgProv:this.quertprov.prov.substring(0,2)
+        }
+        this.getprovData(param)
+      },
+      getareaT(){
+        this.quertprov.home=""
+        let par={
+          province:this.quertprov.prov.substring(0,2),
+          city:this.quertprov.city.substring(2,4)
+        }
+        let self=this;
+        getaddrlist(par).then(res => {
+          self.areaT=JSON.parse(res.data).data
+      })
+        let param={
+          orgProv:this.quertprov.prov.substring(0,2)+this.quertprov.city.substring(2,4)
+        }
+        this.getprovData(param)
+      },
+      gethome(){
+        let param={
+          orgProv:this.quertprov.prov.substring(0,2)+this.quertprov.city.substring(2,4)+this.quertprov.home.substring(4,6)
+        }
+        this.getprovData(param)
+      },
+      /*添加框中的*/
       getcity(){
-        console.log(this.temp.region)
         this.temp.city="";
         this.temp.area="";
         this.area=[]
         let par={
           province:this.temp.region.substring(0,2)
         }
+        console.log(par)
         getaddrlist(par).then(res => {
+          console.log(JSON.parse(res.data).data)
         this.city=JSON.parse(res.data).data
       })
       },
@@ -313,10 +388,8 @@
           province:this.temp.region.substring(0,2),
           city:this.temp.city.substring(2,4)
         }
-        console.log(par)
         let self=this;
         getaddrlist(par).then(res => {
-          console.log(JSON.parse(res.data).data)
         self.area=JSON.parse(res.data).data
       })
       },
@@ -387,6 +460,9 @@
                   this.dialogFormVisible = false;
                 self.city=[],
                 self.area=[],
+                self.cityT=[],
+                self.areaT=[],
+                self.quertprov.prov=''
                 self.loadData();
 
               })
