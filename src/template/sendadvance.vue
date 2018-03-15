@@ -13,7 +13,7 @@
             <div></div>查询<div></div>
           </button>
           <button type="button" class="btn btn-primary text-add"  @click="handleCreate">
-            <div></div>+ 添加客户<div></div>
+            <div></div>+ 添加登记<div></div>
           </button>
           <button type="button" class="btn btn-primary text-delete" @click="alldelete" :disabled="boodelete">
             <div></div>批量删除<div></div>
@@ -50,15 +50,15 @@
         label="预收寄代码"
         align="center">
       </el-table-column>
-      <el-table-column
-        prop="state"
-        align="center"
-        label="状态"
-        show-overflow-tooltip>
-        <template slot-scope="scope">
-          {{scope.row.state | stateFilter}}
-        </template>
-      </el-table-column>
+      <!--<el-table-column-->
+        <!--prop="state"-->
+        <!--align="center"-->
+        <!--label="状态"-->
+        <!--show-overflow-tooltip>-->
+        <!--<template slot-scope="scope">-->
+          <!--{{scope.row.state | stateFilter}}-->
+        <!--</template>-->
+      <!--</el-table-column>-->
       <el-table-column
         prop="startTime"
         align="center"

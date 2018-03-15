@@ -110,10 +110,10 @@
           <el-input style="margin-top:8px;" v-model="temp.custCode"></el-input>
         </el-form-item>
 
-        <el-form-item label="状态">
-          <input type="radio" v-model="temp.state" value="2" name="state">停用
-          <input type="radio" v-model="temp.state" value="1" name="state">正常
-        </el-form-item>
+        <!--<el-form-item label="状态">-->
+          <!--<input type="radio" v-model="temp.state" value="2" name="state">停用-->
+          <!--<input type="radio" v-model="temp.state" value="1" name="state">正常-->
+        <!--</el-form-item>-->
 
         <el-button v-if="dialogStatus=='create'" class="btn-primary" type="primary" :disabled="boolAdd" @click="create(temp)">确 定</el-button>
         <el-button v-else type="primary" @click="update">确 定</el-button>
