@@ -278,9 +278,9 @@
         let self = this;
         getmanufacturer(self.listQuery).then(res => {
           console.log(JSON.parse(res.data))
-        self.tableData.rows=JSON.parse(res.data).data
-        /*self.total = JSON.parse(res.data).data.total;
-        self.pageSize = JSON.parse(res.data).data.pageSize;*/
+        self.tableData.rows=JSON.parse(res.data).data.rows
+        self.total = JSON.parse(res.data).data.total;
+        self.pageSize = JSON.parse(res.data).data.pageSize;
       })
       },
       cancel(formName){

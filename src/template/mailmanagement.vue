@@ -273,7 +273,7 @@
         postsuser(par).then(res => {
           console.log(JSON.parse(res.data).data)
         self.tableData.rows=JSON.parse(res.data).data
-       /* self.total = JSON.parse(res.data).data.total;*/
+        self.total = JSON.parse(res.data).data.total;
       })
       },
       alldelete(){
