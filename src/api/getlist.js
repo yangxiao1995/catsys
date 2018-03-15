@@ -18,49 +18,77 @@ export function  machineadd(data) {
   return fetch({
     url:'/machine',
     method:'post',
-    data:data
+    data:data,
+    transformRequest: [function (data) {
+      data=JSON.stringify(data)
+      return data;
+    }]
   })
 }
 export function  userupload(data) {
   return fetch({
     url:'/user/upload',
     method:'post',
-    data:data
+    data:data,
+    transformRequest: [function (data) {
+      data=JSON.stringify(data)
+      return data;
+    }]
   })
 }
 export function  userpost(data) {
   return fetch({
     url:'/user',
     method:'post',
-    data:data
+    data:data,
+    transformRequest: [function (data) {
+      data=JSON.stringify(data)
+      return data;
+    }]
   })
 }
 export function  roleadd(data) {
   return fetch({
     url:'/role',
     method:'post',
-    data:data
+    data:data,
+    transformRequest: [function (data) {
+      data=JSON.stringify(data)
+      return data;
+    }]
   })
 }
 export function  reportpost(data) {
   return fetch({
     url:'/report',
     method:'post',
-    data:data
+    data:data,
+    transformRequest: [function (data) {
+      data=JSON.stringify(data)
+      return data;
+    }]
   })
 }
 export function  rolepost(data) {
   return fetch({
     url:'/role',
     method:'put',
-    data:data
+    data:data,
+    transformRequest: [function (data) {
+      data=JSON.stringify(data)
+      return data;
+    }]
   })
 }
 export function  organizationadd(data) {
   return fetch({
     url:'/organization',
     method:'post',
-    data:data
+    data:data,
+    transformRequest: [function (data) {
+      data=JSON.stringify(data)
+      return data;
+    }]
   })
 }
 export function  getreportpageinfo(data) {
@@ -256,49 +284,77 @@ export function  machineput(data) {
   return fetch({
     url:'/machine',
     method:'put',
-    data:data
+    data:data,
+    transformRequest: [function (data) {
+      data=JSON.stringify(data)
+      return data;
+    }]
   })
 }
 export function  resetpassword(data) {
   return fetch({
     url:'/user/resetpassword',
     method:'put',
-    data:data
+    data:data,
+    transformRequest: [function (data) {
+      data=JSON.stringify(data)
+      return data;
+    }]
   })
 }
 export function  reportput(data) {
   return fetch({
     url:'/report',
     method:'put',
-    data:data
+    data:data,
+    transformRequest: [function (data) {
+      data=JSON.stringify(data)
+      return data;
+    }]
   })
 }
 export function  organizationput(data) {
   return fetch({
     url:'/organization',
     method:'put',
-    data:data
+    data:data,
+    transformRequest: [function (data) {
+      data=JSON.stringify(data)
+      return data;
+    }]
   })
 }
 export function  userput(data) {
   return fetch({
     url:'/user',
     method:'put',
-    data:data
+    data:data,
+    transformRequest: [function (data) {
+      data=JSON.stringify(data)
+      return data;
+    }]
   })
 }
 export function  postssendback(data) {
   return fetch({
     url:'/posts/sendback/'+data,
     method:'put',
-    data:data
+    data:data,
+    transformRequest: [function (data) {
+      data=JSON.stringify(data)
+      return data;
+    }]
   })
 }
 export function  authorityput(data) {
   return fetch({
     url:'/authority',
     method:'put',
-    data:data
+    data:data,
+    transformRequest: [function (data) {
+      data=JSON.stringify(data)
+      return data;
+    }]
   })
 }
 /*预收寄登记*/
