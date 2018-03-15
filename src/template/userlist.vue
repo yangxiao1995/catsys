@@ -5,8 +5,8 @@
       <div class="title-line"></div>
       <div class="title-text">
         <div class="title-text-left">
-            <p>登录名：</p><input class="user-input" type="text" name="fullName" v-model="listQuery.loginName" value="">
-            <p>用户代码：</p><input class="user-input" type="text" name="fullName" v-model="listQuery.userCode" value="">
+            <p>用户名：</p><input class="user-input" type="text" name="fullName" v-model="listQuery.userName" value="">
+            <p>员工号：</p><input class="user-input" type="text" name="fullName" v-model="listQuery.loginName" value="">
         </div>
         <div class="title-text-button">
           <button type="button" class="btn btn-primary text-search" @click="loadData">
@@ -35,7 +35,7 @@
           </el-table-column>
           <el-table-column
             prop="loginName"
-            label="登录名"
+            label="员工号"
             align="center"
           >
           </el-table-column>
@@ -69,12 +69,12 @@
             align="center"
           >
           </el-table-column>
-          <el-table-column
-            prop="userCode"
-            label="用户代码"
-            align="center"
-          >
-          </el-table-column>
+          <!--<el-table-column-->
+            <!--prop="userCode"-->
+            <!--label="用户代码"-->
+            <!--align="center"-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
           <el-table-column
             v-if="this.roleName=='管理员'"
             prop=""
@@ -127,16 +127,16 @@
             <el-input style="margin-top:8px;" v-model="temp.userName"></el-input>
           </el-form-item>
 
-          <el-form-item label="状态">
-            <input type="radio" v-model="temp.state" value="-1" name="state">停用
-            <input type="radio" v-model="temp.state" value="0" name="state">失效
-            <input type="radio" v-model="temp.state" value="1" name="state">有效
-          </el-form-item>
+          <!--<el-form-item label="状态">-->
+            <!--<input type="radio" v-model="temp.state" value="-1" name="state">停用-->
+            <!--<input type="radio" v-model="temp.state" value="0" name="state">失效-->
+            <!--<input type="radio" v-model="temp.state" value="1" name="state">有效-->
+          <!--</el-form-item>-->
 
 
-          <el-form-item label="用户代码" prop="userCode">
-            <el-input style="margin-top:8px;" v-model="temp.userCode"></el-input>
-          </el-form-item>
+          <!--<el-form-item label="用户代码" prop="userCode">-->
+            <!--<el-input style="margin-top:8px;" v-model="temp.userCode"></el-input>-->
+          <!--</el-form-item>-->
           <el-form-item label="用户角色" prop="">
             <el-autocomplete
               style="margin-top:8px;"
@@ -316,8 +316,8 @@
         userOrg:'',
         userType:'',
         listQuery: {
+          userName: '',
           loginName: '',
-          userCode: '',
         },
         currentPage1:1,
         pageNumber: 1,
@@ -344,15 +344,15 @@
         },
         rules: {
           loginName: [
-            {required: true, message: '请输入登录名', trigger: 'blur'},
+            {required: true, message: '请输入员工号', trigger: 'blur'},
           ],
 
           userName: [
             {required: true, message: '请输入用户名', trigger: 'blur'}
           ],
-          userCode: [
-            {required: true, message: '请输入用户代码', trigger: 'blur'}
-          ],
+//          userCode: [
+//            {required: true, message: '请输入用户代码', trigger: 'blur'}
+//          ],
           userType: [
             {required: true, message: '请输入用户类型', trigger: 'blur'}
           ],
