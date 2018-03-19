@@ -317,11 +317,7 @@ export function  resetpassword(data) {
   return fetch({
     url:'/user/resetpassword',
     method:'put',
-    data:data,
-    transformRequest: [function (data) {
-      data=JSON.stringify(data)
-      return data;
-    }]
+    data:data
   })
 }
 export function  reportput(data) {
