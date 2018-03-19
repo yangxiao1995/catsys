@@ -23,6 +23,9 @@
         </div>
 
         <div class="title-text-button">
+          <button type="button" class="btn btn-primary text-search" @click="loadData">
+            <div></div>查询所有<div></div>
+          </button>
           <button type="button" class="btn btn-primary text-add" @click="handleCreate">
             <div></div>+ 添加机构<div></div>
           </button>
@@ -124,7 +127,7 @@
         </el-form-item>
 
         <el-form-item label="状态">
-          <input type="radio" v-model="temp.state" value="0" name="state">停用
+          <input type="radio" v-model="temp.state" value="-1" name="state">停用
           <input type="radio" v-model="temp.state" value="1" name="state">正常
         </el-form-item>
         <el-form-item label="机构编号" prop="orgNumber">
@@ -292,7 +295,7 @@
       stateFilter(status) {
         const statusMap = {
           '1': '正常',
-          '0': '',
+          '-1': '停用',
         };
         return statusMap[status]
       },
@@ -394,7 +397,13 @@
       })
       },
       loadData(){
+
         let self = this;
+        self.quertprov={
+             prov:'',
+            city:'',
+            home:''
+        },
         getorgpageinfo(self.listQuery).then(res => {
         self.tableData.rows=JSON.parse(res.data).data.rows
         self.total = JSON.parse(res.data).data.total;
