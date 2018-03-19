@@ -6,7 +6,7 @@
       <div class="title-text">
         <div class="title-text-left">
           <el-form class="small-space" :model="temp" :rules="rules" ref="" label-position="left" label-width=""
-                   style='width: 1000px;'>
+                   style='width: 750px;'>
           <el-form-item class="" label="">
             <p>所属地区</p>
             <el-select class="quertselect" v-model="quertprov.prov" placeholder="请选择省" @change="getcityT">
