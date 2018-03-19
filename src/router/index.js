@@ -5,6 +5,7 @@ import login from '../components/login.vue'
 import promachin from '../template/promachin.vue'
 import mailmanagement from '../template/mailmanagement.vue'
 import usermanagement from '../template/usermanagement.vue'
+import advancedetail from '../template/advancedetail.vue'
 import venmanage from '../template/venmanage.vue'
 import sendadvance from '../template/sendadvance.vue'
 import customer from '../template/customer.vue'
@@ -38,6 +39,10 @@ export default new Router({
         {
           path: '/manufacturer',
           component:venmanage
+        },
+        {
+          path: '/advancedetail',
+          component:advancedetail
         },
         {
           path: '/production/user',
