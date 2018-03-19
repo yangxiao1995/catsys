@@ -152,14 +152,21 @@
         </el-form-item>
 
 
-        <el-form-item label="设备管理人" prop="macUser">
-          <el-autocomplete
-            style="margin-top:8px;"
+        <el-form-item label="设备管理人" prop="macNameT">
+          <el-select style="margin-top:8px;" @change="handleSelect" v-model="temp.macNameT" filterable placeholder="请选择">
+            <el-option
+              v-for="item in equipment"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+         <!-- <el-autocomplete
             v-model="macUser"
             suffix-icon="el-icon-arrow-down"
             :fetch-suggestions="querySearchAsync"
             @select="handleSelect"
-          ></el-autocomplete>
+          ></el-autocomplete>-->
         </el-form-item>
 
         <el-form-item label="设备操作员" prop="operators">
@@ -279,6 +286,7 @@
           macSeries:"",
           macManufacturer: '',
           macUser: '',
+          macNameT:'',
           macWorkTime: '',
           operators:[],
           macState: -1,
@@ -291,7 +299,7 @@
             {required: true, message: '请输入厂商', trigger: 'blur'},
           ],
 
-          macUser: [
+          macNameT: [
             {required: true, message: '请输入设备管理人', trigger: 'change'},
            /* {validator:uname,trigger:'blur'}*/
           ],
@@ -365,7 +373,7 @@
         self.equipment=[]
         getusers().then(res => {
           for(var i=0;i<JSON.parse(res.data).data.length;i++){
-          self.equipment.push({"value":JSON.parse(res.data).data[i].userNameCode,"id":JSON.parse(res.data).data[i].id})
+          self.equipment.push({"label":JSON.parse(res.data).data[i].userNameCode,"value":JSON.parse(res.data).data[i].id})
           }
       })
       },
@@ -389,11 +397,20 @@
       })
         machinegetid(row.id).then(res => {
           console.log(JSON.parse(res.data).data)
-        this.macUser=JSON.parse(res.data).data.userName
+
+        let opert = JSON.parse(res.data).data.operators;
+        let opertlist = [];
+        for(let j=0;j<opert.split(',').length-1;j++){
+          opertlist.push(opert.split(',')[j])
+        }
+
+        console.log(opertlist)
         this.temp={
           id:row.id,
           macName: JSON.parse(res.data).data.macName,
           macType: JSON.parse(res.data).data.macType,
+          operators: opertlist,
+          macNameT:JSON.parse(res.data).data.userName,
           /*macSeries:JSON.parse(res.data).data.macSeries,*/
           macManufacturer: JSON.parse(res.data).data.macManufacturer,
           macUser: JSON.parse(res.data).data.macUser,
@@ -446,7 +463,7 @@
             maccontant={value:JSON.parse(res.data).data[j].id,label:JSON.parse(res.data).data[j].name}
           self.manufacturer.push(maccontant)
         }
-
+        console.log(self.manufacturer)
       })
       },
       cancel(formName){
@@ -458,10 +475,8 @@
 
         this.$refs.temp.validate(valid=>{
           if (valid) {
-            if(self.macUser=="" || self.macUser==null){
-              this.$message.error("请填写设备管理人")
-            }else{
               let self = this;
+            self.temp.operators=self.temp.operators.toString()
               machineput(this.temp).then(res=>
               {
                 if(JSON.parse(res.data).code=='1'){
@@ -476,9 +491,7 @@
               }else{
                 self.$message.error(JSON.parse(res.data).msg)
               }
-
             })
-            }
           }
         }
       )
@@ -486,14 +499,13 @@
       },
       //添加
       create(formName){
-        this.temp.operators=this.temp.operators.toString()
-        console.log(this.temp)
+
+
         let self=this;
         this.$refs.temp.validate(valid=>{
           if (valid) {
-           /* if(self.macUser=="" || self.macUser==null){
-              this.$message.error("请填写设备管理人")
-            }else{*/
+            self.temp.operators=self.temp.operators.toString()
+            console.log(this.temp)
               let self = this;
               machineadd(self.temp).then(res =>{
                 if(JSON.parse(res.data).code==1){

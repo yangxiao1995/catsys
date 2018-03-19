@@ -91,6 +91,7 @@
             class="el-button-edit"
             size="small"
             type="danger"
+            title="详情页"
             @click="handleUpdate(scope.row)">
             <i class="el-icon-info"></i>
           </el-button>

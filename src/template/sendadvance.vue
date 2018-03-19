@@ -104,6 +104,14 @@
             class="el-button-edit"
             size="small"
             type="danger"
+            title="详情页"
+            @click="handleUpdate(scope.row)">
+            <i class="el-icon-info"></i>
+          </el-button>
+          <el-button
+            class="el-button-edit"
+            size="small"
+            type="danger"
             title="修改"
             @click="handleEdit(scope.row)"><img src="../../static/img/table/edit.png" alt="">
           </el-button>
@@ -290,6 +298,9 @@
       }
     },
     methods: {
+      handleUpdate(row){
+        this.$router.push({path: '/advancedetail', query: {id: row.id}})
+      },
       handleSizeChange(){
 
       },
