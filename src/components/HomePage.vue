@@ -15,7 +15,7 @@
             </li>
           </ul>-->
 
-          <router-link :to="item.url" v-if="item.children.length==0" aria-expanded="true">{{item.name}}<span class="fa fa-angle-down"></span></router-link>
+          <router-link :to="item.url" v-if="item.children.length==0" @click.native="getactiv" aria-expanded="true">{{item.name}}<span class="fa fa-angle-down"></span></router-link>
           <a href="javascript:;" v-else aria-expanded="true">
             <span class="nav-label">{{item.name}}<span class="fa fa-angle-down"></span></span>
           </a>
@@ -27,11 +27,6 @@
 
 
         </li>
-       <!-- <li><router-link to="/equipment">设备管理<span class="fa fa-angle-down"></span></router-link></li>
-        <li><router-link to="/mechanism">机构管理<span class="fa fa-angle-down"></span></router-link></li>
-        <li><router-link to="/userlist">用户管理<span class="fa fa-angle-down"></span></router-link></li>
-        <li><router-link to="/mailmanagement">邮件管理<span class="fa fa-angle-down"></span></router-link></li>
-        <li><router-link to="/sys">系统管理<span class="fa fa-angle-down"></span></router-link></li>-->
       </ul>
     </div>
     <div class="right_sircle">
@@ -72,6 +67,12 @@ export default {
     },
     acticive:function () {
       $('#side-menu').metisMenu();
+    },
+    getactiv() {
+      console.log('..')
+      $('li').removeClass('active')
+      $('li>ul').removeClass('collapse in')
+      $('li>ul').addClass('collapse')
     }
   }
 }
