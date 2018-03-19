@@ -12,6 +12,7 @@ export function  login(data) {
       data=JSON.stringify(data)
       return data;
     }]
+    ,headers: {'Content-Type': 'application/json;charset=UTF-8'}
   })
 }
 export function  machineadd(data) {
@@ -23,6 +24,7 @@ export function  machineadd(data) {
       data=JSON.stringify(data)
       return data;
     }]
+    ,headers: {'Content-Type': 'application/json;charset=UTF-8'}
   })
 }
 export function  userupload(data) {
@@ -34,6 +36,7 @@ export function  userupload(data) {
       data=JSON.stringify(data)
       return data;
     }]
+    ,headers: {'Content-Type': 'application/json;charset=UTF-8'}
   })
 }
 export function  userpost(data) {
@@ -45,6 +48,7 @@ export function  userpost(data) {
       data=JSON.stringify(data)
       return data;
     }]
+    ,headers: {'Content-Type': 'application/json;charset=UTF-8'}
   })
 }
 export function  roleadd(data) {
@@ -56,6 +60,7 @@ export function  roleadd(data) {
       data=JSON.stringify(data)
       return data;
     }]
+    ,headers: {'Content-Type': 'application/json;charset=UTF-8'}
   })
 }
 export function  reportpost(data) {
@@ -67,6 +72,7 @@ export function  reportpost(data) {
       data=JSON.stringify(data)
       return data;
     }]
+    ,headers: {'Content-Type': 'application/json;charset=UTF-8'}
   })
 }
 export function  rolepost(data) {
@@ -78,6 +84,7 @@ export function  rolepost(data) {
       data=JSON.stringify(data)
       return data;
     }]
+    ,headers: {'Content-Type': 'application/json;charset=UTF-8'}
   })
 }
 export function  organizationadd(data) {
@@ -89,6 +96,7 @@ export function  organizationadd(data) {
       data=JSON.stringify(data)
       return data;
     }]
+    ,headers: {'Content-Type': 'application/json;charset=UTF-8'}
   })
 }
 export function  getreportpageinfo(data) {
@@ -126,6 +134,12 @@ export function  getorgusers() {
 export function  manufacturer() {
   return fetch({
     url:'/manufacturer',
+    method:'get',
+  })
+}
+export function  manufacturerjson() {
+  return fetch({
+    url:'/manufacturer/json',
     method:'get',
   })
 }
@@ -296,17 +310,14 @@ export function  machineput(data) {
       data=JSON.stringify(data)
       return data;
     }]
+    ,headers: {'Content-Type': 'application/json;charset=UTF-8'}
   })
 }
 export function  resetpassword(data) {
   return fetch({
     url:'/user/resetpassword',
     method:'put',
-    data:data,
-    transformRequest: [function (data) {
-      data=JSON.stringify(data)
-      return data;
-    }]
+    data:data
   })
 }
 export function  reportput(data) {
@@ -318,6 +329,7 @@ export function  reportput(data) {
       data=JSON.stringify(data)
       return data;
     }]
+    ,headers: {'Content-Type': 'application/json;charset=UTF-8'}
   })
 }
 export function  organizationput(data) {
@@ -329,6 +341,7 @@ export function  organizationput(data) {
       data=JSON.stringify(data)
       return data;
     }]
+    ,headers: {'Content-Type': 'application/json;charset=UTF-8'}
   })
 }
 export function  userput(data) {
@@ -340,6 +353,7 @@ export function  userput(data) {
       data=JSON.stringify(data)
       return data;
     }]
+    ,headers: {'Content-Type': 'application/json;charset=UTF-8'}
   })
 }
 export function  postssendback(data) {
@@ -357,11 +371,7 @@ export function  authorityput(data) {
   return fetch({
     url:'/authority',
     method:'put',
-    data:data,
-    transformRequest: [function (data) {
-      data=JSON.stringify(data)
-      return data;
-    }]
+    data:data
   })
 }
 /*预收寄登记*/
@@ -387,6 +397,7 @@ export function  prerasput(data) {
       data=JSON.stringify(data)
       return data;
     }]
+    ,headers: {'Content-Type': 'application/json;charset=UTF-8'}
   })
 }
 export  function  prerasdelete(data) {
@@ -404,6 +415,7 @@ export function  prerasadd(data) {
       data=JSON.stringify(data)
       return data;
     }]
+    ,headers: {'Content-Type': 'application/json;charset=UTF-8'}
   })
 }
 /*客户管理*/
@@ -435,6 +447,7 @@ export function  customerput(data) {
       data=JSON.stringify(data)
       return data;
     }]
+    ,headers: {'Content-Type': 'application/json;charset=UTF-8'}
   })
 }
 export function  customeradd(data) {
@@ -485,6 +498,7 @@ export function  manufactureradd(data) {
       data=JSON.stringify(data)
       return data;
     }]
+    ,headers: {'Content-Type': 'application/json;charset=UTF-8'}
   })
 }
 export function  manufacturerput(data) {

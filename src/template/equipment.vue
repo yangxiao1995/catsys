@@ -87,7 +87,7 @@
         show-overflow-tooltip>
       </el-table-column>
       <el-table-column
-        prop="state"
+        prop="macState"
         align="center"
         label="状态"
         width="110"
@@ -129,8 +129,8 @@
         </el-form-item>
 
         <el-form-item label="状态">
-          <input type="radio" v-model="temp.macState" value="0" name="state">停用
-          <input type="radio" v-model="temp.macState" value="1" name="state">正常
+          <input type="radio" v-model="temp.macState" value="0" name="macState">停用
+          <input type="radio" v-model="temp.macState" value="1" name="macState">正常
         </el-form-item>
         <!--<el-form-item label="序列号" prop="macSeries">
           <el-input v-model="temp.macSeries"></el-input>
@@ -236,7 +236,7 @@
 </style>
 <script src="../../static/js/jquery-ui.js"></script>
 <script>
-  import {machine,machineadd,machinedelete,machineput,getusers,machinegetid,getorgusers,manufacturer} from "../api/getlist"
+  import {machine,machineadd,machinedelete,machineput,getusers,machinegetid,getorgusers,manufacturerjson} from "../api/getlist"
   import  util from '../common/util'
   export default {
     data() {
@@ -415,7 +415,7 @@
           macManufacturer: JSON.parse(res.data).data.macManufacturer,
           macUser: JSON.parse(res.data).data.macUser,
           macWorkTime: JSON.parse(res.data).data.macWorkTime,
-          state: JSON.parse(res.data).data.state,
+          macState: JSON.parse(res.data).data.macState,
         }
       })
 
@@ -457,10 +457,10 @@
           self.userName.push(usercontant)
         }
       })
-        manufacturer().then(res => {
+        manufacturerjson().then(res => {
           let maccontant='';
           for(let j=0;j<JSON.parse(res.data).data.length;j++){
-            maccontant={value:JSON.parse(res.data).data[j].id,label:JSON.parse(res.data).data[j].name}
+            maccontant={value:JSON.parse(res.data).data[j].id,label:JSON.parse(res.data).data[j].name+'  '+JSON.parse(res.data).data[j].code}
           self.manufacturer.push(maccontant)
         }
         console.log(self.manufacturer)
@@ -472,7 +472,6 @@
       },
       update(){
         let self = this;
-
         this.$refs.temp.validate(valid=>{
           if (valid) {
               let self = this;
