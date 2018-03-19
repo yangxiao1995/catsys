@@ -45,10 +45,7 @@ service.interceptors.request.use(
       config.headers.Authorization = `${store.state.token}`;
     }
     if(config.url=="/user/upload" || config.url=="/user/downloadkey"){
-      config.headers = {
-        //'Content-Type' : 'multipart/form-data',
-        'Authorization' : `${store.state.token}`
-      }
+      config.headers.Authorization = `${store.state.token}`;
     }
     if(config.method=='post'){
       config.data = {
