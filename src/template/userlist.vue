@@ -588,30 +588,35 @@
       },
       //添加
       create(formName){
+        console.log(this.temp)
         this.$refs.temp.validate(valid=>{
           if (valid) {
             if(this.temp.userOrg=="" || this.temp.userOrg==null){
               this.$message.error("请填写用户组织机构")
             }else{
-              this.boolAdd=true;
-              let self = this;
-              userpost(self.temp).then(res =>{
+                if(this.temp.roleId=="" || this.temp.roleId==null){
+              this.$message.error("请填写用户角色")
+            }else {
+                this.boolAdd=true;
+                let self = this;
+                userpost(self.temp).then(res =>{
+                  console.log(JSON.parse(res.data))
                 if(JSON.parse(res.data).code==1){
-                self.$confirm('添加成功, 是否返回列表?', '提示', {
-                  confirmButtonText: '确定',
-                  cancelButtonText: '取消',
-                  type: 'success'
-                }).then(()=> {
-                  this.dialogFormVisible = false;
-                this.boolAdd=false;
-                self.loadData();
+                  self.$confirm('添加成功, 是否返回列表?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'success'
+                  }).then(()=> {
+                    this.dialogFormVisible = false;
+                  this.boolAdd=false;
+                  self.loadData();
+                })
+                }else{
+                  this.$message.error(JSON.parse(res.data).msg);
+                  this.boolAdd=false;
+                }
               })
-
-              }else{
-                this.$message.error(JSON.parse(res.data).msg);
-                this.boolAdd=false;
               }
-            })
             }
           }
         }
