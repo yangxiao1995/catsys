@@ -196,7 +196,7 @@
 
       },
       handleUpdate(row){
-        this.$router.push({path: '/mailmanagement', query: {id: row.id}})
+        this.$router.push({path: '/mailmachin', query: {id: row.id}})
       },
       handleCurrentChange(val) {
         this.listQuery.pageNumber= val;

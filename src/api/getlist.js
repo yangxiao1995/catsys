@@ -294,6 +294,13 @@ export function  postsuser(data) {
     params:data
   })
 }
+export function  postsmachine(data) {
+  return fetch({
+    url:'/posts/machine/'+data.id,
+    method:'get',
+    params:data
+  })
+}
 export function  organization(data) {
   return fetch({
     url:'/organization',

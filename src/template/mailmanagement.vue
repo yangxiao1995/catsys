@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="contain-title">
-      <h1> >生产管理详情页 </h1>
+      <h1> >用户生产管理详情页 </h1>
       <div class="title-line"></div>
       <div class="title-text">
         <div class="title-text-left">
@@ -184,7 +184,7 @@
         currentPage1:1,
         listQuery: {
           code:'',
-        /*  pageNumber:1,*/
+          pageNumber:1,
         },
 
         total:100,
@@ -272,7 +272,7 @@
         console.log(par)
         postsuser(par).then(res => {
           console.log(JSON.parse(res.data).data)
-        self.tableData.rows=JSON.parse(res.data).data
+        self.tableData.rows=JSON.parse(res.data).data.rows
         self.total = JSON.parse(res.data).data.total;
         self.pageSize = JSON.parse(res.data).data.pageSize;
       })
