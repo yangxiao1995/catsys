@@ -466,6 +466,7 @@ export function  customeradd(data) {
       data=JSON.stringify(data)
       return data;
     }]
+    ,headers: {'Content-Type': 'application/json;charset=UTF-8'}
   })
 }
 /*设备生产管理*/
@@ -517,6 +518,7 @@ export function  manufacturerput(data) {
       data=JSON.stringify(data)
       return data;
     }]
+    ,headers: {'Content-Type': 'application/json;charset=UTF-8'}
   })
 }
 export  function  manufacturerdelete(data) {
