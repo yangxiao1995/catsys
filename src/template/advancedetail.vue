@@ -163,7 +163,7 @@
   </div>
 </template>
 <script>
-  import {posts,postsdelete,postssendback,postsuser} from "../api/getlist"
+  import {posts,postsdelete,postssendback,prepostras} from "../api/getlist"
   export default {
     data() {
       var uname = (rule, value, callback) => {
@@ -184,7 +184,7 @@
         currentPage1:1,
         listQuery: {
           code:'',
-          /*  pageNumber:1,*/
+            pageNumber:1,
         },
 
         total:100,
@@ -266,13 +266,13 @@
       loadData(){
         let self = this;
         let par={
-          id:self.$route.query.id,
+          prerasId:self.$route.query.id,
           code:self.listQuery.code
         }
         console.log(par)
-        postsuser(par).then(res => {
+        prepostras(par).then(res => {
           console.log(JSON.parse(res.data).data)
-        self.tableData.rows=JSON.parse(res.data).data
+        self.tableData.rows=JSON.parse(res.data).data.rows
         self.total = JSON.parse(res.data).data.total;
         self.pageSize = JSON.parse(res.data).data.pageSize;
       })
@@ -357,6 +357,31 @@
       cancel(formName){
         this.$refs.temp.resetFields();
         this.dialogFormVisible=false;
+      },
+      update(){
+        let self = this;
+        this.$refs.temp.validate(valid=>{
+          if (valid) {
+            let self = this;
+            prerasput(this.temp).then(res=>
+            {
+              if(JSON.parse(res.data).code=='1'){
+              self.$confirm('修改成功, 是否返回列表?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'success'
+              }).then(() =>{
+                this.dialogFormVisible = false;
+              self.loadData();
+            })
+            }else{
+              self.$message.error(JSON.parse(res.data).msg)
+            }
+          })
+          }
+        }
+      )
+
       },
     }
   }

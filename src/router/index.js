@@ -7,6 +7,7 @@ import mailmanagement from '../template/mailmanagement.vue'
 import usermanagement from '../template/usermanagement.vue'
 import advancedetail from '../template/advancedetail.vue'
 import mailmachin from '../template/mailmachin.vue'
+import warning from '../template/warning.vue'
 import venmanage from '../template/venmanage.vue'
 import sendadvance from '../template/sendadvance.vue'
 import customer from '../template/customer.vue'
@@ -36,6 +37,10 @@ export default new Router({
         {
           path: '/mailmanagement',
           component:mailmanagement
+        },
+        {
+          path: '/warning',
+          component:warning
         },
         {
           path: '/mailmachin',

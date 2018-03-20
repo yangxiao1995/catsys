@@ -1,19 +1,17 @@
 <template>
   <div>
     <div class="contain-title">
-      <h1> >预收寄登记 </h1>
+      <h1> >预警管理 </h1>
       <div class="title-line"></div>
       <div class="title-text">
         <div class="title-text-left">
-          <p>名称</p><input v-model="listQuery.name" class="equiinput" type="text">
-          <p class="text-data">代码</p><input v-model="listQuery.code" class="equiinput" type="text">
+          <p>客户代码</p>
+          <input v-model="listQuery.code" class="equiinput" type="text">
         </div>
         <div class="title-text-button">
           <button type="button" class="btn btn-primary text-search" @click="loadData">
             <div></div>查询<div></div>
           </button>
-          <button type="button" class="btn btn-primary text-add"  @click="handleCreate">
-            <div></div>+ 添加登记<div></div>
           </button>
           <button type="button" class="btn btn-primary text-delete" @click="alldelete" :disabled="boodelete">
             <div></div>批量删除<div></div>
@@ -41,49 +39,25 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="name"
-        label="预收寄名称"
+        prop="postCode"
+        label="邮件代码"
         align="center">
       </el-table-column>
       <el-table-column
-        prop="code"
-        label="预收寄代码"
+        prop="cause"
+        label="预警原因"
         align="center">
       </el-table-column>
-      <!--<el-table-column-->
-        <!--prop="state"-->
-        <!--align="center"-->
-        <!--label="状态"-->
-        <!--show-overflow-tooltip>-->
-        <!--<template slot-scope="scope">-->
-          <!--{{scope.row.state | stateFilter}}-->
-        <!--</template>-->
-      <!--</el-table-column>-->
-      <el-table-column
-        prop="startTime"
-        align="center"
-        label="开始收件时间"
-        show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="endTime"
-        align="center"
-        label="结束收件时间"
-        show-overflow-tooltip>
+       <el-table-column
+        prop="createTime"
+        label="预警时间"
+        align="center">
       </el-table-column>
       <el-table-column
         align="center"
         label="操作"
         show-overflow-tooltip>
         <template slot-scope="scope">
-          <el-button
-            class="el-button-edit"
-            size="small"
-            type="danger"
-            title="详情页"
-            @click="handleUpdate(scope.row)">
-            <i class="el-icon-info"></i>
-          </el-button>
           <el-button
             class="el-button-edit"
             size="small"
@@ -104,40 +78,15 @@
     </el-table>
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
 
-      <el-form class="small-space" :model="temp" :rules="rules" ref="temp" label-position="left" label-width="105px"
+      <el-form class="small-space" :model="temp" :rules="rules" ref="temp" label-position="left" label-width="95px"
                style='width: 400px; margin-left:50px;'>
         <input type="hidden" v-model="uid">
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="temp.name"></el-input>
+        <el-form-item label="客户姓名" prop="custName">
+          <el-input v-model="temp.custName"></el-input>
         </el-form-item>
-        <el-form-item  label="收寄起始时间" prop="">
-            <el-date-picker
-              v-model="temp.startTime"
-              type="date"
-              format="yyyy-MM-dd HH:mm:ss"
-              placeholder="选择日期">
-            </el-date-picker>
-        </el-form-item>
-        <el-form-item  label="收寄结束时间" prop="">
-                    <el-date-picker
-                      v-model="temp.endTime"
-                      type="date"
-                      format="yyyy-MM-dd HH:mm:ss"
-                      placeholder="选择日期">
-                    </el-date-picker>
-                </el-form-item>
-        <el-form-item label="代码" prop="code">
-          <el-input style="margin-top:8px;" v-model="temp.code"></el-input>
-        </el-form-item>
-        <el-form-item label="客户名称" prop="customerId">
-          <el-select v-model="temp.customerId" placeholder="请选择">
-            <el-option
-              v-for="item in customer"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
+
+        <el-form-item label="客户代码" prop="custCode">
+          <el-input style="margin-top:8px;" v-model="temp.custCode"></el-input>
         </el-form-item>
 
         <el-button v-if="dialogStatus=='create'" class="btn-primary" type="primary" :disabled="boolAdd" @click="create(temp)">确 定</el-button>
@@ -183,7 +132,7 @@
 </style>
 <script src="../../static/js/jquery-ui.js"></script>
 <script>
-  import {preras,prerasdelete,prerasadd,customer,prerasone,prerasput} from "../api/getlist"
+  import {warning,warningdelete,customeradd,customerone,customerput} from "../api/getlist"
   import  util from '../common/util'
   export default {
     data() {
@@ -198,16 +147,14 @@
       }, 1000);
       };
       return {
-        manufacturer:[],
-        customer:[],
-        equipment:[],
+        userName:[],
         timeout:  null,
         boodelete:true,
         boolAdd:false,
+        excelList:null,
         currentPage1:1,
         listQuery: {
-          code:'',
-          name:"",
+          code:"",
           pageNumber:1,
         },
         total:100,
@@ -224,26 +171,17 @@
         dialogStatus: '',
         dialogFormVisible: false,
         temp: {
-          name: '',
-          code:"",
-          startTime : '',
-          endTime:"",
-          customerId:''
-          /*state: -1,*/
+          custName: '',
+          custCode: '',
+          state: -1,
         },
         rules: {
-          name: [
-            {required: true, message: '请输入预收寄名称', trigger: 'blur'},
+          custName: [
+            {required: true, message: '请输入客户姓名', trigger: 'blur'},
           ],
-          code: [
-            {required: true, message: '请输入预收寄代码', trigger: 'blur'},
+          custCode: [
+            {required: true, message: '请输入客户代码', trigger: 'blur'},
           ],
-          macWorkTime: [
-            {required: true, message: '请输入入网时间', trigger: 'blur'},
-          ],
-          customerId:[
-            {required: true, message: '请选择客户名称', trigger: 'change'},
-          ]
         },
         multipleSelection: [],
         listLoading: false
@@ -253,10 +191,8 @@
     filters: {
       stateFilter(status) {
         const statusMap = {
-          '1': '正常',
+          '1': '使用',
           '0': '删除',
-          "-1":"异常",
-          "2":"维护"
         };
         return statusMap[status]
       },
@@ -274,9 +210,11 @@
       }
     },
     methods: {
-      handleUpdate(row){
-        this.$router.push({path: '/advancedetail', query: {id: row.id}})
+      handleSelect(item) {
+        console.log(item)
+        this.temp.macUser=item.id
       },
+
       handleSizeChange(){
 
       },
@@ -284,23 +222,14 @@
         this.listQuery.pageNumber= val;
         this.loadData();
       },
-      handleCreate() {
-        this.resetTemp();
-        this.dialogStatus = 'create';
-        this.dialogFormVisible = true;
-        let self=this
-      },
       handleEdit(row){
         let self=this;
-        prerasone(row.id).then(res => {
+        customerone(row.id).then(res => {
           console.log(JSON.parse(res.data).data)
         this.temp={
           id:row.id,
-          name: JSON.parse(res.data).data.name,
-          code: JSON.parse(res.data).data.code,
-          startTime: JSON.parse(res.data).data.startTime,
-          endTime: JSON.parse(res.data).data.endTime,
-          customerId: row.id,
+          custName: JSON.parse(res.data).data.custName,
+          custCode: JSON.parse(res.data).data.custCode,
           state: JSON.parse(res.data).data.state,
         }
       })
@@ -316,30 +245,13 @@
           this.boodelete=true;
         }
       },
-      resetTemp(){
-        this.temp = {
-          name: '',
-          code: '',
-          startTime:util.formatDate.format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-          endTime:util.formatDate.format(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-          customerId:''
-        }
-      },
       loadData(){
         let self = this;
-        preras(self.listQuery).then(res => {
+        warning(self.listQuery).then(res => {
           console.log(JSON.parse(res.data))
-        self.tableData.rows=JSON.parse(res.data).data.rows
+        self.tableData.rows=JSON.parse(res.data).data.data
         self.total = JSON.parse(res.data).data.total;
         self.pageSize = JSON.parse(res.data).data.pageSize;
-      })
-        self.customer=[]
-        customer(self.listQuery).then(res => {
-        let cust='';
-        for(let l=0;l<JSON.parse(res.data).data.rows.length;l++){
-          cust={label:JSON.parse(res.data).data.rows[l].custName,value:JSON.parse(res.data).data.rows[l].id}
-          self.customer.push(cust)
-        }
       })
       },
       cancel(formName){
@@ -350,46 +262,19 @@
         let self = this;
         this.$refs.temp.validate(valid=>{
           if (valid) {
-              let self = this;
-            prerasput(this.temp).then(res=>
-              {
-                if(JSON.parse(res.data).code=='1'){
-                self.$confirm('修改成功, 是否返回列表?', '提示', {
-                  confirmButtonText: '确定',
-                  cancelButtonText: '取消',
-                  type: 'success'
-                }).then(() =>{
-                  this.dialogFormVisible = false;
-                self.loadData();
-              })
-              }else{
-                self.$message.error(JSON.parse(res.data).msg)
-              }
-            })
-          }
-        }
-      )
-
-      },
-      //添加
-      create(formName){
-        console.log(this.temp)
-        let self=this;
-        this.$refs.temp.validate(valid=>{
-          if (valid) {
-            prerasadd(self.temp).then(res =>{
-              if(JSON.parse(res.data).code==1){
-              self.$confirm('添加成功, 是否返回列表?', '提示', {
+            customerput(this.temp).then(res=>
+            {
+              if(JSON.parse(res.data).code=='1'){
+              self.$confirm('修改成功, 是否返回列表?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'success'
-              }).then(()=> {
+              }).then(() =>{
                 this.dialogFormVisible = false;
               self.loadData();
             })
-
             }else{
-              this.$message.error(JSON.parse(res.data).msg);
+              self.$message.error(JSON.parse(res.data).msg)
             }
           })
           }
@@ -413,7 +298,7 @@
         this.$confirm('确认删除这些记录吗?', '提示', {
           type: 'warning'
         }).then(() => {
-          prerasdelete(ids).then(function (response) {
+          warningdelete(ids).then(function (response) {
           let rmsg=JSON.parse(response.data);
           if(rmsg.code == 1){
             self.loadData();
@@ -429,7 +314,7 @@
         this.$confirm('确认删除该记录吗?', '提示', {
           type: 'warning'
         }).then(() => {
-          prerasdelete(index).then(function (response) {
+          warningdelete(index).then(function (response) {
           let rmsg=JSON.parse(response.data);
           if(rmsg.code == 1){
             self.loadData();

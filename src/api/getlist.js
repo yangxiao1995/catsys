@@ -381,10 +381,32 @@ export function  authorityput(data) {
     data:data
   })
 }
+/*预警管理*/
+export function  warning(data) {
+  return fetch({
+    url:'/warning',
+    method:'get',
+    params:data
+  })
+}
+export  function  warningdelete(data) {
+  return fetch({
+    url:'/warning',
+    method:"delete",
+    params:data
+  })
+}
 /*预收寄登记*/
 export function  preras(data) {
   return fetch({
     url:'/preras',
+    method:'get',
+    params:data
+  })
+}
+export function  prepostras(data) {
+  return fetch({
+    url:'/prepostras',
     method:'get',
     params:data
   })
