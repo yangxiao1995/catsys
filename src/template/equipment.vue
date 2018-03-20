@@ -132,9 +132,6 @@
           <input type="radio" v-model="temp.macState" value="0" name="macState">停用
           <input type="radio" v-model="temp.macState" value="1" name="macState">正常
         </el-form-item>
-        <!--<el-form-item label="序列号" prop="macSeries">
-          <el-input v-model="temp.macSeries"></el-input>
-        </el-form-item>-->
 
         <el-form-item label="型号" prop="macType">
           <el-input style="margin-top:8px;" v-model="temp.macType"></el-input>
@@ -298,10 +295,11 @@
           macManufacturer: [
             {required: true, message: '请输入厂商', trigger: 'blur'},
           ],
-
+          macType: [
+            {required: true, message: '请输入型号', trigger: 'blur'},
+          ],
           macNameT: [
             {required: true, message: '请输入设备管理人', trigger: 'change'},
-           /* {validator:uname,trigger:'blur'}*/
           ],
           macWorkTime: [
             {required: true, message: '请输入入网时间', trigger: 'blur'},
@@ -319,7 +317,7 @@
       stateFilter(status) {
         const statusMap = {
           '1': '正常',
-          '0': '删除',
+          '0': '停用',
           "-1":"异常",
           "2":"维护"
 
@@ -340,7 +338,7 @@
       }
     },
     methods: {
-      querySearchAsync(queryString, cb ) {
+    /*  querySearchAsync(queryString, cb ) {
         var equipment = this.equipment;
         var results = queryString ? equipment.filter(this.createStateFilter(queryString)) : equipment;
         cb (results)
@@ -349,7 +347,7 @@
         return (state) => {
           return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) >= 0);
         };
-      },
+      },*/
 
       handleSelect(item) {
         console.log(item)
@@ -366,16 +364,8 @@
       },
       handleCreate() {
         this.resetTemp();
-        this.macUser="";
         this.dialogStatus = 'create';
         this.dialogFormVisible = true;
-        let self=this
-        self.equipment=[]
-        getusers().then(res => {
-          for(var i=0;i<JSON.parse(res.data).data.length;i++){
-          self.equipment.push({"label":JSON.parse(res.data).data[i].userNameCode,"value":JSON.parse(res.data).data[i].id})
-          }
-      })
       },
       getData(){
         if (this.listQuery.macWorkTime != '') {
@@ -389,29 +379,19 @@
       },
       handleEdit(row){
         let self=this;
-        self.equipment=[]
-        getusers().then(res => {
-          for(var i=0;i<JSON.parse(res.data).data.length;i++){
-          self.equipment.push({"value":JSON.parse(res.data).data[i].userNameCode,"id":JSON.parse(res.data).data[i].id})
-        }
-      })
         machinegetid(row.id).then(res => {
           console.log(JSON.parse(res.data).data)
-
         let opert = JSON.parse(res.data).data.operators;
         let opertlist = [];
-        for(let j=0;j<opert.split(',').length-1;j++){
-          opertlist.push(opert.split(',')[j])
+        for(let j=0;j<opert.length;j++){
+          opertlist.push(opert[j].userName)
         }
-
-        console.log(opertlist)
         this.temp={
           id:row.id,
           macName: JSON.parse(res.data).data.macName,
           macType: JSON.parse(res.data).data.macType,
           operators: opertlist,
           macNameT:JSON.parse(res.data).data.userName,
-          /*macSeries:JSON.parse(res.data).data.macSeries,*/
           macManufacturer: JSON.parse(res.data).data.macManufacturer,
           macUser: JSON.parse(res.data).data.macUser,
           macWorkTime: JSON.parse(res.data).data.macWorkTime,
@@ -435,7 +415,6 @@
           macName: '',
           macType: '',
           operators:[],
-          /*macSeries:"",*/
           macManufacturer: '',
           macUser: '',
           macState: 1,
@@ -444,8 +423,13 @@
       },
       loadData(){
         let self = this;
+        self.equipment=[]
+        getusers().then(res => {
+        for(var i=0;i<JSON.parse(res.data).data.length;i++){
+          self.equipment.push({"label":JSON.parse(res.data).data[i].userNameCode,"value":JSON.parse(res.data).data[i].id})
+        }
+      })
         machine(self.listQuery).then(res => {
-          console.log(JSON.parse(res.data))
         self.tableData.rows=JSON.parse(res.data).data.rows
         self.total = JSON.parse(res.data).data.total;
         self.pageSize = JSON.parse(res.data).data.pageSize;
@@ -463,7 +447,6 @@
             maccontant={value:JSON.parse(res.data).data[j].id,label:JSON.parse(res.data).data[j].name+'  '+JSON.parse(res.data).data[j].code}
           self.manufacturer.push(maccontant)
         }
-        console.log(self.manufacturer)
       })
       },
       cancel(formName){
@@ -475,7 +458,8 @@
         this.$refs.temp.validate(valid=>{
           if (valid) {
               let self = this;
-            self.temp.operators=self.temp.operators.toString()
+            self.temp.macUser=self.temp.macNameT
+            console.log(self.temp)
               machineput(this.temp).then(res=>
               {
                 if(JSON.parse(res.data).code=='1'){
@@ -499,13 +483,14 @@
       //添加
       create(formName){
 
-
         let self=this;
         this.$refs.temp.validate(valid=>{
           if (valid) {
-            self.temp.operators=self.temp.operators.toString()
-            console.log(this.temp)
-              let self = this;
+            for(let j=0;j<self.temp.operators.length;j++){
+              self.temp.operators.push({"id":self.temp.operators[j]})
+            }
+            self.temp.macUser=self.temp.macNameT
+            console.log(self.temp)
               machineadd(self.temp).then(res =>{
                 if(JSON.parse(res.data).code==1){
                 self.$confirm('添加成功, 是否返回列表?', '提示', {
