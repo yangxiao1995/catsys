@@ -27,6 +27,7 @@
             :multiple="true"
             :data="machinelist"
             action="http://192.168.1.188:9000/aiom/posts/ready"
+            :on-success="afterupload"
             :show-file-list="false"
           >
             <el-button class="btn btn-primary text-return">导入</el-button>
@@ -297,6 +298,16 @@
       }
     },
     methods: {
+      afterupload(response, file){
+
+        if(response.code==1){
+          this.$message.success("选择成功")
+        }else{
+          this.$message.error(response.msg)
+        }
+
+        console.log(response)
+      },
       createselect(){
         let self=this;
         console.log(this.machinelist)
@@ -313,20 +324,6 @@
       changesb(){
         this.dialogStatus = 'change';
         this.dialogVisible = true;
-      },
-      handleAvatarSuccess(res,file){
-       /* console.log("...")
-          let id=this.$route.query.id
-        window.location.href="http://192.168.1.188:9000/aiom/posts/ready?id="+id+"&Authorization="+`token ${store.state.token}`
-        this.$router.push({path: '/advancedetail', query: {id: this.$route.query.id}})*/
-
-       /* let par={
-          id:this.$route.query.id,
-          file:file
-        }
-        postsready(par).then(res => {
-          console.log(JSON.parse(res.data).data)
-      })*/
       },
       handleSizeChange(){
 
