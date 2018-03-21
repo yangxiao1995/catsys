@@ -8,15 +8,25 @@
           <p>邮件条码</p><input class="mailinput" v-model="listQuery.code" type="text">
         </div>
         <div class="title-text-button">
+          <button type="button" class="btn btn-primary text-search">
+            <div></div>选择设备<div></div>
+          </button>
           <button type="button" class="btn btn-primary text-search" @click="loadData">
             <div></div>查询<div></div>
           </button>
           <button type="button" class="btn btn-primary text-delete" @click="alldelete" :disabled="boodelete">
             <div></div>批量删除<div></div>
           </button>
-          <button type="button" class="btn btn-primary text-return" @click="returnmail" :disabled="boodelete">
+          <!--<button type="file" class="btn btn-primary text-return" @click="returnmail">
             <div></div>导入<div></div>
-          </button>
+          </button>-->
+          <el-upload
+            style="display: inline-block"
+            action="http://192.168.1.188:9000/aiom/posts/ready"
+            :show-file-list="false"
+            :on-progress="handleAvatarSuccess">
+            <el-button class="btn btn-primary text-return">导入</el-button>
+          </el-upload>
         </div>
       </div>
     </div>
@@ -143,6 +153,7 @@
         <el-button @click="cancel(temp)" class="btn-white">取 消</el-button>
       </el-form>
     </el-dialog>
+
     <div class="text-paging">
       <div class="page-text">
         共{{this.total}}条记录，{{this.listQuery.pageNumber}}/{{getPageSize}}
@@ -163,7 +174,7 @@
   </div>
 </template>
 <script>
-  import {posts,postsdelete,postssendback,prepostras} from "../api/getlist"
+  import {posts,postsdelete,postssendback,prepostras,postsready} from "../api/getlist"
   export default {
     data() {
       var uname = (rule, value, callback) => {
@@ -256,6 +267,16 @@
       }
     },
     methods: {
+      handleAvatarSuccess(res,file){
+        console.log("...")
+        let par = {
+          id:this.$route.query.id,
+          file:file
+        }
+        postsready(par).then(function (response) {
+          console.log(response)
+        });
+      },
       handleSizeChange(){
 
       },
@@ -314,7 +335,12 @@
         }
       },
       returnmail(){
-
+        let par = {
+          id:this.$route.query.id
+        }
+        postsready(par).then(function (response) {
+         console.log(response)
+        });
       },
       handleDelete(index){
         var self = this;
