@@ -249,11 +249,13 @@
       loadData(){
         let self = this;
         self.listQuery.prerasId=self.$route.query.id
+
+
         warning(self.listQuery).then(res => {
           console.log(JSON.parse(res.data))
-        self.tableData.rows=JSON.parse(res.data).data.data
-        self.total = JSON.parse(res.data).data.total;
-        self.pageSize = JSON.parse(res.data).data.pageSize;
+        self.tableData.rows=JSON.parse(res.data).data.data.rows
+        self.total = JSON.parse(res.data).data.data.total;
+        self.pageSize = JSON.parse(res.data).data.data.pageSize;
       })
       },
       cancel(formName){
