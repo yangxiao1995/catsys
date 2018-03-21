@@ -310,8 +310,11 @@
       },
       createselect(){
         let self=this;
-        console.log(this.machinelist)
-        machineselect(this.machinelist).then(res => {
+        let par = {
+          id:this.$route.query.id,
+        }
+        console.log(par)
+        machineselect(par).then(res => {
           console.log(JSON.parse(res.data))
         if(JSON.parse(res.data).code!=1){
           self.$message.error(JSON.parse(res.data).msg)
