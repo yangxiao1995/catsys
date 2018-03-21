@@ -411,6 +411,20 @@ export function  prepostras(data) {
     params:data
   })
 }
+export function  machineselectall(data) {
+  return fetch({
+    url:'/machine/selectall',
+    method:'get',
+    params:data
+  })
+}
+export function  machineselect(data) {
+  return fetch({
+    url:'/machine/select/'+data.id,
+    method:'get',
+    params:data
+  })
+}
 export function  prerasone(data) {
   return fetch({
     url:'/preras/one/'+data,
@@ -445,6 +459,14 @@ export function  prerasadd(data) {
       return data;
     }]
     ,headers: {'Content-Type': 'application/json;charset=UTF-8'}
+  })
+}
+export function  postsready(data) {
+  return fetch({
+    url:'/posts/ready',
+    method:'post',
+    data:data,
+    headers: {'Content-Type': 'multipart/form-data'}
   })
 }
 /*客户管理*/
