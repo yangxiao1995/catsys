@@ -463,7 +463,7 @@ export function  prerasadd(data) {
 }
 export function  postsready(data) {
   return fetch({
-    url:'/posts/ready',
+    url:'/posts/ready/'+data.id,
     method:'post',
     data:data,
     headers: {'Content-Type': 'multipart/form-data'}
