@@ -8,7 +8,7 @@
           <p>邮件条码</p><input class="mailinput" v-model="listQuery.code" type="text">
         </div>
         <div class="title-text-button">
-          <button type="button" class="btn btn-primary text-search">
+          <button type="button" class="btn btn-primary text-search" @click="changesb">
             <div></div>选择设备<div></div>
           </button>
           <button type="button" class="btn btn-primary text-search" @click="loadData">
@@ -23,8 +23,9 @@
           <el-upload
             style="display: inline-block"
             action="http://192.168.1.188:9000/aiom/posts/ready"
+            :http-request="handleAvatarSuccess"
             :show-file-list="false"
-            :on-progress="handleAvatarSuccess">
+          >
             <el-button class="btn btn-primary text-return">导入</el-button>
           </el-upload>
         </div>
@@ -153,7 +154,24 @@
         <el-button @click="cancel(temp)" class="btn-white">取 消</el-button>
       </el-form>
     </el-dialog>
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogVisible">
 
+      <el-form class="small-space" label-position="left" label-width="95px"
+               style='width: 400px; margin-left:50px;'>
+        <el-form-item label="选择设备">
+          <el-select v-model="machinelist.id" placeholder="请选择">
+            <el-option
+              v-for="item in machineselect"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-button v-if="dialogStatus=='change'" class="btn-primary" type="primary" :disabled="boolAdd" @click="createselect">确 定</el-button>
+        <el-button @click="cancelselect" class="btn-white">取 消</el-button>
+      </el-form>
+    </el-dialog>
     <div class="text-paging">
       <div class="page-text">
         共{{this.total}}条记录，{{this.listQuery.pageNumber}}/{{getPageSize}}
@@ -174,7 +192,8 @@
   </div>
 </template>
 <script>
-  import {posts,postsdelete,postssendback,prepostras,postsready} from "../api/getlist"
+  import store from '.././store/userinfo/user'
+  import {posts,postsdelete,postssendback,prepostras,postsready,machineselectall,machineselect} from "../api/getlist"
   export default {
     data() {
       var uname = (rule, value, callback) => {
@@ -188,6 +207,10 @@
       }, 1000);
       };
       return {
+        machinelist:{
+          id:''
+        },
+        machineselect:[],
         boodelete:true,
         boolAdd:false,
         excelList:null,
@@ -212,6 +235,7 @@
         uid: '',
         dialogStatus: '',
         dialogFormVisible: false,
+        dialogVisible:false,
         sels:[],
         temp: {
           postWeight: '',
@@ -267,15 +291,28 @@
       }
     },
     methods: {
+      createselect(){
+        let self=this;
+        console.log(this.machinelist)
+        machineselect(this.machinelist).then(res => {
+          console.log(JSON.parse(res.data))
+        if(JSON.parse(res.data).code!=1){
+          self.$message.error(JSON.parse(res.data).msg)
+        }else{
+          self.$message.success("选择成功")
+          self.cancelselect();
+        }
+      })
+      },
+      changesb(){
+        this.dialogStatus = 'change';
+        this.dialogVisible = true;
+      },
       handleAvatarSuccess(res,file){
         console.log("...")
-        let par = {
-          id:this.$route.query.id,
-          file:file
-        }
-        postsready(par).then(function (response) {
-          console.log(response)
-        });
+          let id=this.$route.query.id
+        window.location.href="http://192.168.1.188:9000/aiom/posts/ready?id="+id+"&Authorization="+`token ${store.state.token}`
+        this.$router.push({path: '/advancedetail', query: {id: this.$route.query.id}})
       },
       handleSizeChange(){
 
@@ -296,6 +333,12 @@
         self.tableData.rows=JSON.parse(res.data).data.rows
         self.total = JSON.parse(res.data).data.total;
         self.pageSize = JSON.parse(res.data).data.pageSize;
+      })
+        machineselectall().then(res => {
+          console.log(JSON.parse(res.data).data)
+        for(let i=0;i<JSON.parse(res.data).data.length;i++){
+          self.machineselect.push({label:JSON.parse(res.data).data[i].macName,value:JSON.parse(res.data).data[i].id})
+        }
       })
       },
       alldelete(){
@@ -383,6 +426,12 @@
       cancel(formName){
         this.$refs.temp.resetFields();
         this.dialogFormVisible=false;
+      },
+      cancelselect(formName){
+        this.machinelist={
+          id:''
+        }
+        this.dialogVisible=false;
       },
       update(){
         let self = this;
