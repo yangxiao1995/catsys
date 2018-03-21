@@ -475,6 +475,7 @@
                   type: 'success'
                 }).then(() =>{
                   this.dialogFormVisible = false;
+              self.userName=[]
                 self.loadData();
               })
               }else{
