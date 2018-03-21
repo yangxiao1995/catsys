@@ -154,6 +154,7 @@
         excelList:null,
         currentPage1:1,
         listQuery: {
+          prerasId:'',
           code:"",
           pageNumber:1,
         },
@@ -247,6 +248,7 @@
       },
       loadData(){
         let self = this;
+        self.listQuery.prerasId=self.$route.query.id
         warning(self.listQuery).then(res => {
           console.log(JSON.parse(res.data))
         self.tableData.rows=JSON.parse(res.data).data.data
@@ -298,7 +300,10 @@
         this.$confirm('确认删除这些记录吗?', '提示', {
           type: 'warning'
         }).then(() => {
-          warningdelete(ids).then(function (response) {
+          let par = {
+            ids:ids
+          }
+          warningdelete(par).then(function (response) {
           let rmsg=JSON.parse(response.data);
           if(rmsg.code == 1){
             self.loadData();
@@ -314,7 +319,10 @@
         this.$confirm('确认删除该记录吗?', '提示', {
           type: 'warning'
         }).then(() => {
-          warningdelete(index).then(function (response) {
+          let par = {
+            ids:index
+          }
+          warningdelete(par).then(function (response) {
           let rmsg=JSON.parse(response.data);
           if(rmsg.code == 1){
             self.loadData();
