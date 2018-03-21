@@ -391,7 +391,7 @@
           macName: JSON.parse(res.data).data.macName,
           macType: JSON.parse(res.data).data.macType,
           operators: opertlist,
-          macNameT:JSON.parse(res.data).data.userName,
+          macNameT:JSON.parse(res.data).data.macUser,
           macManufacturer: JSON.parse(res.data).data.macManufacturer,
           macUser: JSON.parse(res.data).data.macUser,
           macWorkTime: JSON.parse(res.data).data.macWorkTime,
