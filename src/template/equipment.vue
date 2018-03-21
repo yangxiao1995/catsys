@@ -190,7 +190,7 @@
           </el-date-picker>
         </el-form-item>
 
-        <el-button v-if="dialogStatus=='create'" class="btn-primary" type="primary" :disabled="boolAdd" @click="create(temp)">确 定</el-button>
+        <el-button v-if="dialogStatus=='create'" class="btn-primary" type="primary" :disabled="boolAdd" @click="createtwo(temp)">确 定</el-button>
         <el-button v-else type="primary" @click="update">确 定</el-button>
         <el-button @click="cancel(temp)" class="btn-white">取 消</el-button>
       </el-form>
@@ -480,15 +480,19 @@
       )
 
       },
+      createtwo(){
+        let operlist = []
+        for(let i=0;i<this.temp.operators.length;i++){
+          operlist.push({id:this.temp.operators[i]})
+        }
+        this.temp.operators=operlist
+        this.create()
+      },
       //添加
       create(formName){
-
         let self=this;
         this.$refs.temp.validate(valid=>{
           if (valid) {
-            for(let j=0;j<self.temp.operators.length;j++){
-              self.temp.operators.push({"id":self.temp.operators[j]})
-            }
             self.temp.macUser=self.temp.macNameT
             console.log(self.temp)
               machineadd(self.temp).then(res =>{
