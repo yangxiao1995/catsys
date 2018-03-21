@@ -191,7 +191,7 @@
         </el-form-item>
 
         <el-button v-if="dialogStatus=='create'" class="btn-primary" type="primary" :disabled="boolAdd" @click="createtwo(temp)">确 定</el-button>
-        <el-button v-else type="primary" @click="update">确 定</el-button>
+        <el-button v-else type="primary" @click="updatetwo">确 定</el-button>
         <el-button @click="cancel(temp)" class="btn-white">取 消</el-button>
       </el-form>
     </el-dialog>
@@ -384,7 +384,7 @@
         let opert = JSON.parse(res.data).data.operators;
         let opertlist = [];
         for(let j=0;j<opert.length;j++){
-          opertlist.push(opert[j].userName)
+          opertlist.push(opert[j].id)
         }
         this.temp={
           id:row.id,
@@ -398,9 +398,16 @@
           macState: JSON.parse(res.data).data.macState,
         }
       })
-
         this.dialogStatus = 'update';
         this.dialogFormVisible = true;
+      },
+      updatetwo(){
+        let operlist = []
+        for(let i=0;i<this.temp.operators.length;i++){
+          operlist.push({id:this.temp.operators[i]})
+        }
+        this.temp.operators=operlist
+        this.update()
       },
       selsChange(sels){
         this.sels = sels;
@@ -457,7 +464,6 @@
         let self = this;
         this.$refs.temp.validate(valid=>{
           if (valid) {
-              let self = this;
             self.temp.macUser=self.temp.macNameT
             console.log(self.temp)
               machineput(this.temp).then(res=>
