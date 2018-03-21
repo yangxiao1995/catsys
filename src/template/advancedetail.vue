@@ -22,8 +22,10 @@
           </button>-->
           <el-upload
             style="display: inline-block"
+            :data="machinelist"
+            :withCredentials="true"
             action="http://192.168.1.188:9000/aiom/posts/ready"
-            :http-request="handleAvatarSuccess"
+
             :show-file-list="false"
           >
             <el-button class="btn btn-primary text-return">导入</el-button>
@@ -291,6 +293,9 @@
       }
     },
     methods: {
+      myUpload: {
+        Authorization: store.state.token
+      },
       createselect(){
         let self=this;
         console.log(this.machinelist)
@@ -309,10 +314,18 @@
         this.dialogVisible = true;
       },
       handleAvatarSuccess(res,file){
-        console.log("...")
+       /* console.log("...")
           let id=this.$route.query.id
         window.location.href="http://192.168.1.188:9000/aiom/posts/ready?id="+id+"&Authorization="+`token ${store.state.token}`
-        this.$router.push({path: '/advancedetail', query: {id: this.$route.query.id}})
+        this.$router.push({path: '/advancedetail', query: {id: this.$route.query.id}})*/
+
+       /* let par={
+          id:this.$route.query.id,
+          file:file
+        }
+        postsready(par).then(res => {
+          console.log(JSON.parse(res.data).data)
+      })*/
       },
       handleSizeChange(){
 
