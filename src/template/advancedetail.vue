@@ -22,10 +22,11 @@
           </button>-->
           <el-upload
             style="display: inline-block"
-            :data="machinelist"
             :withCredentials="true"
+            :headers="myUpload"
+            :multiple="true"
+            :data="machinelist"
             action="http://192.168.1.188:9000/aiom/posts/ready"
-
             :show-file-list="false"
           >
             <el-button class="btn btn-primary text-return">导入</el-button>
@@ -209,6 +210,9 @@
       }, 1000);
       };
       return {
+        myUpload: {
+          Authorization: store.state.token
+        },
         machinelist:{
           id:''
         },
@@ -293,9 +297,6 @@
       }
     },
     methods: {
-      myUpload: {
-        Authorization: store.state.token
-      },
       createselect(){
         let self=this;
         console.log(this.machinelist)
