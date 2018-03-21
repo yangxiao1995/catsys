@@ -322,6 +322,9 @@
       })
       },
       changesb(){
+        this.machinelist={
+          id:''
+        }
         this.dialogStatus = 'change';
         this.dialogVisible = true;
       },
@@ -439,9 +442,7 @@
         this.dialogFormVisible=false;
       },
       cancelselect(formName){
-        this.machinelist={
-          id:''
-        }
+
         this.dialogVisible=false;
       },
       update(){
