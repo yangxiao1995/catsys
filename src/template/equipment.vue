@@ -448,6 +448,7 @@
           self.userName.push(usercontant)
         }
       })
+        self.manufacturer=[]
         manufacturerjson().then(res => {
           let maccontant='';
           for(let j=0;j<JSON.parse(res.data).data.length;j++){
