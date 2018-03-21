@@ -25,7 +25,7 @@
             :withCredentials="true"
             :headers="myUpload"
             :multiple="true"
-            :data="machinelist"
+            :data="routerid"
             action="http://192.168.1.188:9000/aiom/posts/ready"
             :on-success="afterupload"
             :show-file-list="false"
@@ -217,6 +217,9 @@
         machinelist:{
           id:''
         },
+        routerid:{
+          id:this.$route.query.id,
+        },
         machineselect:[],
         boodelete:true,
         boolAdd:false,
@@ -310,11 +313,8 @@
       },
       createselect(){
         let self=this;
-        let par = {
-          id:this.$route.query.id,
-        }
-        console.log(par)
-        machineselect(par).then(res => {
+        console.log(this.machinelist)
+        machineselect(this.machinelist).then(res => {
           console.log(JSON.parse(res.data))
         if(JSON.parse(res.data).code!=1){
           self.$message.error(JSON.parse(res.data).msg)
