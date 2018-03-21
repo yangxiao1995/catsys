@@ -73,30 +73,41 @@
       </el-table-column>
       <el-table-column
         align="center"
-        label="操作"
+        label="预警管理"
         show-overflow-tooltip>
         <template slot-scope="scope">
           <el-button
-            class="el-button-edit"
-            size="small"
             type="danger"
-            title="详情页"
-            @click="handleUpdate(scope.row)">
-            <i class="el-icon-info"></i>
+            @click="handelwarn(scope.row)">预警
           </el-button>
-          <el-button
-            class="el-button-edit"
-            size="small"
-            type="danger"
-            title="修改"
-            @click="handleEdit(scope.row)"><img src="../../static/img/table/edit.png" alt="">
-          </el-button>
-          <el-button
-            class="el-button-delete"
-            size="small"
-            type="danger"
-            title="删除"
-            @click="handleDelete(scope.row.id)"><!--<img src="../../static/img/table/delete.png" alt="">-->
+        </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="操作"
+          show-overflow-tooltip>
+          <template slot-scope="scope">
+            <el-button
+              class="el-button-edit"
+              size="small"
+              type="danger"
+              title="详情页"
+              @click="handleUpdate(scope.row)">
+              <i class="el-icon-info"></i>
+            </el-button>
+            <el-button
+              class="el-button-edit"
+              size="small"
+              type="danger"
+              title="修改"
+              @click="handleEdit(scope.row)"><img src="../../static/img/table/edit.png" alt="">
+            </el-button>
+            <el-button
+              class="el-button-delete"
+              size="small"
+              type="danger"
+              title="删除"
+              @click="handleDelete(scope.row.id)"><!--<img src="../../static/img/table/delete.png" alt="">-->
             <i class="el-icon-delete"></i>
           </el-button>
         </template>
@@ -276,6 +287,9 @@
     methods: {
       handleUpdate(row){
         this.$router.push({path: '/advancedetail', query: {id: row.id}})
+      },
+      handelwarn(row){
+        this.$router.push({path: '/warning', query: {id: row.id}})
       },
       handleSizeChange(){
 
