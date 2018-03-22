@@ -8,9 +8,9 @@
           <p>邮件条码</p><input class="mailinput" v-model="listQuery.code" type="text">
         </div>
         <div class="title-text-button">
-          <button type="button" class="btn btn-primary text-search" @click="changesb">
-            <div></div>选择设备<div></div>
-          </button>
+          <!--<button type="button" class="btn btn-primary text-search" @click="changesb">-->
+            <!--<div></div>选择设备<div></div>-->
+          <!--</button>-->
           <button type="button" class="btn btn-primary text-search" @click="loadData">
             <div></div>查询<div></div>
           </button>
