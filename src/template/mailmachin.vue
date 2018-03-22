@@ -97,31 +97,31 @@
           {{scope.row.postOperation | mainstateFilter}}
         </template>
       </el-table-column>
-      <el-table-column
-        align="center"
-        label="操作"
-        width="150"
-        show-overflow-tooltip>
-        <template slot-scope="scope">
-          <el-button
-            class="el-button-edit"
-            size="small"
-            type="danger"
-            title="修改"
-            @click="handleEdit(scope.row)"><img src="../../static/img/table/edit.png" alt="">
-          </el-button>
-          <el-button
-            class="el-button-delete"
-            size="small"
-            type="danger"
-            icon="delete"
-            title="删除"
-            @click="handleDelete(scope.row.id)">
-            <i class="el-icon-delete"></i>
-            <!--<img src="../../static/img/table/delete.png" alt="">-->
-          </el-button>
-        </template>
-      </el-table-column>
+      <!--<el-table-column-->
+        <!--align="center"-->
+        <!--label="操作"-->
+        <!--width="150"-->
+        <!--show-overflow-tooltip>-->
+        <!--<template slot-scope="scope">-->
+          <!--<el-button-->
+            <!--class="el-button-edit"-->
+            <!--size="small"-->
+            <!--type="danger"-->
+            <!--title="修改"-->
+            <!--@click="handleEdit(scope.row)"><img src="../../static/img/table/edit.png" alt="">-->
+          <!--</el-button>-->
+          <!--<el-button-->
+            <!--class="el-button-delete"-->
+            <!--size="small"-->
+            <!--type="danger"-->
+            <!--icon="delete"-->
+            <!--title="删除"-->
+            <!--@click="handleDelete(scope.row.id)">-->
+            <!--<i class="el-icon-delete"></i>-->
+            <!--&lt;!&ndash;<img src="../../static/img/table/delete.png" alt="">&ndash;&gt;-->
+          <!--</el-button>-->
+        <!--</template>-->
+      <!--</el-table-column>-->
     </el-table>
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
 
