@@ -126,24 +126,15 @@
           <el-form-item label="用户姓名" prop="userName">
             <el-input style="margin-top:8px;" v-model="temp.userName"></el-input>
           </el-form-item>
-
-          <!--<el-form-item label="状态">-->
-            <!--<input type="radio" v-model="temp.state" value="-1" name="state">停用-->
-            <!--<input type="radio" v-model="temp.state" value="0" name="state">失效-->
-            <!--<input type="radio" v-model="temp.state" value="1" name="state">有效-->
-          <!--</el-form-item>-->
-
-
-          <!--<el-form-item label="用户代码" prop="userCode">-->
-            <!--<el-input style="margin-top:8px;" v-model="temp.userCode"></el-input>-->
-          <!--</el-form-item>-->
           <el-form-item label="用户角色" prop="">
-            <el-autocomplete
-              style="margin-top:8px;"
-              v-model="userType"
-              :fetch-suggestions="querySelectAsync"
-              @select="handleSelecttop"
-            ></el-autocomplete>
+            <el-select v-model="userType" placeholder="请选择">
+              <el-option
+                v-for="item in userName"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="用户组织机构" prop="">
             <el-autocomplete
@@ -212,6 +203,7 @@
   </div>
 </template>
 <style scoped>
+
   .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
@@ -445,8 +437,6 @@
 
       },*/
       handleAvatarSuccess(res, file){
-        console.log(res)
-        console.log(file)
         this.headPic = URL.createObjectURL(file.raw);
         this.temp.headPic=file.response.data;
       },
@@ -464,11 +454,11 @@
         var results = queryString ? userlist.filter(this.createStateFilter(queryString)) : userlist;
         cb (results)
       },
-      querySelectAsync(queryString, cb ) {
+   /*   querySelectAsync(queryString, cb ) {
         var userName = this.userName;
         var results = queryString ? userName.filter(this.createStateFilter(queryString)) : userName;
         cb (results)
-      },
+      },*/
       createStateFilter(queryString) {
         return (state) => {
           return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) >= 0);
@@ -505,7 +495,6 @@
       loadData(){
         let self = this;
         user(self.listQuery).then(res => {
-          console.log(JSON.parse(res.data).data.rows)
         self.tableData.rows=JSON.parse(res.data).data.rows
         self.userType=JSON.parse(res.data).data.rows.userRole
         self.total = JSON.parse(res.data).data.total;
@@ -514,7 +503,6 @@
       },
       handleEdit(row){
         this.uid = row.id;
-        console.log(row)
         store.actions.LoginByIcon(row.headPic);
         this.temp = {
           id:row.id,
@@ -561,7 +549,7 @@
       })
         rolelist().then(res => {
         for(var j=0;j<JSON.parse(res.data).data.length;j++){
-          self.userName.push({"value":JSON.parse(res.data).data [j].roleName,"id":JSON.parse(res.data).data[j].id})
+          self.userName.push({label:JSON.parse(res.data).data [j].roleName,value:JSON.parse(res.data).data[j].id})
         }
         console.log(self.userName)
       })
@@ -588,7 +576,6 @@
       },
       //添加
       create(formName){
-        console.log(this.temp)
         this.$refs.temp.validate(valid=>{
           if (valid) {
             if(this.temp.userOrg=="" || this.temp.userOrg==null){

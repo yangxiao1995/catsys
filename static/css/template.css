@@ -191,3 +191,6 @@ button img{
   width: 180px;
   margin-left: 20px;
 }
+.el-select-dropdown__list{
+  width: 0px !important;
+}
