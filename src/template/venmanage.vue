@@ -55,6 +55,9 @@
         prop="hasvalid"
         label="是否有效"
         align="center">
+        <template slot-scope="scope">
+          {{scope.row.hasvalid | stateFilter}}
+        </template>
       </el-table-column>
 
       <!--<el-table-column-->
