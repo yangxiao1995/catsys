@@ -125,6 +125,7 @@
             <el-date-picker
               v-model="temp.startTime"
               type="date"
+              @change="getdateO"
               format="yyyy-MM-dd HH:mm:ss"
               placeholder="选择日期">
             </el-date-picker>
@@ -133,6 +134,7 @@
                     <el-date-picker
                       v-model="temp.endTime"
                       type="date"
+                      @change="getdateT"
                       format="yyyy-MM-dd HH:mm:ss"
                       placeholder="选择日期">
                     </el-date-picker>
@@ -304,6 +306,12 @@
         this.dialogFormVisible = true;
         let self=this
       },
+      getdateT(){
+        this.temp.endTime = util.formatDate.format(new Date(this.temp.endTime),'yyyy-MM-dd hh:mm:ss')
+      },
+       getdateO(){
+        this.temp.startTime = util.formatDate.format(new Date(this.temp.startTime),'yyyy-MM-dd hh:mm:ss')
+      },
       handleEdit(row){
         let self=this;
         prerasone(row.id).then(res => {
@@ -312,11 +320,11 @@
           id:row.id,
           name: JSON.parse(res.data).data.name,
           code: JSON.parse(res.data).data.code,
-          startTime: JSON.parse(res.data).data.startTime,
-          endTime: JSON.parse(res.data).data.endTime,
-          customerId: row.id,
-          state: JSON.parse(res.data).data.state,
+          startTime:util.formatDate.format(new Date(JSON.parse(res.data).data.startTime),'yyyy-MM-dd hh:mm:ss') ,
+          endTime: util.formatDate.format(new Date(JSON.parse(res.data).data.endTime),'yyyy-MM-dd hh:mm:ss'),
+          customerId: JSON.parse(res.data).data.customerId,
         }
+        console.log(this.temp)
       })
 
         this.dialogStatus = 'update';
