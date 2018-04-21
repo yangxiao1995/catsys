@@ -5,7 +5,6 @@ import Qs from 'qs'
 import axios from 'axios'
 import router from '../router/index'
 import { Message } from 'element-ui';
-import store from "../store/userinfo/user"
 
 var  service=axios.create({
   baseURL: 'http://192.168.1.188:9000/aiom', // api的base_url yyx-house-expor-api
